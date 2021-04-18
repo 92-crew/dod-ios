@@ -20,7 +20,16 @@
 		936C725A261B5D08006870CE /* proj_DODUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7259261B5D08006870CE /* proj_DODUITests.swift */; };
 		936C7276261B5EB2006870CE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7275261B5EB2006870CE /* Model.swift */; };
 		936C727B261B5EC0006870CE /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727A261B5EC0006870CE /* ViewModel.swift */; };
-		936C7280261B5ED1006870CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* API.swift */; };
+		936C7280261B5ED1006870CE /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
+		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
+		A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */; };
+		A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116F2622CB02003D9622 /* UITextField+Extensions.swift */; };
+		A29611752622CB35003D9622 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611742622CB35003D9622 /* UIFont+Extensions.swift */; };
+		A2B47BEA2625E2FD002CFE4D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B47BE92625E2FD002CFE4D /* Config.swift */; };
+		A2B47BF22625E322002CFE4D /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B47BF12625E322002CFE4D /* HttpMethod.swift */; };
+		A2B47BF72625EBB3002CFE4D /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B47BF62625EBB3002CFE4D /* Resource.swift */; };
+		A2B47BFC2625EEC5002CFE4D /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B47BFB2625EEC5002CFE4D /* URLSession+Extension.swift */; };
+		A2B47C012625EFCE002CFE4D /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B47C002625EFCE002CFE4D /* NetworkResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +69,17 @@
 		936C725B261B5D08006870CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		936C7275261B5EB2006870CE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		936C727A261B5EC0006870CE /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		936C727F261B5ED1006870CE /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		936C727F261B5ED1006870CE /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		93C3A787C4DCE393CE89BBC6 /* Pods-proj_DOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DOD.release.xcconfig"; path = "Target Support Files/Pods-proj_DOD/Pods-proj_DOD.release.xcconfig"; sourceTree = "<group>"; };
+		A29611652622CA7F003D9622 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		A296116F2622CB02003D9622 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
+		A29611742622CB35003D9622 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		A2B47BE92625E2FD002CFE4D /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		A2B47BF12625E322002CFE4D /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		A2B47BF62625EBB3002CFE4D /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		A2B47BFB2625EEC5002CFE4D /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		A2B47C002625EFCE002CFE4D /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		B89DEF899C75085CC9CBBADF /* Pods_proj_DODTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_proj_DODTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C23BBB3CF9998E26B35A7E84 /* Pods-proj_DOD-proj_DODUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DOD-proj_DODUITests.release.xcconfig"; path = "Target Support Files/Pods-proj_DOD-proj_DODUITests/Pods-proj_DOD-proj_DODUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C604605F8118A57BF355D36E /* Pods-proj_DODTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DODTests.release.xcconfig"; path = "Target Support Files/Pods-proj_DODTests/Pods-proj_DODTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -177,6 +195,7 @@
 		936C7273261B5E59006870CE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				A29611642622CA36003D9622 /* Extensions */,
 				936C723D261B5D07006870CE /* Main.storyboard */,
 				936C7240261B5D08006870CE /* Assets.xcassets */,
 				936C7237261B5D07006870CE /* AppDelegate.swift */,
@@ -189,9 +208,25 @@
 		936C7274261B5E64006870CE /* API */ = {
 			isa = PBXGroup;
 			children = (
-				936C727F261B5ED1006870CE /* API.swift */,
+				936C727F261B5ED1006870CE /* APIManager.swift */,
+				A2B47BE92625E2FD002CFE4D /* Config.swift */,
+				A2B47BF12625E322002CFE4D /* HttpMethod.swift */,
+				A2B47BF62625EBB3002CFE4D /* Resource.swift */,
+				A2B47BFB2625EEC5002CFE4D /* URLSession+Extension.swift */,
+				A2B47C002625EFCE002CFE4D /* NetworkResult.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		A29611642622CA36003D9622 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A29611652622CA7F003D9622 /* UIView+Extensions.swift */,
+				A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */,
+				A296116F2622CB02003D9622 /* UITextField+Extensions.swift */,
+				A29611742622CB35003D9622 /* UIFont+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B64E6F20A76281D261007624 /* Pods */ = {
@@ -455,11 +490,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2B47BF72625EBB3002CFE4D /* Resource.swift in Sources */,
+				A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */,
+				A2B47BFC2625EEC5002CFE4D /* URLSession+Extension.swift in Sources */,
 				936C727B261B5EC0006870CE /* ViewModel.swift in Sources */,
 				936C723C261B5D07006870CE /* ViewController.swift in Sources */,
 				936C7238261B5D07006870CE /* AppDelegate.swift in Sources */,
+				A2B47C012625EFCE002CFE4D /* NetworkResult.swift in Sources */,
+				A2B47BF22625E322002CFE4D /* HttpMethod.swift in Sources */,
+				A2B47BEA2625E2FD002CFE4D /* Config.swift in Sources */,
+				A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */,
 				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
-				936C7280261B5ED1006870CE /* API.swift in Sources */,
+				A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */,
+				936C7280261B5ED1006870CE /* APIManager.swift in Sources */,
+				A29611752622CB35003D9622 /* UIFont+Extensions.swift in Sources */,
 				936C7276261B5EB2006870CE /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -638,6 +682,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -657,6 +702,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
