@@ -14,6 +14,11 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func moveLogin(_ sender: Any) {
+        let loginVC = LoginViewController()
+        
+        self.present(loginVC, animated: true)
+    }
+    
 }
 
