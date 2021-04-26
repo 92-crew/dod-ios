@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  SignInViewController.swift
 //  proj_DOD
 //
 //  Created by 이주혁 on 2021/04/19.
@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class LoginViewController: UIViewController {
+class SignInViewController: UIViewController {
     // MARK:- UI Compoents
     private var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -77,7 +77,7 @@ class LoginViewController: UIViewController {
     }()
     
     // MARK:- Fields
-    let loginViewModel: LoginViewModel = LoginViewModel()
+    let signInViewModel: SignInViewModel = SignInViewModel()
     let disposeBag = DisposeBag()
     
     // MARK:- Life Cycle
@@ -96,6 +96,8 @@ class LoginViewController: UIViewController {
     // MARK:- Configure
     private func configureUI() {
         view.backgroundColor = .dodWhite1
+        // navigation
+        setNavigationBarClear()
         
         // logoImageView
         view.addSubview(logoImageView)
@@ -143,7 +145,7 @@ class LoginViewController: UIViewController {
     }
     
     private func configureViewModel() {
-        let input = LoginViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty.asDriver(),
+        let input = SignInViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty.asDriver(),
                                          passwordTextEvent: passwordTextField.rx.text.orEmpty.asDriver(),
                                          signInButtonEvent: signInButton.rx.tap.asDriver(),
                                          signUpButtonEvent: signUpButton.rx.tap.asDriver())
@@ -155,7 +157,7 @@ class LoginViewController: UIViewController {
                         self?.passwordTextField.becomeFirstResponder()
             }).disposed(by: disposeBag)
         
-        let output = loginViewModel.transform(input: input)
+        let output = signInViewModel.transform(input: input)
         bindSignInState(output.signInEnable)
         bindSignInResult(output.signInResult)
     }

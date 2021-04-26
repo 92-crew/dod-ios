@@ -15,9 +15,9 @@ class ViewController: UIViewController {
     }
 
     @IBAction func moveLogin(_ sender: Any) {
-        let loginVC = LoginViewController()
-        
-        self.present(loginVC, animated: true)
+        let signInVC = SignInViewController()
+        let navigationController = UINavigationController(rootViewController: signInVC)
+        self.present(navigationController, animated: true)
     }
     
 }

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 
-class LoginViewModel: ViewModelType {
+class SignInViewModel: ViewModelType {
     
     
     struct Input {
