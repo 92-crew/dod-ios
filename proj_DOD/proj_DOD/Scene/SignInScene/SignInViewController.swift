@@ -97,8 +97,8 @@ class SignInViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .dodWhite1
         // navigation
-        setNavigationBarClear()
-        
+        setNavigationBarShadow(color: .dodWhite1)
+        navigationController?.navigationBar.tintColor = .dodNavy1
         // logoImageView
         view.addSubview(logoImageView)
         
@@ -158,8 +158,13 @@ class SignInViewController: UIViewController {
             }).disposed(by: disposeBag)
         
         let output = signInViewModel.transform(input: input)
+        
         bindSignInState(output.signInEnable)
         bindSignInResult(output.signInResult)
+        output.moveToSignUp.drive(onNext: {
+            let signUpVC = SignUpViewController()
+            self.show(signUpVC, sender: nil)
+        }).disposed(by: disposeBag)
     }
     
     // MARK:- ViewModel Binding

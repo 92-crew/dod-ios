@@ -24,7 +24,7 @@ class SignInViewModel: ViewModelType {
     struct Output {
         var signInEnable: Driver<Bool>
         var signInResult: Driver<Bool>
-        var moveToSignUp: Driver<Bool>
+        var moveToSignUp: Driver<Void>
     }
     
     internal func transform(input: Input) -> Output {
@@ -38,7 +38,7 @@ class SignInViewModel: ViewModelType {
                 return self.requestSignIn(emailTextEvent: input.emailTextEvent,
                                           passwordTextEvent: input.passwordTextEvent)
             }
-        return Output(signInEnable: signInEnable, signInResult: signInResult, moveToSignUp: Driver.just(false))
+        return Output(signInEnable: signInEnable, signInResult: signInResult, moveToSignUp: input.signUpButtonEvent)
     }
     
     

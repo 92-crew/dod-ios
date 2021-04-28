@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBAction func moveLogin(_ sender: Any) {
         let signInVC = SignInViewController()
         let navigationController = UINavigationController(rootViewController: signInVC)
+        navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
     }
     
