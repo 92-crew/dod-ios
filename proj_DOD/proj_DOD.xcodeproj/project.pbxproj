@@ -10,15 +10,11 @@
 		276E5B3FCAE6828F1F2684C7 /* Pods_proj_DOD_proj_DODUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C7A7AC9DDFE60DFBCDBD074 /* Pods_proj_DOD_proj_DODUITests.framework */; };
 		34D33518185655117E9448A4 /* Pods_proj_DOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E58CFB7A3CE5213EF03FCAA /* Pods_proj_DOD.framework */; };
 		6103580CEE31D02E23EE2D03 /* Pods_proj_DODTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89DEF899C75085CC9CBBADF /* Pods_proj_DODTests.framework */; };
-		936C7238261B5D07006870CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7237261B5D07006870CE /* AppDelegate.swift */; };
-		936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7239261B5D07006870CE /* SceneDelegate.swift */; };
-		936C723C261B5D07006870CE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C723B261B5D07006870CE /* MainViewController.swift */; };
 		936C723F261B5D07006870CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936C723D261B5D07006870CE /* Main.storyboard */; };
 		936C7241261B5D08006870CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 936C7240261B5D08006870CE /* Assets.xcassets */; };
 		936C7244261B5D08006870CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936C7242261B5D08006870CE /* LaunchScreen.storyboard */; };
 		936C724F261B5D08006870CE /* proj_DODTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C724E261B5D08006870CE /* proj_DODTests.swift */; };
 		936C725A261B5D08006870CE /* proj_DODUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7259261B5D08006870CE /* proj_DODUITests.swift */; };
-		936C7280261B5ED1006870CE /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
 		93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D522639187A003E6EA6 /* TodayToDoTableView.swift */; };
 		93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D572639188A003E6EA6 /* TotalToDoTableView.swift */; };
 		93704D6526392D27003E6EA6 /* ToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D6426392D27003E6EA6 /* ToDoCellViewModel.swift */; };
@@ -34,6 +30,10 @@
 		A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263E182263B0A5E00EF5582 /* ToDoService.swift */; };
 		A263E188263B0A8900EF5582 /* TodayToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263E187263B0A8900EF5582 /* TodayToDoViewController.swift */; };
 		A263E18D263B0A9500EF5582 /* TotalToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263E18C263B0A9500EF5582 /* TotalToDoViewController.swift */; };
+		A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C723B261B5D07006870CE /* MainViewController.swift */; };
+		A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7237261B5D07006870CE /* AppDelegate.swift */; };
+		A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7239261B5D07006870CE /* SceneDelegate.swift */; };
+		A263E1F7263B100600EF5582 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
 		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
 		A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */; };
 		A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116F2622CB02003D9622 /* UITextField+Extensions.swift */; };
@@ -176,11 +176,7 @@
 			children = (
 				A244E8A9262DC7E100E76562 /* Global */,
 				A2BFFB1D262C984400449D39 /* Scene */,
-				936C7274261B5E64006870CE /* API */,
 				936C7273261B5E59006870CE /* Utils */,
-				936C726F261B5E0B006870CE /* Model */,
-				936C726E261B5E07006870CE /* ViewModel */,
-				936C726D261B5E03006870CE /* View */,
 				936C7245261B5D08006870CE /* Info.plist */,
 			);
 			path = proj_DOD;
@@ -239,12 +235,12 @@
 		936C7273261B5E59006870CE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				936C723D261B5D07006870CE /* Main.storyboard */,
-				936C7240261B5D08006870CE /* Assets.xcassets */,
 				936C7237261B5D07006870CE /* AppDelegate.swift */,
-				936C7239261B5D07006870CE /* SceneDelegate.swift */,
-				936C7242261B5D08006870CE /* LaunchScreen.storyboard */,
+				936C7240261B5D08006870CE /* Assets.xcassets */,
 				A2D640AA2634637500AF02DA /* Color.xcassets */,
+				936C7242261B5D08006870CE /* LaunchScreen.storyboard */,
+				936C723D261B5D07006870CE /* Main.storyboard */,
+				936C7239261B5D07006870CE /* SceneDelegate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -284,7 +280,9 @@
 		A244E8A9262DC7E100E76562 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				936C7274261B5E64006870CE /* API */,
 				A29611642622CA36003D9622 /* Extensions */,
+				936C726F261B5E0B006870CE /* Model */,
 				A244E8AA262DC7F600E76562 /* Protocols */,
 			);
 			path = Global;
@@ -296,6 +294,15 @@
 				A244E8AB262DC80800E76562 /* ViewModelType.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A263E206263B107900EF5582 /* MainScene */ = {
+			isa = PBXGroup;
+			children = (
+				936C726D261B5E03006870CE /* View */,
+				936C726E261B5E07006870CE /* ViewModel */,
+			);
+			path = MainScene;
 			sourceTree = "<group>";
 		};
 		A29611642622CA36003D9622 /* Extensions */ = {
@@ -315,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				A2BFFB1E262C984900449D39 /* LoginScene */,
+				A263E206263B107900EF5582 /* MainScene */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -590,17 +598,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
+				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,
+				A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */,
+				A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */,
 				93704D6526392D27003E6EA6 /* ToDoCellViewModel.swift in Sources */,
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
 				93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */,
 				93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */,
-				936C723C261B5D07006870CE /* MainViewController.swift in Sources */,
-				936C7238261B5D07006870CE /* AppDelegate.swift in Sources */,
 				93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */,
 				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
-				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
 				93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */,
-				936C7280261B5ED1006870CE /* APIManager.swift in Sources */,
 				93768C06263ADCE9003AC270 /* MyTabPageVC.swift in Sources */,
 				938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */,
 				938B88E0262FD27700B58A0E /* TodayToDoViewModel.swift in Sources */,
@@ -608,8 +616,6 @@
 				A2B47BF72625EBB3002CFE4D /* Resource.swift in Sources */,
 				A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */,
 				A2B47BFC2625EEC5002CFE4D /* URLSession+Extension.swift in Sources */,
-				936C723C261B5D07006870CE /* MainViewController.swift in Sources */,
-				936C7238261B5D07006870CE /* AppDelegate.swift in Sources */,
 				A263E18D263B0A9500EF5582 /* TotalToDoViewController.swift in Sources */,
 				A2B47C012625EFCE002CFE4D /* NetworkResult.swift in Sources */,
 				A2B47BF22625E322002CFE4D /* HttpMethod.swift in Sources */,
@@ -619,10 +625,8 @@
 				A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */,
 				A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */,
 				A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */,
-				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
 				A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */,
 				A2BFFB20262C988400449D39 /* LoginViewController.swift in Sources */,
-				936C7280261B5ED1006870CE /* APIManager.swift in Sources */,
 				A263E188263B0A8900EF5582 /* TodayToDoViewController.swift in Sources */,
 				A29611752622CB35003D9622 /* UIFont+Extensions.swift in Sources */,
 			);
