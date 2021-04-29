@@ -158,6 +158,7 @@ class SignUpViewController: UIViewController {
     }()
     
     // MARK:- Fields
+    var signUpViewModel = SignUpViewModel()
     var disposeBag = DisposeBag()
     
     // MARK:- Lifecycle
@@ -172,11 +173,27 @@ class SignUpViewController: UIViewController {
         configureUI()
     }
     
+    private func configureViewModel() {
+        let input = SignUpViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty,
+                                          emailEditingEndedEvent: emailTextField.rx.controlEvent(.editingDidEnd),
+                                          newPasswordEditingStartEvent: newPasswordTextField.rx.controlEvent(.editingDidBegin),
+                                          newPasswordTextEvent: newPasswordTextField.rx.text.orEmpty,
+                                          newPasswordCheckTextEvent: newPasswordCheckTextField.rx.text.orEmpty,
+                                          newPasswordCheckEditingEndedEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidEnd),
+                                          nicknameEditingStartEvent: nicknameTextField.rx.controlEvent(.editingDidBegin),
+                                          nicknameTextEvent: nicknameTextField.rx.text.orEmpty,
+                                          nicknameEditingEndedEvent: nicknameTextField.rx.controlEvent(.editingDidEnd))
+        
+        let output = signUpViewModel.transform(input: input)
+        
+    }
+    
+    
 
 }
 
 extension SignUpViewController {
-    // MARK:- UI
+    // MARK:- UI Method
     private func configureUI() {
         
         configureScrollView()

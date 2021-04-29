@@ -15,10 +15,10 @@ class SignInViewModel: ViewModelType {
     
     
     struct Input {
-        var emailTextEvent: Driver<String>
-        var passwordTextEvent: Driver<String>
-        var signInButtonEvent: Driver<Void>
-        var signUpButtonEvent: Driver<Void>
+        var emailTextEvent: ControlProperty<String>
+        var passwordTextEvent: ControlProperty<String>
+        var signInButtonEvent: ControlEvent<Void>
+        var signUpButtonEvent: ControlEvent<Void>
     }
     
     struct Output {
@@ -31,27 +31,42 @@ class SignInViewModel: ViewModelType {
         
         let signInEnable = emitSignInButtonEnableEvent(emailTextEvent: input.emailTextEvent,
                                                        passwordTextEvent: input.passwordTextEvent)
-        let signInResult = input
-            .signInButtonEvent
-            .debounce(.milliseconds(1))
-            .flatMap{
-                return self.requestSignIn(emailTextEvent: input.emailTextEvent,
-                                          passwordTextEvent: input.passwordTextEvent)
-            }
-        return Output(signInEnable: signInEnable, signInResult: signInResult, moveToSignUp: input.signUpButtonEvent)
+        let signInResult = emitSignInResult(input.emailTextEvent,
+                                            input.passwordTextEvent,
+                                            input.signInButtonEvent)
+        return Output(signInEnable: signInEnable,
+                      signInResult: signInResult,
+                      moveToSignUp: input.signUpButtonEvent.asDriver())
     }
     
     
-    private func emitSignInButtonEnableEvent(emailTextEvent: Driver<String>, passwordTextEvent: Driver<String>) -> Driver<Bool> {
+    private func emitSignInButtonEnableEvent(
+        emailTextEvent: ControlProperty<String>,
+        passwordTextEvent: ControlProperty<String>
+    ) -> Driver<Bool> {
         
-        return Observable.combineLatest(emailTextEvent.asObservable(), passwordTextEvent.asObservable()) { (email, password) -> Bool in
+        return Observable.combineLatest(emailTextEvent, passwordTextEvent) { (email, password) -> Bool in
             return !email.isEmpty && !password.isEmpty && email.isValidEmail
         }.asDriver(onErrorJustReturn: false)
     }
     
-    private func requestSignIn(emailTextEvent: Driver<String>, passwordTextEvent: Driver<String>) -> Driver<Bool> {
-
-        return Driver.just(false)
+    private func emitSignInResult(
+        _ emailTextEvent: ControlProperty<String>,
+        _ passwordTextEvent: ControlProperty<String>,
+        _ signInButtonEvent: ControlEvent<Void>
+    ) -> Driver<Bool> {
+        let zip = Observable.zip(emailTextEvent, passwordTextEvent)
+        
+        return signInButtonEvent.withLatestFrom(zip) { return $1 }
+            .flatMap { [weak self] signInText -> Observable<Bool> in
+                guard let strongSelf = self else { return Observable.just(false) }
+                return strongSelf.requestSignIn(email: signInText.0, password: signInText.1)
+            }.asDriver(onErrorJustReturn: false)
     }
-
+    
+    private func requestSignIn(email: String, password: String) -> Observable<Bool> {
+        
+        return Observable.just(false)
+    }
+    
 }

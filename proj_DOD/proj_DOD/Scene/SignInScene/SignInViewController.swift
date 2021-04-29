@@ -145,10 +145,10 @@ class SignInViewController: UIViewController {
     }
     
     private func configureViewModel() {
-        let input = SignInViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty.asDriver(),
-                                         passwordTextEvent: passwordTextField.rx.text.orEmpty.asDriver(),
-                                         signInButtonEvent: signInButton.rx.tap.asDriver(),
-                                         signUpButtonEvent: signUpButton.rx.tap.asDriver())
+        let input = SignInViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty,
+                                         passwordTextEvent: passwordTextField.rx.text.orEmpty,
+                                         signInButtonEvent: signInButton.rx.tap,
+                                         signUpButtonEvent: signUpButton.rx.tap)
         
         emailTextField
             .rx
