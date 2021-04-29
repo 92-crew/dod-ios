@@ -6,14 +6,18 @@
 //
 
 import Foundation
-class MainViewModel {
-    private var toDo: ToDo
+class TotalToDoViewModel {
+    private var toDoService: ToDoServiceProtocol
+    private var toDoList: [ToDo]
+    init(toDoService: ToDoServiceProtocol) {
+        self.toDoService = toDoService
+        self.toDoList = self.toDoService.loadToDoList()
+    }
     
 }
 
-extension MainViewModel {
-    
-    func mainCellViewModel(row: Int) -> MainCellViewModel {
-        return MainCellViewModel(toDo: self.toDo)
+extension TotalToDoViewModel {
+    func cellViewModels(row: Int) -> TotalToDoCellViewModel {
+        return TotalToDoCellViewModel(toDoService: self.toDoService as! ToDoService, toDoIdentifier: toDoList[row].identifier)
     }
 }

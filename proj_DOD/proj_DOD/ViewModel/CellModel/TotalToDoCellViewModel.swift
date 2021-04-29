@@ -6,21 +6,13 @@
 //
 
 import Foundation
-class MainCellViewModel {
+class TotalToDoCellViewModel: ToDoCellViewModel{
+    private var toDoService: ToDoServiceProtocol
     private var toDo: ToDo
-    init(toDo: ToDo) {
-        self.toDo = toDo
-    }
-}
-extension MainCellViewModel {
-    var toDoTitle: String {
-        self.toDo.toDoTitle
-    }
-    var toDoDate: String {
-        self.toDo.toDoDate
-    }
-    var status: Status {
-        self.toDo.status
+    override init(toDoService: ToDoService, toDoIdentifier: Int) {
+        self.toDoService = toDoService
+        self.toDo = toDoService.loadToDo(identifier: toDoIdentifier)
+        super.init(toDoService: toDoService, toDoIdentifier: toDoIdentifier)
     }
 }
 

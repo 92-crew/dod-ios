@@ -6,3 +6,29 @@
 //
 
 import Foundation
+import UIKit
+
+class TodayToDoTableView: UIViewController {
+    var todayToDoViewModel: TodayToDoViewModel = TodayToDoViewModel.init(toDoService: ToDoService.factory())
+    var todayToDoTableView: UITableView = UITableView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        todayToDoTableView.frame = view.frame
+        view.addSubview(todayToDoTableView)
+        todayToDoTableView.registerCell(cellType: TableViewCell.self)
+        todayToDoTableView.delegate = self
+        todayToDoTableView.dataSource = self
+    }
+}
+
+extension TodayToDoTableView: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: TableViewCell = tableView.dequeueCell(indexPath: indexPath)
+        cell.setUp(cellViewModel: todayToDoViewModel.cellViewModels(row: 0))
+        return cell
+    }
+    
+}

@@ -1,5 +1,5 @@
 //
-//  Model.swift
+//  ToDoService.swift
 //  proj_DOD
 //
 //  Created by 이강욱 on 2021/04/06.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ModelProtocol {
+protocol ToDoServiceProtocol {
     func loadToDoList() -> [ToDo]
     func loadToDo(identifier: Int) -> ToDo
 }
-class Model: ModelProtocol {
+class ToDoService: ToDoServiceProtocol {
     var errorData: ToDo = ToDo.init(identifier: -1, toDoTitle: "error", toDoDate: "error", status: Status.completed)
     var dummyToDo1: ToDo = ToDo.init(identifier: 0, toDoTitle: "Coding Test", toDoDate: "2021-04-24", status: Status.completed)
     var dummyToDo2: ToDo = ToDo.init(identifier: 1, toDoTitle: "Anniversary", toDoDate: "2021-04-25", status: Status.completed)
@@ -27,8 +27,8 @@ class Model: ModelProtocol {
         
     }
 }
-extension Model {
-    static func factory() -> Model {
-        return Model()
+extension ToDoService {
+    static func factory() -> ToDoService {
+        return ToDoService()
     }
 }

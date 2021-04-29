@@ -18,11 +18,17 @@
 		936C7244261B5D08006870CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 936C7242261B5D08006870CE /* LaunchScreen.storyboard */; };
 		936C724F261B5D08006870CE /* proj_DODTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C724E261B5D08006870CE /* proj_DODTests.swift */; };
 		936C725A261B5D08006870CE /* proj_DODUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7259261B5D08006870CE /* proj_DODUITests.swift */; };
-		936C7276261B5EB2006870CE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7275261B5EB2006870CE /* Model.swift */; };
+		936C7276261B5EB2006870CE /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7275261B5EB2006870CE /* ToDoService.swift */; };
 		936C7280261B5ED1006870CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* API.swift */; };
-		93959DFD261C6DC000F6EB28 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959DFC261C6DC000F6EB28 /* MainViewModel.swift */; };
-		93959E0A261C71FB00F6EB28 /* MainCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E09261C71FB00F6EB28 /* MainCellViewModel.swift */; };
-		93959E0F261C77CF00F6EB28 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E0E261C77CF00F6EB28 /* MainTableViewCell.swift */; };
+		93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D522639187A003E6EA6 /* TodayToDoTableView.swift */; };
+		93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D572639188A003E6EA6 /* TotalToDoTableView.swift */; };
+		93704D6526392D27003E6EA6 /* ToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D6426392D27003E6EA6 /* ToDoCellViewModel.swift */; };
+		93768C06263ADCE9003AC270 /* MyTabPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93768C05263ADCE9003AC270 /* MyTabPageVC.swift */; };
+		93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93892FF526314B5E00AEE7BF /* TableViewCell.swift */; };
+		938B88E0262FD27700B58A0E /* TodayToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */; };
+		938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B88E7262FD28200B58A0E /* TodayToDoCellViewModel.swift */; };
+		93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */; };
+		93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E09261C71FB00F6EB28 /* TotalToDoCellViewModel.swift */; };
 		93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E19261C96C100F6EB28 /* ToDo.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,11 +67,17 @@
 		936C7255261B5D08006870CE /* proj_DODUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = proj_DODUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		936C7259261B5D08006870CE /* proj_DODUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = proj_DODUITests.swift; sourceTree = "<group>"; };
 		936C725B261B5D08006870CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		936C7275261B5EB2006870CE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		936C7275261B5EB2006870CE /* ToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		936C727F261B5ED1006870CE /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		93959DFC261C6DC000F6EB28 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		93959E09261C71FB00F6EB28 /* MainCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellViewModel.swift; sourceTree = "<group>"; };
-		93959E0E261C77CF00F6EB28 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		93704D522639187A003E6EA6 /* TodayToDoTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoTableView.swift; sourceTree = "<group>"; };
+		93704D572639188A003E6EA6 /* TotalToDoTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoTableView.swift; sourceTree = "<group>"; };
+		93704D6426392D27003E6EA6 /* ToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCellViewModel.swift; sourceTree = "<group>"; };
+		93768C05263ADCE9003AC270 /* MyTabPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabPageVC.swift; sourceTree = "<group>"; };
+		93892FF526314B5E00AEE7BF /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoViewModel.swift; sourceTree = "<group>"; };
+		938B88E7262FD28200B58A0E /* TodayToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoCellViewModel.swift; sourceTree = "<group>"; };
+		93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoViewModel.swift; sourceTree = "<group>"; };
+		93959E09261C71FB00F6EB28 /* TotalToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoCellViewModel.swift; sourceTree = "<group>"; };
 		93959E19261C96C100F6EB28 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		93C3A787C4DCE393CE89BBC6 /* Pods-proj_DOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DOD.release.xcconfig"; path = "Target Support Files/Pods-proj_DOD/Pods-proj_DOD.release.xcconfig"; sourceTree = "<group>"; };
 		B89DEF899C75085CC9CBBADF /* Pods_proj_DODTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_proj_DODTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,7 +172,10 @@
 			isa = PBXGroup;
 			children = (
 				936C723B261B5D07006870CE /* MainViewController.swift */,
-				93959E0E261C77CF00F6EB28 /* MainTableViewCell.swift */,
+				93892FF526314B5E00AEE7BF /* TableViewCell.swift */,
+				93704D522639187A003E6EA6 /* TodayToDoTableView.swift */,
+				93704D572639188A003E6EA6 /* TotalToDoTableView.swift */,
+				93768C05263ADCE9003AC270 /* MyTabPageVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -177,7 +192,7 @@
 		936C726F261B5E0B006870CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				936C7275261B5EB2006870CE /* Model.swift */,
+				936C7275261B5EB2006870CE /* ToDoService.swift */,
 				93959E19261C96C100F6EB28 /* ToDo.swift */,
 			);
 			path = Model;
@@ -206,7 +221,8 @@
 		93959E04261C6FDF00F6EB28 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				93959DFC261C6DC000F6EB28 /* MainViewModel.swift */,
+				93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */,
+				938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,7 +230,9 @@
 		93959E05261C6FF000F6EB28 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
-				93959E09261C71FB00F6EB28 /* MainCellViewModel.swift */,
+				93959E09261C71FB00F6EB28 /* TotalToDoCellViewModel.swift */,
+				938B88E7262FD28200B58A0E /* TodayToDoCellViewModel.swift */,
+				93704D6426392D27003E6EA6 /* ToDoCellViewModel.swift */,
 			);
 			path = CellModel;
 			sourceTree = "<group>";
@@ -480,15 +498,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93704D6526392D27003E6EA6 /* ToDoCellViewModel.swift in Sources */,
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
-				93959DFD261C6DC000F6EB28 /* MainViewModel.swift in Sources */,
-				93959E0A261C71FB00F6EB28 /* MainCellViewModel.swift in Sources */,
-				93959E0F261C77CF00F6EB28 /* MainTableViewCell.swift in Sources */,
+				93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */,
+				93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */,
 				936C723C261B5D07006870CE /* MainViewController.swift in Sources */,
 				936C7238261B5D07006870CE /* AppDelegate.swift in Sources */,
+				93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */,
+				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
 				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
+				93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */,
 				936C7280261B5ED1006870CE /* API.swift in Sources */,
-				936C7276261B5EB2006870CE /* Model.swift in Sources */,
+				93768C06263ADCE9003AC270 /* MyTabPageVC.swift in Sources */,
+				936C7276261B5EB2006870CE /* ToDoService.swift in Sources */,
+				938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */,
+				938B88E0262FD27700B58A0E /* TodayToDoViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +690,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8B8R52P58X;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -685,6 +710,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8B8R52P58X;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

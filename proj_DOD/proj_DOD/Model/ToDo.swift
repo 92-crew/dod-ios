@@ -6,9 +6,13 @@
 //
 
 import Foundation
-
-struct ToDO {
+enum Status: Int {
+    case completed = 0
+    case incompleted = 1
+}
+struct ToDo {
+    var identifier: Int
     var toDoTitle: String
-    var toDoDate: Date
-    var isCompleted: Bool
+    var toDoDate: String
+    var status: Status
 }
