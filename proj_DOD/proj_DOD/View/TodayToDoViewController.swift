@@ -5,7 +5,7 @@
 //  Created by 이강욱 on 2021/04/21.
 //
 
-import Foundation
+import UIKit
 
 
 extension UITableView {
@@ -27,8 +27,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         return 10
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:MainTableViewCell = tableView.dequeueCell(indexPath: indexPath)
-        cell.setText(cellViewModel: self.)
+        let cell: UITableViewCell = tableView.dequeueCell(indexPath: indexPath)
+//        cell.setText(cellViewModel: self.v)
         return cell
     }
 }
