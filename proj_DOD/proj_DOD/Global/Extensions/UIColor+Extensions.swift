@@ -23,4 +23,8 @@ extension UIColor {
     @nonobjc class var dodWhite2: UIColor {
         return UIColor(named: "dodWhite2")!
     }
+    
+    @nonobjc class var dodGreen1: UIColor {
+        return UIColor(named: "dodGreen1")!
+    }
 }

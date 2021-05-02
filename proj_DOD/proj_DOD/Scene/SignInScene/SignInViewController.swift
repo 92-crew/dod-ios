@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  SignInViewController.swift
 //  proj_DOD
 //
 //  Created by 이주혁 on 2021/04/19.
@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class LoginViewController: UIViewController {
+class SignInViewController: UIViewController {
     // MARK:- UI Compoents
     private var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,6 +35,7 @@ class LoginViewController: UIViewController {
         textField.font = .systemFont(ofSize: 15)
         textField.textColor = .dodNavy1
         textField.placeholder = "E-mail"
+        textField.keyboardType = .emailAddress
         textField.borderStyle = .none
         textField.makeRounded(cornerRadius: 10)
         textField.setBorder(borderColor: .lightGray, borderWidth: 1)
@@ -77,7 +78,7 @@ class LoginViewController: UIViewController {
     }()
     
     // MARK:- Fields
-    let loginViewModel: LoginViewModel = LoginViewModel()
+    let signInViewModel: SignInViewModel = SignInViewModel()
     let disposeBag = DisposeBag()
     
     // MARK:- Life Cycle
@@ -96,13 +97,16 @@ class LoginViewController: UIViewController {
     // MARK:- Configure
     private func configureUI() {
         view.backgroundColor = .dodWhite1
-        
+        // navigation
+//        setNavigationBarShadow(color: .dodWhite1)
+        navigationController?.navigationBar.tintColor = .dodNavy1
         // logoImageView
         view.addSubview(logoImageView)
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                               constant: 10),
             logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor)
         ])
@@ -143,10 +147,10 @@ class LoginViewController: UIViewController {
     }
     
     private func configureViewModel() {
-        let input = LoginViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty.asDriver(),
-                                         passwordTextEvent: passwordTextField.rx.text.orEmpty.asDriver(),
-                                         signInButtonEvent: signInButton.rx.tap.asDriver(),
-                                         signUpButtonEvent: signUpButton.rx.tap.asDriver())
+        let input = SignInViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty,
+                                         passwordTextEvent: passwordTextField.rx.text.orEmpty,
+                                         signInButtonEvent: signInButton.rx.tap,
+                                         signUpButtonEvent: signUpButton.rx.tap)
         
         emailTextField
             .rx
@@ -155,9 +159,14 @@ class LoginViewController: UIViewController {
                         self?.passwordTextField.becomeFirstResponder()
             }).disposed(by: disposeBag)
         
-        let output = loginViewModel.transform(input: input)
+        let output = signInViewModel.transform(input: input)
+        
         bindSignInState(output.signInEnable)
         bindSignInResult(output.signInResult)
+        output.moveToSignUp.drive(onNext: {
+            let signUpVC = SignUpViewController()
+            self.show(signUpVC, sender: nil)
+        }).disposed(by: disposeBag)
     }
     
     // MARK:- ViewModel Binding
