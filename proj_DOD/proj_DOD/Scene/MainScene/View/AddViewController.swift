@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import UIKit
+
+class AddViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    override func loadView() {
+        super.loadView()
+    }
+}

@@ -23,12 +23,19 @@ class TotalToDoTableView: UIViewController {
 
 extension TotalToDoTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return totalToDoViewModel.toDoCount
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableViewCell = tableView.dequeueCell(indexPath: indexPath)
-        cell.setUp(cellViewModel: totalToDoViewModel.cellViewModels(row: 0))
+        cell.setUp(cellViewModel: totalToDoViewModel.cellViewModels(row: indexPath.row))
         return cell
     }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return totalToDoViewModel.toDoCount
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return totalToDoViewModel.toDoDateInSection[section]
+    }
+    
 }
 
