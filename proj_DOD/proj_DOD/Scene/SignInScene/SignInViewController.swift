@@ -35,6 +35,7 @@ class SignInViewController: UIViewController {
         textField.font = .systemFont(ofSize: 15)
         textField.textColor = .dodNavy1
         textField.placeholder = "E-mail"
+        textField.keyboardType = .emailAddress
         textField.borderStyle = .none
         textField.makeRounded(cornerRadius: 10)
         textField.setBorder(borderColor: .lightGray, borderWidth: 1)
@@ -97,14 +98,15 @@ class SignInViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .dodWhite1
         // navigation
-        setNavigationBarShadow(color: .dodWhite1)
+//        setNavigationBarShadow(color: .dodWhite1)
         navigationController?.navigationBar.tintColor = .dodNavy1
         // logoImageView
         view.addSubview(logoImageView)
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                               constant: 10),
             logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor)
         ])

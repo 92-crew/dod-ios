@@ -80,6 +80,9 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Input E-mail"
+        textField.keyboardType = .emailAddress
+//        textField.
+        textField.textContentType = .username
         textField.font = .systemFont(ofSize: 15)
         return textField
     }()
@@ -88,9 +91,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
-        label.text = "Duplication Check Success"
-        label.textColor = .green
-        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.font = .systemFont(ofSize: 13, weight: .bold)
         return label
     }()
     
@@ -107,6 +108,10 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Input New Password"
+        textField.isSecureTextEntry = true
+        textField.textContentType = .newPassword
+        textField.autocorrectionType = .no
+        textField.disableAutoFill()
         textField.font = .systemFont(ofSize: 15)
         return textField
     }()
@@ -115,6 +120,10 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Check Password"
+        textField.isSecureTextEntry = true
+        textField.textContentType = .newPassword
+        textField.autocorrectionType = .no
+        textField.disableAutoFill()
         textField.font = .systemFont(ofSize: 15)
         return textField
     }()
@@ -125,7 +134,7 @@ class SignUpViewController: UIViewController {
         label.isHidden = true
         label.text = "Password Check Success"
         label.textColor = .green
-        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.font = .systemFont(ofSize: 13, weight: .bold)
         return label
     }()
     
@@ -171,24 +180,153 @@ class SignUpViewController: UIViewController {
     override func loadView() {
         super.loadView()
         configureUI()
+        emailTextField.becomeFirstResponder()
+        configureViewModel()
     }
     
     private func configureViewModel() {
-        let input = SignUpViewModel.Input(emailTextEvent: emailTextField.rx.text.orEmpty,
-                                          emailEditingEndedEvent: emailTextField.rx.controlEvent(.editingDidEnd),
-                                          newPasswordEditingStartEvent: newPasswordTextField.rx.controlEvent(.editingDidBegin),
-                                          newPasswordTextEvent: newPasswordTextField.rx.text.orEmpty,
-                                          newPasswordCheckTextEvent: newPasswordCheckTextField.rx.text.orEmpty,
-                                          newPasswordCheckEditingEndedEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidEnd),
-                                          nicknameEditingStartEvent: nicknameTextField.rx.controlEvent(.editingDidBegin),
-                                          nicknameTextEvent: nicknameTextField.rx.text.orEmpty,
-                                          nicknameEditingEndedEvent: nicknameTextField.rx.controlEvent(.editingDidEnd))
+        let input = SignUpViewModel.Input(
+            emailEditingStartEvent: emailTextField.rx.controlEvent(.editingDidBegin),
+            emailTextEvent: emailTextField.rx.text.orEmpty,
+            emailEditingEndedEvent: emailTextField.rx.controlEvent(.editingDidEnd),
+            
+            newPasswordEditingStartEvent: newPasswordTextField.rx.controlEvent(.editingDidBegin),
+            newPasswordTextEvent: newPasswordTextField.rx.text.orEmpty,
+            newPasswordEditingEndedEvent: newPasswordTextField.rx.controlEvent(.editingDidEnd),
+            
+            newPasswordCheckEditingStartEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidBegin),
+            newPasswordCheckTextEvent: newPasswordCheckTextField.rx.text.orEmpty,
+            newPasswordCheckEditingEndedEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidEnd),
+            
+            nicknameEditingStartEvent: nicknameTextField.rx.controlEvent(.editingDidBegin),
+            nicknameTextEvent: nicknameTextField.rx.text.orEmpty,
+            nicknameEditingEndedEvent: nicknameTextField.rx.controlEvent(.editingDidEnd),
+            signUpButtonEvent: signUpButton.rx.tap)
         
+
         let output = signUpViewModel.transform(input: input)
+        
+        bindEmailCheckEvent(output.emailValidationCheck)
+        bindPasswordCheckEvent(output.newPasswordDoubleCheck)
+        bindNewPasswordEditingStart(output.newPasswordEditingStart)
+        bindNewPasswordCheckEditingStart(output.newPasswordCheckEditingStart)
+        bindNicknameEditingStart(output.nicknameEditingStart)
+        bindSignUpButtonEnabled(output.isAllValidInput)
+        bindResultSignUpEvent(output.resultSignUpEvent)
+        bindIsEditing(output.isEditing)
+        
         
     }
     
+    private func bindEmailCheckEvent(_ emailValidationCheck: Driver<EmailValidationCheck>) {
+        emailValidationCheck.drive(onNext: { [weak self] check in
+            guard let strongSelf = self else { return }
+            
+            switch check {
+            case .nonEmailFormatError:
+                strongSelf.emailDuplicateCheckLabel.textColor = .dodRed1
+                strongSelf.emailDuplicateCheckLabel.isHidden = false
+                strongSelf.emailDuplicateCheckLabel.text = "올바르지 않은 이메일 형식입니다."
+            case .duplicatedCheckError:
+                strongSelf.emailDuplicateCheckLabel.textColor = .dodRed1
+                strongSelf.emailDuplicateCheckLabel.isHidden = false
+                strongSelf.emailDuplicateCheckLabel.text = "중복된 이메일 입니다."
+            case .success:
+                strongSelf.emailDuplicateCheckLabel.textColor = .dodGreen1
+                strongSelf.emailDuplicateCheckLabel.isHidden = false
+                strongSelf.emailDuplicateCheckLabel.text = "사용 가능한 이메일입니다."
+            }
+        }).disposed(by: disposeBag)
+    }
     
+    private func bindPasswordCheckEvent(_ newPasswordDoubleCheck: Driver<Bool>) {
+        newPasswordDoubleCheck
+            .drive(onNext: { [weak self] isCheck in
+            guard let strongSelf = self else { return }
+            if !isCheck {
+                strongSelf.newPasswordCheckLabel.textColor = .dodRed1
+                strongSelf.newPasswordCheckLabel.isHidden = false
+                strongSelf.newPasswordCheckLabel.text = "비밀번호 입력을 확인하여 주세요"
+            }
+            else {
+                strongSelf.newPasswordCheckLabel.isHidden = true
+            }
+            }).disposed(by: disposeBag)
+    }
+    
+    private func bindNewPasswordEditingStart(_ newPasswordEditingStart: Driver<Void>) {
+        newPasswordEditingStart.drive(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            let newPassWordTextFieldPoint = CGPoint(x: 0,
+                                                    y: strongSelf.newPasswordTextField.frame.minY)
+            strongSelf.inputScrollView.setContentOffset(newPassWordTextFieldPoint,
+                                                        animated: true)
+        }).disposed(by: disposeBag)
+    }
+
+    private func bindNewPasswordCheckEditingStart(_ newPasswordCheckEditingStart: Driver<Void>) {
+        newPasswordCheckEditingStart.drive(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            let newPasswordCheckTextFieldPoint = CGPoint(x: 0,
+                                                         y: strongSelf.newPasswordCheckTextField.frame.minY)
+            strongSelf.inputScrollView.setContentOffset(newPasswordCheckTextFieldPoint, animated: true)
+        }).disposed(by: disposeBag)
+    }
+
+    private func bindNicknameEditingStart(_ nicknameEditingStart: Driver<Void>) {
+        nicknameEditingStart.drive(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            let nicknameTextFieldPoint = CGPoint(x: 0,
+                                                 y: strongSelf.nicknameTextField.frame.minY)
+            strongSelf.inputScrollView.setContentOffset(nicknameTextFieldPoint,
+                                                        animated: true)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func bindIsEditing(_ isEditing: Driver<Bool>) {
+        isEditing.drive(onNext: { [weak self] isEditing in
+            if isEditing {
+                self?.inputScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 300, right: 0)
+            }
+            else {
+                self?.inputScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    private func bindSignUpButtonEnabled(_ isAllValidInput: Driver<Bool>) {
+        isAllValidInput.drive(onNext: { [weak self] isAllValid in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.setSignUpButton(isAllValid)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func bindResultSignUpEvent(_ resultSignUpEvent: Observable<Bool>) {
+        resultSignUpEvent.subscribe(onNext: { [weak self] result in
+            guard let strongSelf = self else { return }
+            if result {
+                strongSelf.navigationController?.popViewController(animated: true)
+            }
+            else {
+                strongSelf.simpleAlert(title: "로그인 실패", message: "아이디 또는 비밀번호를 확인해 주세요")
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    private func setSignUpButton(_ isAllValid: Bool) {
+        if isAllValid {
+            signUpButton.backgroundColor = .dodRed1
+            signUpButton.isEnabled = true
+        }
+        else {
+            signUpButton.backgroundColor = .lightGray
+            signUpButton.isEnabled = false
+        }
+    }
 
 }
 
