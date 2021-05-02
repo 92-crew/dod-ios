@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let vc = MainViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         let nav = UINavigationController(rootViewController: vc)
         baseNavigationController = nav
-        window?.rootViewController = vc
+        window?.rootViewController = baseNavigationController
         window?.makeKeyAndVisible()
     }
 

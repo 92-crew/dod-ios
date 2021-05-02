@@ -8,21 +8,23 @@
 import Foundation
 
 protocol ToDoServiceProtocol {
-    func loadToDoList() -> [ToDo]
-    func loadToDo(identifier: Int) -> ToDo
+    func loadToDoList() -> [Todo]
+    func loadToDo(identifier: Int) -> Todo
 }
 class ToDoService: ToDoServiceProtocol {
-    var errorData: ToDo = ToDo.init(identifier: -1, toDoTitle: "error", toDoDate: "error", status: Status.completed)
-    var dummyToDo1: ToDo = ToDo.init(identifier: 0, toDoTitle: "Coding Test", toDoDate: "2021-04-24", status: Status.completed)
-    var dummyToDo2: ToDo = ToDo.init(identifier: 1, toDoTitle: "Anniversary", toDoDate: "2021-04-25", status: Status.completed)
-    var dummyToDo3: ToDo = ToDo.init(identifier: 2, toDoTitle: "Hackerthon", toDoDate: "2021-05-02", status: Status.incompleted)
     
-    func loadToDo(identifier: Int) -> ToDo {
-        let toDoDatabase = [dummyToDo1, dummyToDo2, dummyToDo3]
+    var dummyToDo1: Todo = Todo.init(id: 0, memberID: 0, title: "Coding Test", status: "completed", dueDate: "2021-04-24")
+    var dummyToDo2: Todo = Todo.init(id: 1, memberID: 0, title: "Birthday", status: "completed", dueDate: "2021-04-25")
+    var dummyToDo3: Todo = Todo.init(id: 2, memberID: 0, title: "Hackerthon", status: "incompleted", dueDate: "2021-05-02")
+    var dummyToDo4: Todo = Todo.init(id: 3, memberID: 0, title: "Coffee", status: "incompleted", dueDate: "2021-05-02")
+    func loadToDo(identifier: Int) -> Todo {
+        var sameDate: [Todo] = []
+        let toDoDatabase = [dummyToDo1, dummyToDo2, dummyToDo3, dummyToDo4]
+        
         return toDoDatabase[identifier]
     }
-    func loadToDoList() -> [ToDo] {
-        let toDoDatabase = [dummyToDo1, dummyToDo2, dummyToDo3]
+    func loadToDoList() -> [Todo] {
+        let toDoDatabase = [dummyToDo1, dummyToDo2, dummyToDo3, dummyToDo4]
         return toDoDatabase
         
     }
