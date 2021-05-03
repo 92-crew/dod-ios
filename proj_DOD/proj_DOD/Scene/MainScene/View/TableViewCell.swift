@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 class TableViewCell: UITableViewCell {
     var nameLabel: UILabel = UILabel()
+    var select: Bool = false
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        
         initView()
     }
     required init?(coder: NSCoder) {
@@ -27,6 +26,14 @@ class TableViewCell: UITableViewCell {
     }
     func setUp(cellViewModel: ToDoCellViewModel) {
         nameLabel.text = cellViewModel.toDoTitle
+    }
+    func setStatusResolved() {
+        select = false
+        nameLabel.textColor = .black
+    }
+    func setStatusUnresolved() {
+        select = true
+        nameLabel.textColor = .dodWhite2
     }
 }
 extension UITableView {

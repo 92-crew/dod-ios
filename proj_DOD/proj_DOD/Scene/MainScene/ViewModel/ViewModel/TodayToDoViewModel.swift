@@ -9,9 +9,11 @@ import Foundation
 class TodayToDoViewModel {
     private var toDoService: ToDoServiceProtocol
     private var toDo: Todo
+    private var toDoList: [Todo]
     init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService
         self.toDo = self.toDoService.loadToDo(identifier: 0)
+        self.toDoList = self.toDoService.loadToDoList()
     }
     
 }
@@ -19,6 +21,9 @@ class TodayToDoViewModel {
 extension TodayToDoViewModel {
     func cellViewModels(row: Int) -> TodayToDoCellViewModel {
         return TodayToDoCellViewModel(toDoService: self.toDoService as! ToDoService, toDoIdentifier: 0)
+    }
+    var toDoArr: [Todo] {
+        return self.toDoList
     }
 }
 
