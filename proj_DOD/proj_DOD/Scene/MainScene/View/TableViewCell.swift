@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 class TableViewCell: UITableViewCell {
     var nameLabel: UILabel = UILabel()
+    var select: Bool = false
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        
         initView()
     }
     required init?(coder: NSCoder) {
@@ -22,11 +21,19 @@ class TableViewCell: UITableViewCell {
         self.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         [nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-         nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-         nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)].forEach{$0.isActive = true}
+         nameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+         nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)].forEach{$0.isActive = true}
     }
     func setUp(cellViewModel: ToDoCellViewModel) {
         nameLabel.text = cellViewModel.toDoTitle
+    }
+    func setStatusResolved() {
+        select = false
+        nameLabel.textColor = .black
+    }
+    func setStatusUnresolved() {
+        select = true
+        nameLabel.textColor = .dodWhite2
     }
 }
 extension UITableView {
@@ -53,4 +60,5 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 //        cell.setText(cellViewModel: self.v)
         return cell
     }
+    
 }

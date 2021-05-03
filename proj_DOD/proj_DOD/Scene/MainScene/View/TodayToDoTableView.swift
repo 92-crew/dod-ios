@@ -42,4 +42,21 @@ extension TodayToDoTableView: UITableViewDataSource, UITableViewDelegate {
         let date: String = todayToDoViewModel.cellViewModels(row: 0).toDoDate
         return date
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let cell = tableView.cellForRow(at: indexPath) as? TableViewCell else { return }
+        if !cell.select {
+            cell.setStatusUnresolved()
+            print("UNRESOLVED")
+        } else {
+            cell.setStatusResolved()
+            print("RESOLVED")
+        }
+    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+////            todayToDoViewModel.toDoArr.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .bottom)
+//        }
+//    }
 }
