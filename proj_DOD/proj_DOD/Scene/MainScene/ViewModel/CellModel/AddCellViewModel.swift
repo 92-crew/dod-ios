@@ -6,3 +6,8 @@
 //
 
 import Foundation
+class AddCellViewModel: ToDoCellViewModel {
+    override init(toDoService: ToDoService, toDoIdentifier: Int) {
+        super.init(toDoService: toDoService, toDoIdentifier: toDoIdentifier)
+    }
+}

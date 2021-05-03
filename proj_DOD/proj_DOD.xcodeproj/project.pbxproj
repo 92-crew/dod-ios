@@ -19,6 +19,8 @@
 		93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93704D572639188A003E6EA6 /* TotalToDoTableView.swift */; };
 		93799633263E667F00FE697C /* ToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93799632263E667F00FE697C /* ToDoCellViewModel.swift */; };
 		93799635263E990D00FE697C /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93799634263E990D00FE697C /* AddViewController.swift */; };
+		9379963B263EB89300FE697C /* AddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379963A263EB89200FE697C /* AddViewModel.swift */; };
+		9379963D263EE78F00FE697C /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379963C263EE78F00FE697C /* Date+Extensions.swift */; };
 		93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93892FF526314B5E00AEE7BF /* TableViewCell.swift */; };
 		938B88E0262FD27700B58A0E /* TodayToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */; };
 		938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B88E7262FD28200B58A0E /* TodayToDoCellViewModel.swift */; };
@@ -87,6 +89,8 @@
 		93704D572639188A003E6EA6 /* TotalToDoTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoTableView.swift; sourceTree = "<group>"; };
 		93799632263E667F00FE697C /* ToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCellViewModel.swift; sourceTree = "<group>"; };
 		93799634263E990D00FE697C /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		9379963A263EB89200FE697C /* AddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewModel.swift; sourceTree = "<group>"; };
+		9379963C263EE78F00FE697C /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		93892FF526314B5E00AEE7BF /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoViewModel.swift; sourceTree = "<group>"; };
 		938B88E7262FD28200B58A0E /* TodayToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoCellViewModel.swift; sourceTree = "<group>"; };
@@ -200,10 +204,10 @@
 			isa = PBXGroup;
 			children = (
 				936C723B261B5D07006870CE /* MainViewController.swift */,
+				93799634263E990D00FE697C /* AddViewController.swift */,
 				93892FF526314B5E00AEE7BF /* TableViewCell.swift */,
 				93704D522639187A003E6EA6 /* TodayToDoTableView.swift */,
 				93704D572639188A003E6EA6 /* TotalToDoTableView.swift */,
-				93799634263E990D00FE697C /* AddViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +261,7 @@
 			children = (
 				93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */,
 				938B88DF262FD27700B58A0E /* TodayToDoViewModel.swift */,
+				9379963A263EB89200FE697C /* AddViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				A29611742622CB35003D9622 /* UIFont+Extensions.swift */,
 				A2D640AF2634665D00AF02DA /* UIColor+Extensions.swift */,
 				A2D640B42634743500AF02DA /* String+Extensions.swift */,
+				9379963C263EE78F00FE697C /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -593,6 +599,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
+				9379963B263EB89300FE697C /* AddViewModel.swift in Sources */,
 				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,
 				A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */,
 				93799633263E667F00FE697C /* ToDoCellViewModel.swift in Sources */,
@@ -600,6 +607,7 @@
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
 				93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */,
 				93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */,
+				9379963D263EE78F00FE697C /* Date+Extensions.swift in Sources */,
 				93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */,
 				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
 				93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */,

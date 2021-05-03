@@ -22,8 +22,8 @@ class TableViewCell: UITableViewCell {
         self.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         [nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-         nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-         nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)].forEach{$0.isActive = true}
+         nameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+         nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)].forEach{$0.isActive = true}
     }
     func setUp(cellViewModel: ToDoCellViewModel) {
         nameLabel.text = cellViewModel.toDoTitle
@@ -53,4 +53,5 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 //        cell.setText(cellViewModel: self.v)
         return cell
     }
+    
 }

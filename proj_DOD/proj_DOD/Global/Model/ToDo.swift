@@ -7,8 +7,8 @@
 
 import Foundation
 enum Status: Int {
-    case completed = 0
-    case incompleted = 1
+    case RESOLVED = 0
+    case UNRESOLVED = 1
 }
 
 

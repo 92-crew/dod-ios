@@ -10,6 +10,7 @@ import UIKit
 class MainViewController: UIPageViewController {
     private let todayToDoView: UIViewController = TodayToDoTableView()
     private let totalToDoView: UIViewController = TotalToDoTableView()
+    private let addViewController: UIViewController = AddViewController()
     private var vcArr: [UIViewController] = []
     var pages = [UIViewController]()
     var currentIndex: Int = 0
@@ -17,12 +18,14 @@ class MainViewController: UIPageViewController {
         let btn = UIButton()
         btn.setTitle("TodayToDo", for: UIControl.State.normal)
         btn.setTitleColor(.black, for: UIControl.State.normal)
+        btn.isEnabled = false
         return btn
     }()
     var totalToDoBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("TotalToDo", for: UIControl.State.normal)
         btn.setTitleColor(.dodWhite1, for: UIControl.State.normal)
+        btn.isEnabled = false
         return btn
     }()
     
@@ -34,7 +37,6 @@ class MainViewController: UIPageViewController {
         super.loadView()
         setPageViewController()
         setNavigationBar()
-        self.reloadInputViews()
     }
     private func setPageViewController(){
         self.dataSource = self
@@ -49,18 +51,17 @@ class MainViewController: UIPageViewController {
     private func setNavigationBar() {
         let navBar = self.navigationController!.navigationBar
         navBar.backgroundColor = .dodWhite1
-        view.addSubview(navBar)
+        navBar.tintColor = .black
         let navItem = self.navigationItem
-        let navAddItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: Selector(("addTapped")))
-        let navSettingItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: Selector(("settingTapped")))
-        
-        
-        navItem.setLeftBarButton(navSettingItem, animated: true)
+        let navAddItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
+//        let navSettingItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: self, action: Selector(("settingTapped")))
+//        navItem.setLeftBarButton(navSettingItem, animated: true)
         navItem.setRightBarButton(navAddItem, animated: true)
-        
-        
         navItem.titleView = titleView()
         
+    }
+    @objc func addButtonTapped(_ sender: UIBarButtonItem!){
+        self.show(addViewController, sender: nil)
     }
     private func titleView() -> UIView{
         let titleView: UIStackView = {

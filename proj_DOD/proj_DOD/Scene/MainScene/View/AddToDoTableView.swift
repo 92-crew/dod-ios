@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import UIKit
+class AddToDoTableView: UIViewController {
+    let titleTextField: UITextField = UITextField()
+    let datePicker: UIDatePicker = UIDatePicker()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
