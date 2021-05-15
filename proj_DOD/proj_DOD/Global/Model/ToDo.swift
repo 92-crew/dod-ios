@@ -9,6 +9,15 @@ import Foundation
 enum Status: Int {
     case completed = 0
     case incompleted = 1
+    
+    var statusMessage: String {
+        switch self {
+        case .completed:
+            return "RESOLVED"
+        case .incompleted:
+            return "UNRESOLVED"
+        }
+    }
 }
 
 

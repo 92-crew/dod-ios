@@ -10,4 +10,6 @@ import Foundation
 
 struct Config {
     static let baseURL = ""
+    static let contentTodos = "/api/content/v1/todos"
+    static let contentTodo = "/api/content/v1/todo"
 }
