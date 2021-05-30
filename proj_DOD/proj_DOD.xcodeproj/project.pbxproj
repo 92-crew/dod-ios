@@ -29,13 +29,18 @@
 		93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E19261C96C100F6EB28 /* ToDo.swift */; };
 		A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A244E8AB262DC80800E76562 /* ViewModelType.swift */; };
 		A244E8B1262DC84B00E76562 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A244E8B0262DC84B00E76562 /* SignInViewModel.swift */; };
-		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
-		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
 		A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263E182263B0A5E00EF5582 /* ToDoService.swift */; };
 		A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C723B261B5D07006870CE /* MainViewController.swift */; };
 		A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7237261B5D07006870CE /* AppDelegate.swift */; };
 		A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7239261B5D07006870CE /* SceneDelegate.swift */; };
 		A263E1F7263B100600EF5582 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
+		A27021262652C7A800E0480A /* LocalData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A27021242652C7A800E0480A /* LocalData.xcdatamodeld */; };
+		A27021282654E53D00E0480A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27021272654E53D00E0480A /* CoreDataManager.swift */; };
+		A279B3802663522B0065433E /* TodoLocal+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */; };
+		A279B387266363620065433E /* ToDoLocal+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */; };
+		A279B388266363620065433E /* ToDoLocal+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */; };
+		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
+		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
 		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
 		A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */; };
 		A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116F2622CB02003D9622 /* UITextField+Extensions.swift */; };
@@ -102,9 +107,14 @@
 		93C3A787C4DCE393CE89BBC6 /* Pods-proj_DOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DOD.release.xcconfig"; path = "Target Support Files/Pods-proj_DOD/Pods-proj_DOD.release.xcconfig"; sourceTree = "<group>"; };
 		A244E8AB262DC80800E76562 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		A244E8B0262DC84B00E76562 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		A263E182263B0A5E00EF5582 /* ToDoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
+		A27021252652C7A800E0480A /* LocalData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalData.xcdatamodel; sourceTree = "<group>"; };
+		A27021272654E53D00E0480A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoLocal+Extensions.swift"; sourceTree = "<group>"; };
+		A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataProperties.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataClass.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		A280E9532636F87E002F7DC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
-		A263E182263B0A5E00EF5582 /* ToDoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		A29611652622CA7F003D9622 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		A296116F2622CB02003D9622 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
@@ -283,6 +293,7 @@
 		A244E8A9262DC7E100E76562 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				A27021232652C45000E0480A /* CoreData */,
 				936C7274261B5E64006870CE /* API */,
 				A29611642622CA36003D9622 /* Extensions */,
 				936C726F261B5E0B006870CE /* Model */,
@@ -299,15 +310,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		A280E9492636F69C002F7DC9 /* SignUpScene */ = {
-			isa = PBXGroup;
-			children = (
-				A280E9532636F87E002F7DC9 /* SignUpViewController.swift */,
-				A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */,
-			);
-			path = SignUpScene;
-			sourceTree = "<group>";
-		};
 		A263E206263B107900EF5582 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +317,26 @@
 				936C726E261B5E07006870CE /* ViewModel */,
 			);
 			path = MainScene;
+			sourceTree = "<group>";
+		};
+		A27021232652C45000E0480A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */,
+				A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */,
+				A27021242652C7A800E0480A /* LocalData.xcdatamodeld */,
+				A27021272654E53D00E0480A /* CoreDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		A280E9492636F69C002F7DC9 /* SignUpScene */ = {
+			isa = PBXGroup;
+			children = (
+				A280E9532636F87E002F7DC9 /* SignUpViewController.swift */,
+				A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */,
+			);
+			path = SignUpScene;
 			sourceTree = "<group>";
 		};
 		A29611642622CA36003D9622 /* Extensions */ = {
@@ -327,6 +349,7 @@
 				A2D640AF2634665D00AF02DA /* UIColor+Extensions.swift */,
 				A2D640B42634743500AF02DA /* String+Extensions.swift */,
 				9379963C263EE78F00FE697C /* Date+Extensions.swift */,
+				A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -614,13 +637,17 @@
 			files = (
 				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
 				9379963B263EB89300FE697C /* AddViewModel.swift in Sources */,
+				A279B387266363620065433E /* ToDoLocal+CoreDataProperties.swift in Sources */,
 				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,
 				A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */,
+				A279B388266363620065433E /* ToDoLocal+CoreDataClass.swift in Sources */,
 				93799633263E667F00FE697C /* ToDoCellViewModel.swift in Sources */,
 				A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */,
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
 				93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */,
 				93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */,
+				A279B3802663522B0065433E /* TodoLocal+Extensions.swift in Sources */,
+				A27021262652C7A800E0480A /* LocalData.xcdatamodeld in Sources */,
 				9379963D263EE78F00FE697C /* Date+Extensions.swift in Sources */,
 				93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */,
 				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
@@ -640,14 +667,12 @@
 				A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */,
 				A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */,
 				A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */,
-				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
 				A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */,
 				A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */,
 				A2BFFB20262C988400449D39 /* SignInViewController.swift in Sources */,
-				936C7280261B5ED1006870CE /* APIManager.swift in Sources */,
 				A29611752622CB35003D9622 /* UIFont+Extensions.swift in Sources */,
+				A27021282654E53D00E0480A /* CoreDataManager.swift in Sources */,
 				A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */,
-				936C7276261B5EB2006870CE /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,7 +850,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8B8R52P58X;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -845,7 +870,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8B8R52P58X;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -982,6 +1007,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A27021242652C7A800E0480A /* LocalData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A27021252652C7A800E0480A /* LocalData.xcdatamodel */,
+			);
+			currentVersion = A27021252652C7A800E0480A /* LocalData.xcdatamodel */;
+			path = LocalData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 936C722C261B5D07006870CE /* Project object */;
 }
