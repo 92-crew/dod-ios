@@ -28,6 +28,37 @@ class APIManager {
     
     private init() { }
     
+    internal func signIn(email: String,
+                         password: String,
+                         completionHandler: @escaping (Result<Bool, APIError>) -> Void) {
+        guard let url = URL(string: Config.memberLogin) else {
+            completionHandler(.failure(.urlNotSupport))
+            return
+        }
+        
+        struct SignInBody: Codable {
+            let email, password: String
+        }
+        
+        let param: [String: String] = [
+            "email" : email,
+            "password" : password
+        ]
+        let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
+        
+        let body = SignInBody(email: email, password: password)
+       
+        var resource = Resource<SignInBody>(url: url, method: .post(body))
+        resource.urlRequest.httpBody = sendData
+        resource.urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        resource.urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        dump(resource)
+        defaultSession.load(resource) { _, isSuccess in
+            print(isSuccess)
+            isSuccess ? completionHandler(.success(true)) : completionHandler(.failure(.noData))
+        }
+    }
+    
     internal func getTodos(completionHandler: @escaping (Result<[Content], APIError>) -> Void) {
         guard let url = URL(string: Config.contentTodos) else {
             completionHandler(.failure(.urlNotSupport))
@@ -46,7 +77,8 @@ class APIManager {
 
     internal func postTodo(
         title: String,
-        status: Status,
+//        status: Status,
+        status: String,
         dueDate: String,
         completionHandler: @escaping (Result<Todo, APIError>) -> Void
     ) {
@@ -57,7 +89,7 @@ class APIManager {
             var dueDate: String
         }
         
-        let body = PostBody(title: title, status: status.statusMessage, dueDate: dueDate)
+        let body = PostBody(title: title, status: status, dueDate: dueDate)
         
         guard let url = URL(string: Config.contentTodo) else {
             completionHandler(.failure(.urlNotSupport))
@@ -75,8 +107,7 @@ class APIManager {
     }
     
     internal func putTodoState(
-        todo: Todo,
-        status: Status,
+        toDo: Todo,
         completionHandler: @escaping (Result<Todo, APIError>) -> Void
     ) {
         struct PutBody: Codable {
@@ -84,9 +115,9 @@ class APIManager {
             var status: String
             var dueDate: String
         }
-        let body = PutBody(title: todo.title, status: status.statusMessage, dueDate: todo.dueDate)
+        let body = PutBody(title: toDo.title, status: toDo.status, dueDate: toDo.dueDate)
         
-        guard let url = URL(string: Config.contentTodo + "/\(todo.id)") else {
+        guard let url = URL(string: Config.contentTodo + "/\(toDo.id)") else {
             completionHandler(.failure(.urlNotSupport))
             return
         }
@@ -94,8 +125,8 @@ class APIManager {
         let resource = Resource<Todo>(url: url,
                                       method: .put(body))
         
-        defaultSession.load(resource) { todo, _ in
-            guard let data = todo else {
+        defaultSession.load(resource) { toDo, _ in
+            guard let data = toDo else {
                 completionHandler(.failure(.noData))
                 return
             }
@@ -103,20 +134,22 @@ class APIManager {
         }
     }
     
-//    internal func deleteTodo(
-//        todo: Todo,
-//        completionHandler: @escaping (Result<EmptyStruct, APIError>) -> Void
-//    ) {
-//        guard let url = URL(string: Config.contentTodo + "/\(todo.id)") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//        
-//        let body: Any? = nil
-//        let resource = Resource<Any>(
-//
-//        
-//    }
+    internal func deleteTodo(
+        todo: Todo,
+        completionHandler: @escaping (Result<Bool, APIError>) -> Void
+    ) {
+        guard let url = URL(string: Config.contentTodo + "/\(todo.id)") else {
+            completionHandler(.failure(.urlNotSupport))
+            return
+        }
+        
+        struct EmptyStruct { }
+        
+        let resource = Resource<EmptyStruct>(url: url, method: .delete)
+        defaultSession.load(resource) { _, isSuccess in
+            isSuccess ? completionHandler(.success(true)) : completionHandler(.failure(.noData))
+        }
+    }
     
     // Example
 //    func get1(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {

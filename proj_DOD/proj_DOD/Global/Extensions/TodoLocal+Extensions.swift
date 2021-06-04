@@ -9,14 +9,5 @@ import Foundation
 
 
 extension ToDoLocal {
-//    var transLateTodoo: Todo {
-        
-        
-//        return Todo(id: self.id,
-//                    memberID: self.memberID,
-//                    title: self.title ?? "",
-//                    status: self.status ?? "",
-//                    dueDate: self.dueDate ?? "",
-//                    createdAt: self.createdAt ?? "")
-//    }
+
 }

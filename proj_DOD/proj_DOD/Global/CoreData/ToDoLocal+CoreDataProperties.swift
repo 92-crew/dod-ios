@@ -16,11 +16,13 @@ extension ToDoLocal {
         return NSFetchRequest<ToDoLocal>(entityName: "ToDoLocal")
     }
 
-    @NSManaged public var dueDate: String?
-    @NSManaged public var status: String?
-    @NSManaged public var title: String?
     @NSManaged public var createdAt: String?
+    @NSManaged public var dueDate: String?
     @NSManaged public var id: Int64
     @NSManaged public var memberID: Int64
+    @NSManaged public var status: String?
+    @NSManaged public var title: String?
+    @NSManaged public var hasDeleted: Bool
+    @NSManaged public var hasRemoteUpdated: Bool
 
 }

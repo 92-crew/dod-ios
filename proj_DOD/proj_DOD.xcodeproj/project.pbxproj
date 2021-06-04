@@ -36,9 +36,11 @@
 		A263E1F7263B100600EF5582 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
 		A27021262652C7A800E0480A /* LocalData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A27021242652C7A800E0480A /* LocalData.xcdatamodeld */; };
 		A27021282654E53D00E0480A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27021272654E53D00E0480A /* CoreDataManager.swift */; };
+		A2790BFA2663774F0046F9C3 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2790BF92663774F0046F9C3 /* DataService.swift */; };
+		A2790BFD2663A9430046F9C3 /* ToDoLocal+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2790BFC2663A9420046F9C3 /* ToDoLocal+CoreDataProperties.swift */; };
+		A2790BFE2663A9430046F9C3 /* ToDoLocal+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2790BFB2663A9420046F9C3 /* ToDoLocal+CoreDataClass.swift */; };
+		A2790C002663BA4A0046F9C3 /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2790BFF2663BA4A0046F9C3 /* Bool+Extensions.swift */; };
 		A279B3802663522B0065433E /* TodoLocal+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */; };
-		A279B387266363620065433E /* ToDoLocal+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */; };
-		A279B388266363620065433E /* ToDoLocal+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */; };
 		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
 		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
 		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
@@ -110,9 +112,11 @@
 		A263E182263B0A5E00EF5582 /* ToDoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		A27021252652C7A800E0480A /* LocalData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalData.xcdatamodel; sourceTree = "<group>"; };
 		A27021272654E53D00E0480A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		A2790BF92663774F0046F9C3 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		A2790BFB2663A9420046F9C3 /* ToDoLocal+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataClass.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		A2790BFC2663A9420046F9C3 /* ToDoLocal+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataProperties.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		A2790BFF2663BA4A0046F9C3 /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
 		A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoLocal+Extensions.swift"; sourceTree = "<group>"; };
-		A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataProperties.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ToDoLocal+CoreDataClass.swift"; path = "/Users/hereismymac/Documents/Github/dod-ios/proj_DOD/proj_DOD/Global/CoreData/ToDoLocal+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		A280E9532636F87E002F7DC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		A29611652622CA7F003D9622 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 			children = (
 				A263E182263B0A5E00EF5582 /* ToDoService.swift */,
 				93959E19261C96C100F6EB28 /* ToDo.swift */,
+				A2790BF92663774F0046F9C3 /* DataService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -322,8 +327,8 @@
 		A27021232652C45000E0480A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				A279B386266363620065433E /* ToDoLocal+CoreDataClass.swift */,
-				A279B385266363620065433E /* ToDoLocal+CoreDataProperties.swift */,
+				A2790BFB2663A9420046F9C3 /* ToDoLocal+CoreDataClass.swift */,
+				A2790BFC2663A9420046F9C3 /* ToDoLocal+CoreDataProperties.swift */,
 				A27021242652C7A800E0480A /* LocalData.xcdatamodeld */,
 				A27021272654E53D00E0480A /* CoreDataManager.swift */,
 			);
@@ -350,6 +355,7 @@
 				A2D640B42634743500AF02DA /* String+Extensions.swift */,
 				9379963C263EE78F00FE697C /* Date+Extensions.swift */,
 				A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */,
+				A2790BFF2663BA4A0046F9C3 /* Bool+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -637,10 +643,8 @@
 			files = (
 				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
 				9379963B263EB89300FE697C /* AddViewModel.swift in Sources */,
-				A279B387266363620065433E /* ToDoLocal+CoreDataProperties.swift in Sources */,
 				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,
 				A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */,
-				A279B388266363620065433E /* ToDoLocal+CoreDataClass.swift in Sources */,
 				93799633263E667F00FE697C /* ToDoCellViewModel.swift in Sources */,
 				A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */,
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
@@ -653,15 +657,19 @@
 				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
 				93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */,
 				938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */,
+				A2790BFE2663A9430046F9C3 /* ToDoLocal+CoreDataClass.swift in Sources */,
 				938B88E0262FD27700B58A0E /* TodayToDoViewModel.swift in Sources */,
 				93799635263E990D00FE697C /* AddViewController.swift in Sources */,
 				A2D640B52634743500AF02DA /* String+Extensions.swift in Sources */,
 				A2B47BF72625EBB3002CFE4D /* Resource.swift in Sources */,
 				A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */,
 				A2B47BFC2625EEC5002CFE4D /* URLSession+Extension.swift in Sources */,
+				A2790C002663BA4A0046F9C3 /* Bool+Extensions.swift in Sources */,
 				A2B47C012625EFCE002CFE4D /* NetworkResult.swift in Sources */,
 				A2B47BF22625E322002CFE4D /* HttpMethod.swift in Sources */,
 				A244E8B1262DC84B00E76562 /* SignInViewModel.swift in Sources */,
+				A2790BFD2663A9430046F9C3 /* ToDoLocal+CoreDataProperties.swift in Sources */,
+				A2790BFA2663774F0046F9C3 /* DataService.swift in Sources */,
 				A2B47BEA2625E2FD002CFE4D /* Config.swift in Sources */,
 				A2D640B02634665D00AF02DA /* UIColor+Extensions.swift in Sources */,
 				A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */,
