@@ -349,12 +349,6 @@
 			path = MainScene;
 			sourceTree = "<group>";
 		};
-		A280E9492636F69C002F7DC9 /* SignUpScene */ = {
-			isa = PBXGroup;
-			children = (
-				A280E9532636F87E002F7DC9 /* SignUpViewController.swift */,
-				A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */,
-			);
 		A27021232652C45000E0480A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
