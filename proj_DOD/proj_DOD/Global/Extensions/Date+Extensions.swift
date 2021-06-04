@@ -19,6 +19,13 @@ extension Date {
          return Calendar.current.component(.day, from: self)
     }
     
+    public var toCreatedAtString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS"
+        return dateFormatter.string(from: self)
+    }
+    
     public func toString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

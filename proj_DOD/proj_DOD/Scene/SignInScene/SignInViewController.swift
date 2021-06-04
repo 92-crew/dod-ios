@@ -159,6 +159,16 @@ class SignInViewController: UIViewController {
                         self?.passwordTextField.becomeFirstResponder()
             }).disposed(by: disposeBag)
         
+        signInButton
+            .rx
+            .tap
+            .subscribe(onNext: {
+                APIManager.shared.signIn(email: self.emailTextField.text ?? "",
+                                         password: self.passwordTextField.text ?? "") { result in
+                    print(result)
+                }
+            })
+        
         let output = signInViewModel.transform(input: input)
         
         bindSignInState(output.signInEnable)

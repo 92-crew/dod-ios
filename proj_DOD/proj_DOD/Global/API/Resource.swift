@@ -11,6 +11,14 @@ import Foundation
 struct Resource<T> {
     var urlRequest: URLRequest
     let parse: (Data) -> T?
+    
+    // Body Non Needed
+    init(url: URL, method: HttpMethod<T>) {
+        self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = method.method
+        
+        self.parse = { _ in return nil }
+    }
 }
 
 extension Resource where T: Decodable {
@@ -47,10 +55,17 @@ extension Resource where T: Decodable {
     init<Body: Encodable>(url: URL, method: HttpMethod<Body>) {
         self.urlRequest = URLRequest(url: url)
         self.urlRequest.httpMethod = method.method
-        
         switch method {
-        case .post(let body), .delete(let body), .patch(let body), .put(let body):
-            self.urlRequest.httpBody = try? JSONEncoder().encode(body)
+        case .post(let body), .patch(let body), .put(let body):
+            guard let jsonData = try? JSONEncoder().encode(body) else {
+                print("Error: Trying to convert model to JSON data")
+                self.parse = { data in
+                    try? JSONDecoder().decode(T.self, from: data)
+                }
+                return
+            }
+            
+            self.urlRequest.httpBody = jsonData
             self.urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
             self.urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         default:
