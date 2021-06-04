@@ -11,13 +11,21 @@ import UIKit
 class AddViewController: UIViewController {
     var scrollView: UIScrollView = UIScrollView()
     var contentView: UIView = UIView()
-    var titleTextField: UITextField = UITextField()
+    var titleTextField: DODTextfieldView = DODTextfieldView()
     var datePicker: UIDatePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     var selectedDate: String = Date().toString()
     var addViewModel: AddViewModel = AddViewModel()
-    
+    var arrow: UIImage = UIImage(named: "backarrow")!
+    var addToDo: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "할 일 추가"
+        lbl.font = UIFont.boldSystemFont(ofSize: 20)
+        lbl.textColor = .black
+        return lbl
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextField.setNeedsDisplay()
     }
     override func loadView() {
         super.loadView()
@@ -28,6 +36,7 @@ class AddViewController: UIViewController {
         contentView.backgroundColor = .dodWhite1
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -47,13 +56,15 @@ class AddViewController: UIViewController {
         
         let inputTitleLabel: UILabel = {
             let lbl = UILabel()
-            lbl.text = "Input To Do"
+            lbl.text = "할 일"
+            lbl.font = UIFont.boldSystemFont(ofSize: 15)
             return lbl
         }()
         
         let datePickerLabel: UILabel = {
             let lbl = UILabel()
-            lbl.text = "Choose Date"
+            lbl.text = "완료 예정일"
+            lbl.font = UIFont.boldSystemFont(ofSize: 15)
             return lbl
         }()
         contentView.addSubview(inputTitleLabel)
@@ -70,24 +81,24 @@ class AddViewController: UIViewController {
         
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: inputTitleLabel.bottomAnchor),
+            titleTextField.topAnchor.constraint(equalTo: inputTitleLabel.bottomAnchor, constant: 15),
             titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
-        titleTextField.addTarget(self, action: #selector(textChanged(_:)), for: .editingChanged)
-        titleTextField.backgroundColor = .dodWhite2
+        
+        titleTextField.backgroundColor = .dodWhite1
         
         datePickerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             datePickerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             datePickerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            datePickerLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor)
+            datePickerLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 40)
         ])
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            datePicker.topAnchor.constraint(equalTo: datePickerLabel.bottomAnchor),
+            datePicker.topAnchor.constraint(equalTo: datePickerLabel.bottomAnchor, constant: 15),
             datePicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             datePicker.heightAnchor.constraint(equalToConstant: 50),
@@ -98,29 +109,23 @@ class AddViewController: UIViewController {
         
         
     }
-    @objc func textChanged(_ sender: UITextField) {
-        if titleTextField.text?.count == 0 {
-            print(#function)
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        } else {
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        }
-    }
+    
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         selectedDate = datePicker.date.toString()
         print(selectedDate)
     }
     private func setNavigationBar() {
         let navBar = self.navigationController!.navigationBar
-        navBar.backgroundColor = .dodWhite1
         navBar.tintColor = .black
+        navBar.backgroundColor = .dodWhite1
         let navItem = self.navigationItem
+        let newImage = arrow.resizedImage(to: CGSize(width: 25, height: 20))
         let navDoneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(_:)))
-        let navCancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped(_:)))
+        let navCancelItem = UIBarButtonItem(image: newImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelButtonTapped(_:)))
         navItem.setLeftBarButton(navCancelItem, animated: true)
         navItem.setRightBarButton(navDoneItem, animated: true)
         navItem.rightBarButtonItem?.isEnabled = false
-        navItem.title = "Add To Do"
+        navItem.titleView = addToDo
     }
     
     
@@ -130,8 +135,8 @@ class AddViewController: UIViewController {
         let status: String = "UNRESOLVED"
         print(title, date, status)
     }
+    
     @objc func cancelButtonTapped(_ sender: UIBarButtonItem!){
         self.navigationController?.popViewController(animated: true)
     }
 }
-

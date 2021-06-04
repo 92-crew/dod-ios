@@ -19,13 +19,13 @@ class DODCheckBoxView: BaseUIView {
          imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
          imageView.topAnchor.constraint(equalTo: self.topAnchor),
          imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)].forEach{ $0.isActive = true }
-        imageView.image = UIImage(named: "checkboxOff")
+        imageView.image = UIImage(named: "DODCheckboxOff")
     }
     func check() {
         if isSelected == true {
-            imageView.image = UIImage(named: "checkboxOn")
+            imageView.image = UIImage(named: "DODCheckboxOn")
         } else {
-            imageView.image = UIImage(named: "checkboxOff")
+            imageView.image = UIImage(named: "DODCheckboxOff")
         }
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 class TodayToDoViewModel {
     private var toDoService: ToDoServiceProtocol
-    private var toDo: Todo
+    var toDo: Todo
     private var toDoList: [Todo]
     init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService
