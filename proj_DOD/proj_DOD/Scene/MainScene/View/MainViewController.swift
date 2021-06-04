@@ -16,15 +16,17 @@ class MainViewController: UIPageViewController {
     var currentIndex: Int = 0
     var todayToDoBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("TodayToDo", for: UIControl.State.normal)
+        btn.setTitle("오늘", for: UIControl.State.normal)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         btn.setTitleColor(.black, for: UIControl.State.normal)
         btn.isEnabled = false
         return btn
     }()
     var totalToDoBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("TotalToDo", for: UIControl.State.normal)
-        btn.setTitleColor(.dodWhite1, for: UIControl.State.normal)
+        btn.setTitle("전체", for: UIControl.State.normal)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        btn.setTitleColor(.dodWhite2, for: UIControl.State.normal)
         btn.isEnabled = false
         return btn
     }()
@@ -37,7 +39,12 @@ class MainViewController: UIPageViewController {
         super.loadView()
         setPageViewController()
         setNavigationBar()
+        let statusBar = UIView()
+        statusBar.frame = UIApplication.shared.statusBarFrame
+        statusBar.backgroundColor = .dodWhite1
+        UIApplication.shared.keyWindow?.addSubview(statusBar)
     }
+    
     private func setPageViewController(){
         self.dataSource = self
         self.delegate = self
@@ -46,23 +53,26 @@ class MainViewController: UIPageViewController {
         if let firstVC = vcArr.first as? TodayToDoTableView {
             self.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
         }
-        
+        self.todayToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        self.totalToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
+    
     private func setNavigationBar() {
         let navBar = self.navigationController!.navigationBar
-        navBar.backgroundColor = .dodWhite1
         navBar.tintColor = .black
+        navBar.backgroundColor = .dodWhite1
         let navItem = self.navigationItem
         let navAddItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
-//        let navSettingItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: self, action: Selector(("settingTapped")))
-//        navItem.setLeftBarButton(navSettingItem, animated: true)
+        let leftItem = UIBarButtonItem(customView: titleView())
+        self.navigationItem.leftBarButtonItem = leftItem
         navItem.setRightBarButton(navAddItem, animated: true)
-        navItem.titleView = titleView()
         
     }
+    
     @objc func addButtonTapped(_ sender: UIBarButtonItem!){
         self.show(addViewController, sender: nil)
     }
+    
     private func titleView() -> UIView{
         let titleView: UIStackView = {
             let sv = UIStackView(arrangedSubviews: [todayToDoBtn, totalToDoBtn])
@@ -70,7 +80,6 @@ class MainViewController: UIPageViewController {
             sv.spacing = 8
             return sv
         }()
-        
         return titleView
     }
     
@@ -84,13 +93,14 @@ extension MainViewController: UIPageViewControllerDelegate {
             }
         }
         if currentIndex == 0 {
-            totalToDoBtn.setTitleColor(.dodWhite1, for: UIControl.State.normal)
+            totalToDoBtn.setTitleColor(.dodWhite2, for: UIControl.State.normal)
             todayToDoBtn.setTitleColor(.black, for: UIControl.State.normal)
         } else if currentIndex == 1 {
             totalToDoBtn.setTitleColor(.black, for: UIControl.State.normal)
-            todayToDoBtn.setTitleColor(.dodWhite1, for: UIControl.State.normal)
+            todayToDoBtn.setTitleColor(.dodWhite2, for: UIControl.State.normal)
         }
     }
+    
 }
 
 extension MainViewController: UIPageViewControllerDataSource {
@@ -122,4 +132,9 @@ extension MainViewController: UIPageViewControllerDataSource {
         }
     }
     
+}
+extension UINavigationBar {
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 50)
+    }
 }

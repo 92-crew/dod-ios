@@ -8,7 +8,7 @@
 import Foundation
 class TotalToDoViewModel {
     private var toDoService: ToDoServiceProtocol
-    private var toDo: Todo
+    var toDo: Todo
     private var toDoList: [Todo]
     init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService
@@ -31,6 +31,7 @@ extension TotalToDoViewModel {
     var toDoArr: [Todo] {
         return self.toDoList
     }
+    
 }
 
 //extension TotalToDoViewModel {

@@ -8,7 +8,8 @@ target 'proj_DOD' do
   # Pods for proj_DOD
     pod 'RxSwift', '6.1.0'
     pod 'RxCocoa', '6.1.0'
-    pod "RxGesture"
+    pod 'RxGesture'
+    pod 'DLRadioButton', '~> 1.4'
 
 
 

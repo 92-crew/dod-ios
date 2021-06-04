@@ -27,15 +27,21 @@
 		93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */; };
 		93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E09261C71FB00F6EB28 /* TotalToDoCellViewModel.swift */; };
 		93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93959E19261C96C100F6EB28 /* ToDo.swift */; };
+		9395AEBF265D9A6A0022F0CD /* DODCheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9395AEBE265D9A6A0022F0CD /* DODCheckBoxView.swift */; };
+		9395AEC1265D9B790022F0CD /* BaseUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9395AEC0265D9B790022F0CD /* BaseUIView.swift */; };
+		939702C32663729B003FB2EA /* DODTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939702C22663729B003FB2EA /* DODTextfieldView.swift */; };
+		939702C52663794F003FB2EA /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939702C42663794F003FB2EA /* UIImage+Extensions.swift */; };
+		939702C726637B31003FB2EA /* DODButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939702C626637B31003FB2EA /* DODButtonView.swift */; };
+		939702C92663B6A7003FB2EA /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939702C82663B6A7003FB2EA /* EditViewController.swift */; };
 		A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A244E8AB262DC80800E76562 /* ViewModelType.swift */; };
 		A244E8B1262DC84B00E76562 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A244E8B0262DC84B00E76562 /* SignInViewModel.swift */; };
-		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
-		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
 		A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263E182263B0A5E00EF5582 /* ToDoService.swift */; };
 		A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C723B261B5D07006870CE /* MainViewController.swift */; };
 		A263E1E9263B0F5500EF5582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7237261B5D07006870CE /* AppDelegate.swift */; };
 		A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C7239261B5D07006870CE /* SceneDelegate.swift */; };
 		A263E1F7263B100600EF5582 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936C727F261B5ED1006870CE /* APIManager.swift */; };
+		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
+		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
 		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
 		A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */; };
 		A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116F2622CB02003D9622 /* UITextField+Extensions.swift */; };
@@ -99,12 +105,18 @@
 		93959DFC261C6DC000F6EB28 /* TotalToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoViewModel.swift; sourceTree = "<group>"; };
 		93959E09261C71FB00F6EB28 /* TotalToDoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalToDoCellViewModel.swift; sourceTree = "<group>"; };
 		93959E19261C96C100F6EB28 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
+		9395AEBE265D9A6A0022F0CD /* DODCheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DODCheckBoxView.swift; sourceTree = "<group>"; };
+		9395AEC0265D9B790022F0CD /* BaseUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUIView.swift; sourceTree = "<group>"; };
+		939702C22663729B003FB2EA /* DODTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DODTextfieldView.swift; sourceTree = "<group>"; };
+		939702C42663794F003FB2EA /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		939702C626637B31003FB2EA /* DODButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DODButtonView.swift; sourceTree = "<group>"; };
+		939702C82663B6A7003FB2EA /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		93C3A787C4DCE393CE89BBC6 /* Pods-proj_DOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proj_DOD.release.xcconfig"; path = "Target Support Files/Pods-proj_DOD/Pods-proj_DOD.release.xcconfig"; sourceTree = "<group>"; };
 		A244E8AB262DC80800E76562 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		A244E8B0262DC84B00E76562 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		A263E182263B0A5E00EF5582 /* ToDoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		A280E9532636F87E002F7DC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
-		A263E182263B0A5E00EF5582 /* ToDoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		A29611652622CA7F003D9622 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		A296116F2622CB02003D9622 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
@@ -209,6 +221,7 @@
 			children = (
 				936C723B261B5D07006870CE /* MainViewController.swift */,
 				93799634263E990D00FE697C /* AddViewController.swift */,
+				939702C82663B6A7003FB2EA /* EditViewController.swift */,
 				93892FF526314B5E00AEE7BF /* TableViewCell.swift */,
 				93704D522639187A003E6EA6 /* TodayToDoTableView.swift */,
 				93704D572639188A003E6EA6 /* TotalToDoTableView.swift */,
@@ -280,9 +293,21 @@
 			path = CellModel;
 			sourceTree = "<group>";
 		};
+		9395AEBD265D9A580022F0CD /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				9395AEC0265D9B790022F0CD /* BaseUIView.swift */,
+				939702C626637B31003FB2EA /* DODButtonView.swift */,
+				9395AEBE265D9A6A0022F0CD /* DODCheckBoxView.swift */,
+				939702C22663729B003FB2EA /* DODTextfieldView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		A244E8A9262DC7E100E76562 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				9395AEBD265D9A580022F0CD /* Common */,
 				936C7274261B5E64006870CE /* API */,
 				A29611642622CA36003D9622 /* Extensions */,
 				936C726F261B5E0B006870CE /* Model */,
@@ -299,15 +324,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		A280E9492636F69C002F7DC9 /* SignUpScene */ = {
-			isa = PBXGroup;
-			children = (
-				A280E9532636F87E002F7DC9 /* SignUpViewController.swift */,
-				A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */,
-			);
-			path = SignUpScene;
-			sourceTree = "<group>";
-		};
 		A263E206263B107900EF5582 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,11 +333,21 @@
 			path = MainScene;
 			sourceTree = "<group>";
 		};
+		A280E9492636F69C002F7DC9 /* SignUpScene */ = {
+			isa = PBXGroup;
+			children = (
+				A280E9532636F87E002F7DC9 /* SignUpViewController.swift */,
+				A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */,
+			);
+			path = SignUpScene;
+			sourceTree = "<group>";
+		};
 		A29611642622CA36003D9622 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				A29611652622CA7F003D9622 /* UIView+Extensions.swift */,
 				A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */,
+				939702C42663794F003FB2EA /* UIImage+Extensions.swift */,
 				A296116F2622CB02003D9622 /* UITextField+Extensions.swift */,
 				A29611742622CB35003D9622 /* UIFont+Extensions.swift */,
 				A2D640AF2634665D00AF02DA /* UIColor+Extensions.swift */,
@@ -612,6 +638,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939702C52663794F003FB2EA /* UIImage+Extensions.swift in Sources */,
 				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
 				9379963B263EB89300FE697C /* AddViewModel.swift in Sources */,
 				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,
@@ -619,10 +646,13 @@
 				93799633263E667F00FE697C /* ToDoCellViewModel.swift in Sources */,
 				A263E1E2263B0F2F00EF5582 /* MainViewController.swift in Sources */,
 				93959E1A261C96C100F6EB28 /* ToDo.swift in Sources */,
+				939702C726637B31003FB2EA /* DODButtonView.swift in Sources */,
 				93959DFD261C6DC000F6EB28 /* TotalToDoViewModel.swift in Sources */,
 				93959E0A261C71FB00F6EB28 /* TotalToDoCellViewModel.swift in Sources */,
+				9395AEBF265D9A6A0022F0CD /* DODCheckBoxView.swift in Sources */,
 				9379963D263EE78F00FE697C /* Date+Extensions.swift in Sources */,
 				93704D532639187A003E6EA6 /* TodayToDoTableView.swift in Sources */,
+				939702C32663729B003FB2EA /* DODTextfieldView.swift in Sources */,
 				93704D582639188A003E6EA6 /* TotalToDoTableView.swift in Sources */,
 				93892FF626314B5E00AEE7BF /* TableViewCell.swift in Sources */,
 				938B88E8262FD28200B58A0E /* TodayToDoCellViewModel.swift in Sources */,
@@ -634,20 +664,19 @@
 				A2B47BFC2625EEC5002CFE4D /* URLSession+Extension.swift in Sources */,
 				A2B47C012625EFCE002CFE4D /* NetworkResult.swift in Sources */,
 				A2B47BF22625E322002CFE4D /* HttpMethod.swift in Sources */,
+				939702C92663B6A7003FB2EA /* EditViewController.swift in Sources */,
 				A244E8B1262DC84B00E76562 /* SignInViewModel.swift in Sources */,
 				A2B47BEA2625E2FD002CFE4D /* Config.swift in Sources */,
 				A2D640B02634665D00AF02DA /* UIColor+Extensions.swift in Sources */,
 				A263E183263B0A5E00EF5582 /* ToDoService.swift in Sources */,
 				A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */,
 				A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */,
-				936C723A261B5D07006870CE /* SceneDelegate.swift in Sources */,
 				A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */,
+				9395AEC1265D9B790022F0CD /* BaseUIView.swift in Sources */,
 				A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */,
 				A2BFFB20262C988400449D39 /* SignInViewController.swift in Sources */,
-				936C7280261B5ED1006870CE /* APIManager.swift in Sources */,
 				A29611752622CB35003D9622 /* UIFont+Extensions.swift in Sources */,
 				A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */,
-				936C7276261B5EB2006870CE /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
