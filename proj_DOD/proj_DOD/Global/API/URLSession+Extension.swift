@@ -13,6 +13,7 @@ extension URLSession {
         completion: @escaping (T?, Bool) -> Void
     ) {
         dataTask(with: resource.urlRequest) { data, response, _ in
+            dump(response)
             if let response = response as? HTTPURLResponse,
                (200..<300).contains(response.statusCode) {
                 completion(data.flatMap(resource.parse), true)

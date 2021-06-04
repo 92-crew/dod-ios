@@ -12,7 +12,7 @@ enum HttpMethod<Body> {
     case post(Body)
     case put(Body)
     case patch(Body)
-    case delete(Body)
+    case delete
     
 }
 extension HttpMethod {

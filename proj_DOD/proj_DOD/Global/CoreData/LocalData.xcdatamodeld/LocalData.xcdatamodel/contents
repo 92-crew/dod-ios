@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20E232" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ToDoLocal" representedClassName="ToDoLocal" syncable="YES">
+        <attribute name="createdAt" attributeType="String" defaultValueString="1970-01-01'T'00:00:00.0000"/>
+        <attribute name="dueDate" attributeType="String" defaultValueString="1970-01-01"/>
+        <attribute name="hasDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasRemoteUpdated" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="memberID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="status" attributeType="String" defaultValueString=""/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+    </entity>
+    <elements>
+        <element name="ToDoLocal" positionX="-282.8930053710938" positionY="21.74728393554688" width="128" height="149"/>
+    </elements>
+</model>
