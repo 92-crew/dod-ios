@@ -27,23 +27,32 @@ class SignUpViewController: UIViewController {
         return view
     }()
     
+    private let greetingLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 30)
+        label.text = "안녕하세요\n처음 오셨군요."
+        label.numberOfLines = 2
+        return label
+    }()
+    
     private var totalInputStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
-        stackView.spacing = 34
+        stackView.spacing = 20
         return stackView
     }()
     
-    private var emailInputStackView: UIStackView = {
+    private var userInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
-        stackView.spacing = 8
+        stackView.spacing = 0
         return stackView
     }()
     
@@ -53,78 +62,67 @@ class SignUpViewController: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
-        stackView.spacing = 8
+        stackView.spacing = 0
         return stackView
-    }()
-    
-    private var nicknameInputStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 8
-        return stackView
-    }()
-    
-    private var emailLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "E-mail"
-        label.textColor = .dodNavy1
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        return label
     }()
     
     private var emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Input E-mail"
+        textField.tag = 0
+        textField.placeholder = "example@example.com"
         textField.keyboardType = .emailAddress
-//        textField.
+        textField.disableAutoFill()
         textField.textContentType = .username
         textField.font = .systemFont(ofSize: 15)
+        textField.setUnderLined()
         return textField
     }()
     
-    private var emailDuplicateCheckLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true
-        label.font = .systemFont(ofSize: 13, weight: .bold)
-        return label
+    private var nicknameTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.tag = 1
+        textField.placeholder = "닉네임(선택)"
+        textField.font = .systemFont(ofSize: 15)
+        textField.setUnderLined()
+        return textField
     }()
     
-    private var newPasswordLabel: UILabel = {
+    private var userInfoExplainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "New Password"
+        label.text = "설정하지 않는다면 기본값인 example 이 됩니다."
         label.textColor = .dodNavy1
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = .systemFont(ofSize: 13)
         return label
     }()
     
     private var newPasswordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Input New Password"
+        textField.tag = 2
+        textField.placeholder = "새로운 비밀번호"
         textField.isSecureTextEntry = true
         textField.textContentType = .newPassword
         textField.autocorrectionType = .no
         textField.disableAutoFill()
         textField.font = .systemFont(ofSize: 15)
+        textField.setUnderLined()
         return textField
     }()
     
     private var newPasswordCheckTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Check Password"
+        textField.tag = 3
+        textField.placeholder = "비밀번호 재입력"
         textField.isSecureTextEntry = true
         textField.textContentType = .newPassword
         textField.autocorrectionType = .no
         textField.disableAutoFill()
         textField.font = .systemFont(ofSize: 15)
+        textField.setUnderLined()
         return textField
     }()
     
@@ -134,38 +132,22 @@ class SignUpViewController: UIViewController {
         label.isHidden = true
         label.text = "Password Check Success"
         label.textColor = .green
-        label.font = .systemFont(ofSize: 13, weight: .bold)
+        label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
-    }()
-    
-    private var nicknameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Nickname"
-        label.textColor = .dodNavy1
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        return label
-    }()
-    
-    private var nicknameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Input Nickname"
-        textField.font = .systemFont(ofSize: 15)
-        return textField
     }()
     
     private var signUpButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = false
-        button.setTitle("Sign Up", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.setTitle("회원가입 후 로그인", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20)
         button.makeRounded(cornerRadius: 23)
         button.backgroundColor = .lightGray
         return button
     }()
     
+    private var totalInputStackViewBottomConstraint: NSLayoutConstraint!
     // MARK:- Fields
     var signUpViewModel = SignUpViewModel()
     var disposeBag = DisposeBag()
@@ -173,9 +155,37 @@ class SignUpViewController: UIViewController {
     // MARK:- Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        emailTextField.delegate = self
+        nicknameTextField.delegate = self
+        newPasswordTextField.delegate = self
+        newPasswordCheckTextField.delegate = self
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unregisterForKeyboardNotifications()
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)), name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func unregisterForKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+       }
     
     override func loadView() {
         super.loadView()
@@ -184,61 +194,69 @@ class SignUpViewController: UIViewController {
         configureViewModel()
     }
     
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey]
+            as? Double else { return }
+        guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey]
+            as? UInt else { return }
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+            as? NSValue)?.cgRectValue {
+            let height = keyboardSize.height + signUpButton.frame.height + 10
+            totalInputStackViewBottomConstraint.constant = -height
+            UIView.animate(withDuration: duration,
+                           delay: 0,
+                           options: .init(rawValue: curve),
+                           animations: {
+                            self.signUpButton.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
+                           })
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey]
+            as? Double else { return }
+        guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey]
+            as? UInt else { return }
+        totalInputStackViewBottomConstraint.constant = 0
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: .init(rawValue: curve),
+                       animations: { self.signUpButton.transform = .identity })
+    }
+    
+    // MARK: - ViewModel Logic
+    
     private func configureViewModel() {
         let input = SignUpViewModel.Input(
-            emailEditingStartEvent: emailTextField.rx.controlEvent(.editingDidBegin),
             emailTextEvent: emailTextField.rx.text.orEmpty,
-            emailEditingEndedEvent: emailTextField.rx.controlEvent(.editingDidEnd),
-            
-            newPasswordEditingStartEvent: newPasswordTextField.rx.controlEvent(.editingDidBegin),
             newPasswordTextEvent: newPasswordTextField.rx.text.orEmpty,
-            newPasswordEditingEndedEvent: newPasswordTextField.rx.controlEvent(.editingDidEnd),
-            
-            newPasswordCheckEditingStartEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidBegin),
             newPasswordCheckTextEvent: newPasswordCheckTextField.rx.text.orEmpty,
-            newPasswordCheckEditingEndedEvent: newPasswordCheckTextField.rx.controlEvent(.editingDidEnd),
-            
-            nicknameEditingStartEvent: nicknameTextField.rx.controlEvent(.editingDidBegin),
             nicknameTextEvent: nicknameTextField.rx.text.orEmpty,
-            nicknameEditingEndedEvent: nicknameTextField.rx.controlEvent(.editingDidEnd),
-            signUpButtonEvent: signUpButton.rx.tap)
+            signUpButtonEvent: signUpButton.rx.tap
+        )
         
 
         let output = signUpViewModel.transform(input: input)
         
         bindEmailCheckEvent(output.emailValidationCheck)
         bindPasswordCheckEvent(output.newPasswordDoubleCheck)
-        bindNewPasswordEditingStart(output.newPasswordEditingStart)
-        bindNewPasswordCheckEditingStart(output.newPasswordCheckEditingStart)
-        bindNicknameEditingStart(output.nicknameEditingStart)
         bindSignUpButtonEnabled(output.isAllValidInput)
         bindResultSignUpEvent(output.resultSignUpEvent)
-        bindIsEditing(output.isEditing)
-        
-        
     }
     
     private func bindEmailCheckEvent(_ emailValidationCheck: Driver<EmailValidationCheck>) {
         emailValidationCheck.drive(onNext: { [weak self] check in
             guard let strongSelf = self else { return }
-            
             switch check {
-            case .nonEmailFormatError:
-                strongSelf.emailDuplicateCheckLabel.textColor = .dodRed1
-                strongSelf.emailDuplicateCheckLabel.isHidden = false
-                strongSelf.emailDuplicateCheckLabel.text = "올바르지 않은 이메일 형식입니다."
-            case .duplicatedCheckError:
-                strongSelf.emailDuplicateCheckLabel.textColor = .dodRed1
-                strongSelf.emailDuplicateCheckLabel.isHidden = false
-                strongSelf.emailDuplicateCheckLabel.text = "중복된 이메일 입니다."
             case .success:
-                strongSelf.emailDuplicateCheckLabel.textColor = .dodGreen1
-                strongSelf.emailDuplicateCheckLabel.isHidden = false
-                strongSelf.emailDuplicateCheckLabel.text = "사용 가능한 이메일입니다."
+                break
+            case .nonEmailFormatError:
+                break
             }
         }).disposed(by: disposeBag)
     }
-    
+
     private func bindPasswordCheckEvent(_ newPasswordDoubleCheck: Driver<Bool>) {
         newPasswordDoubleCheck
             .drive(onNext: { [weak self] isCheck in
@@ -252,49 +270,6 @@ class SignUpViewController: UIViewController {
                 strongSelf.newPasswordCheckLabel.isHidden = true
             }
             }).disposed(by: disposeBag)
-    }
-    
-    private func bindNewPasswordEditingStart(_ newPasswordEditingStart: Driver<Void>) {
-        newPasswordEditingStart.drive(onNext: { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            let newPassWordTextFieldPoint = CGPoint(x: 0,
-                                                    y: strongSelf.newPasswordTextField.frame.minY)
-            strongSelf.inputScrollView.setContentOffset(newPassWordTextFieldPoint,
-                                                        animated: true)
-        }).disposed(by: disposeBag)
-    }
-
-    private func bindNewPasswordCheckEditingStart(_ newPasswordCheckEditingStart: Driver<Void>) {
-        newPasswordCheckEditingStart.drive(onNext: { [weak self] in
-            guard let strongSelf = self else { return }
-
-            let newPasswordCheckTextFieldPoint = CGPoint(x: 0,
-                                                         y: strongSelf.newPasswordCheckTextField.frame.minY)
-            strongSelf.inputScrollView.setContentOffset(newPasswordCheckTextFieldPoint, animated: true)
-        }).disposed(by: disposeBag)
-    }
-
-    private func bindNicknameEditingStart(_ nicknameEditingStart: Driver<Void>) {
-        nicknameEditingStart.drive(onNext: { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            let nicknameTextFieldPoint = CGPoint(x: 0,
-                                                 y: strongSelf.nicknameTextField.frame.minY)
-            strongSelf.inputScrollView.setContentOffset(nicknameTextFieldPoint,
-                                                        animated: true)
-        }).disposed(by: disposeBag)
-    }
-    
-    private func bindIsEditing(_ isEditing: Driver<Bool>) {
-        isEditing.drive(onNext: { [weak self] isEditing in
-            if isEditing {
-                self?.inputScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 300, right: 0)
-            }
-            else {
-                self?.inputScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            }
-        }).disposed(by: disposeBag)
     }
     
     private func bindSignUpButtonEnabled(_ isAllValidInput: Driver<Bool>) {
@@ -327,7 +302,6 @@ class SignUpViewController: UIViewController {
             signUpButton.isEnabled = false
         }
     }
-
 }
 
 extension SignUpViewController {
@@ -336,15 +310,19 @@ extension SignUpViewController {
         
         configureScrollView()
         configureTotalStackView()
-        configureEmailStackView()
+        configureUserInfoStackView()
         configurePasswordStackView()
-        configureNicknameStackView()
         
-        //SignUp Button
-        NSLayoutConstraint.activate([
-            signUpButton.heightAnchor.constraint(equalToConstant: 57)
-        ])
-        
+        newPasswordTextField.rx.controlEvent([.editingDidBegin]).asDriver()
+            .drive(onNext: { [weak self] in
+                let point = CGPoint(x: 0, y: self?.newPasswordTextField.frame.minY ?? 0)
+                self?.inputScrollView.setContentOffset(point, animated: true)
+            }).disposed(by: disposeBag)
+        newPasswordCheckTextField.rx.controlEvent([.editingDidBegin]).asDriver()
+            .drive(onNext: { [weak self] in
+                let point = CGPoint(x: 0, y: self?.newPasswordCheckTextField.frame.minY ?? 0)
+                self?.inputScrollView.setContentOffset(point, animated: true)
+            }).disposed(by: disposeBag)
     }
     
     private func configureScrollView() {
@@ -371,74 +349,74 @@ extension SignUpViewController {
         let contentsHeightConstraint = contentsView.heightAnchor.constraint(equalTo: view.heightAnchor)
         contentsHeightConstraint.priority = .defaultLow
         contentsHeightConstraint.isActive = true
+    
+            
+        //SignUp Button
+        view.addSubview(signUpButton)
+        NSLayoutConstraint.activate([
+            signUpButton.heightAnchor.constraint(equalToConstant: 57),
+            signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
+            signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
+            signUpButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+        ])
     }
     
     private func configureTotalStackView() {
-        contentsView.addSubview(totalInputStackView)
         
+        // Greeting label
+        
+        contentsView.addSubview(totalInputStackView)
+        totalInputStackViewBottomConstraint = totalInputStackView.bottomAnchor.constraint(equalTo: contentsView.bottomAnchor)
         NSLayoutConstraint.activate([
             totalInputStackView.topAnchor.constraint(equalTo: contentsView.topAnchor, constant: 37),
-            totalInputStackView.leadingAnchor.constraint(equalTo: contentsView.leadingAnchor, constant: 28),
-            totalInputStackView.trailingAnchor.constraint(equalTo: contentsView.trailingAnchor, constant: -28),
-            totalInputStackView.bottomAnchor.constraint(equalTo: contentsView.bottomAnchor)
+            totalInputStackView.leadingAnchor.constraint(equalTo: contentsView.leadingAnchor, constant: 35),
+            totalInputStackView.trailingAnchor.constraint(equalTo: contentsView.trailingAnchor, constant: -35),
+            totalInputStackViewBottomConstraint
         ])
         
-        totalInputStackView.addArrangedSubview(emailInputStackView)
+        totalInputStackView.addArrangedSubview(greetingLabel)
+        totalInputStackView.addArrangedSubview(userInfoStackView)
         totalInputStackView.addArrangedSubview(passwordInputStackView)
-        totalInputStackView.addArrangedSubview(nicknameInputStackView)
-        totalInputStackView.addArrangedSubview(signUpButton)
+        
     }
     
-    private func configureEmailStackView() {
-        emailInputStackView.addArrangedSubview(emailLabel)
-        emailInputStackView.addArrangedSubview(emailTextField)
-        emailInputStackView.addArrangedSubview(emailDuplicateCheckLabel)
+    private func configureUserInfoStackView() {
+        
+        userInfoStackView.addArrangedSubview(emailTextField)
+        userInfoStackView.addArrangedSubview(nicknameTextField)
+        userInfoStackView.addArrangedSubview(userInfoExplainLabel)
         
         NSLayoutConstraint.activate([
-            emailLabel.heightAnchor.constraint(equalToConstant: 30),
             emailTextField.heightAnchor.constraint(equalToConstant: 45),
-            emailDuplicateCheckLabel.heightAnchor.constraint(equalToConstant: 18)
+            nicknameTextField.heightAnchor.constraint(equalToConstant: 45)
         ])
-        
-        emailTextField.makeRounded(cornerRadius: 10)
-        emailTextField.setBorder(borderColor: .lightGray, borderWidth: 1)
-        emailTextField.addLeftPadding(left: 15)
     }
     
     private func configurePasswordStackView() {
         // Input PasswordStackView
-        passwordInputStackView.addArrangedSubview(newPasswordLabel)
         passwordInputStackView.addArrangedSubview(newPasswordTextField)
         passwordInputStackView.addArrangedSubview(newPasswordCheckTextField)
         passwordInputStackView.addArrangedSubview(newPasswordCheckLabel)
         
         NSLayoutConstraint.activate([
-            newPasswordLabel.heightAnchor.constraint(equalToConstant: 30),
             newPasswordTextField.heightAnchor.constraint(equalToConstant: 45),
-            newPasswordCheckTextField.heightAnchor.constraint(equalToConstant: 45),
-            newPasswordCheckLabel.heightAnchor.constraint(equalToConstant: 18)
+            newPasswordCheckTextField.heightAnchor.constraint(equalToConstant: 45)
         ])
-        newPasswordTextField.makeRounded(cornerRadius: 10)
-        newPasswordTextField.setBorder(borderColor: .lightGray, borderWidth: 1)
-        newPasswordTextField.addLeftPadding(left: 15)
-        
-        newPasswordCheckTextField.makeRounded(cornerRadius: 10)
-        newPasswordCheckTextField.setBorder(borderColor: .lightGray, borderWidth: 1)
-        newPasswordCheckTextField.addLeftPadding(left: 15)
     }
-    
-    private func configureNicknameStackView() {
-        // Input nicknameStackView
-        nicknameInputStackView.addArrangedSubview(nicknameLabel)
-        nicknameInputStackView.addArrangedSubview(nicknameTextField)
-        
-        NSLayoutConstraint.activate([
-            nicknameLabel.heightAnchor.constraint(equalToConstant: 30),
-            nicknameTextField.heightAnchor.constraint(equalToConstant: 45)
-        ])
-        
-        nicknameTextField.makeRounded(cornerRadius: 10)
-        nicknameTextField.setBorder(borderColor: .lightGray, borderWidth: 1)
-        nicknameTextField.addLeftPadding(left: 15)
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            nicknameTextField.becomeFirstResponder()
+        case nicknameTextField:
+            newPasswordTextField.becomeFirstResponder()
+        case newPasswordTextField:
+            newPasswordCheckTextField.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
+        return false
     }
 }
