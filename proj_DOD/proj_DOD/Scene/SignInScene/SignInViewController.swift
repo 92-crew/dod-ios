@@ -17,8 +17,16 @@ class SignInViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = .dodNavy1
-        imageView.image = UIImage(systemName: "person.circle")
+        imageView.image = UIImage(named: "dodLogo1")
         return imageView
+    }()
+    private var sloganLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "오늘의 할일"
+        label.font = .systemFont(ofSize: 20, weight: .heavy)
+        label.textColor = .dodNavy1
+        return label
     }()
     
     private var inputStackView: UIStackView = {
@@ -27,6 +35,7 @@ class SignInViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 8
+        stackView.alpha = 0
         return stackView
     }()
     
@@ -37,11 +46,10 @@ class SignInViewController: UIViewController {
         textField.placeholder = "E-mail"
         textField.keyboardType = .emailAddress
         textField.borderStyle = .none
-        textField.makeRounded(cornerRadius: 10)
-        textField.setBorder(borderColor: .lightGray, borderWidth: 1)
         textField.addLeftPadding(left: 15)
         textField.clearButtonMode = .whileEditing
-        
+        textField.returnKeyType = .next
+        textField.setUnderLined()
         return textField
     }()
     
@@ -51,31 +59,35 @@ class SignInViewController: UIViewController {
         textField.textColor = .dodNavy1
         textField.placeholder = "Password"
         textField.borderStyle = .none
-        textField.makeRounded(cornerRadius: 10)
-        textField.setBorder(borderColor: .lightGray, borderWidth: 1)
         textField.addLeftPadding(left: 15)
         textField.clearButtonMode = .whileEditing
         textField.isSecureTextEntry = true
+        textField.setUnderLined()
         return textField
     }()
     
     private let signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign In", for: .normal)
+        button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.makeRounded(cornerRadius: 23)
+        button.makeRounded(cornerRadius: 15)
+        button.alpha = 0
         return button
     }()
     
     private let signUpButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign Up", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("회원가입 하기", for: .normal)
+        button.setTitleColor(.dodNavy1, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13)
+        button.alpha = 0
         return button
     }()
+    
+    private var logoImageViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var distanceWithBottomSafeArea: CGFloat = 0
     
     // MARK:- Fields
     let signInViewModel: SignInViewModel = SignInViewModel()
@@ -90,25 +102,60 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        congigureAnimation()
+        distanceWithBottomSafeArea = 82
+        emailTextField.delegate = self
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unregisterForKeyboardNotifications()
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)), name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func unregisterForKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+       }
+    
     
     // MARK:- Configure
     private func configureUI() {
         view.backgroundColor = .dodWhite1
         // navigation
-//        setNavigationBarShadow(color: .dodWhite1)
         navigationController?.navigationBar.tintColor = .dodNavy1
+        setNavigationBarClear()
+        
         // logoImageView
         view.addSubview(logoImageView)
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                               constant: 10),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor)
+        ])
+        
+        // sloganLabel
+        view.addSubview(sloganLabel)
+        NSLayoutConstraint.activate([
+            sloganLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sloganLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor)
         ])
         
         // Input StackView
@@ -117,7 +164,7 @@ class SignInViewController: UIViewController {
         view.addSubview(inputStackView)
         
         NSLayoutConstraint.activate([
-            inputStackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 50),
+            inputStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
             inputStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             inputStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28),
             inputStackView.heightAnchor.constraint(equalToConstant: 98)
@@ -140,8 +187,8 @@ class SignInViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             signUpButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 19),
-            signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signUpButton.widthAnchor.constraint(equalToConstant: 88),
+            signUpButton.trailingAnchor.constraint(equalTo: signInButton.trailingAnchor),
+            signUpButton.widthAnchor.constraint(equalTo: signInButton.widthAnchor, multiplier: 1/3),
             signUpButton.heightAnchor.constraint(equalToConstant: 28)
         ])
     }
@@ -152,23 +199,6 @@ class SignInViewController: UIViewController {
                                          signInButtonEvent: signInButton.rx.tap,
                                          signUpButtonEvent: signUpButton.rx.tap)
         
-        emailTextField
-            .rx
-            .controlEvent([.editingDidEnd])
-            .subscribe(onNext: { [weak self] in
-                        self?.passwordTextField.becomeFirstResponder()
-            }).disposed(by: disposeBag)
-        
-        signInButton
-            .rx
-            .tap
-            .subscribe(onNext: {
-                APIManager.shared.signIn(email: self.emailTextField.text ?? "",
-                                         password: self.passwordTextField.text ?? "") { result in
-                    print(result)
-                }
-            })
-        
         let output = signInViewModel.transform(input: input)
         
         bindSignInState(output.signInEnable)
@@ -177,6 +207,25 @@ class SignInViewController: UIViewController {
             let signUpVC = SignUpViewController()
             self.show(signUpVC, sender: nil)
         }).disposed(by: disposeBag)
+    }
+    
+    private func congigureAnimation() {
+        let transform = CGAffineTransform(translationX: 0, y: 100)
+        logoImageView.transform = transform
+        sloganLabel.transform = transform
+        UIView.animate(withDuration: 0.5,
+                       delay: TimeInterval(1),
+                       options: .curveEaseIn,
+                       animations: {
+                        self.logoImageView.transform = .identity
+                        self.sloganLabel.transform = .identity
+        }, completion: { _ in
+            UIView.animate(withDuration: TimeInterval(0.5), delay: .zero, options: .curveEaseIn, animations: {
+                self.inputStackView.alpha = 1
+                self.signInButton.alpha = 1
+                self.signUpButton.alpha = 1
+            })
+        })
     }
     
     // MARK:- ViewModel Binding
@@ -209,5 +258,69 @@ class SignInViewController: UIViewController {
             signInButton.backgroundColor = .lightGray
             signInButton.isEnabled = false
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey]
+            as? Double else { return }
+        guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey]
+            as? UInt else { return }
+        
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+            as? NSValue)?.cgRectValue {
+            self.textEditingAnimate(isEditing: true,
+                                    duration: duration,
+                                    curve: .init(rawValue: curve),
+                                    distance: keyboardSize.height - distanceWithBottomSafeArea)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey]
+            as? Double else { return }
+        guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey]
+            as? UInt else { return }
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+                                as? NSValue)?.cgRectValue {
+            self.textEditingAnimate(isEditing: false,
+                                    duration: duration,
+                                    curve: .init(rawValue: curve),
+                                    distance: keyboardSize.height - distanceWithBottomSafeArea)
+        }
+    }
+    
+    private func textEditingAnimate(
+        isEditing: Bool,
+        duration: Double,
+        curve: UIView.AnimationOptions,
+        distance: CGFloat
+    ) {
+        let distanceWithDirection = isEditing ? -distance : distance
+        let moveY = CGAffineTransform(translationX: 0, y: distanceWithDirection)
+        let moveYOfLogoImage = CGAffineTransform(translationX: 0, y: distanceWithDirection / 2)
+        UIView.animate(withDuration: duration,
+                       delay: .zero,
+                       options: curve,
+                       animations: {
+                        self.logoImageView.transform = isEditing ? moveYOfLogoImage : .identity
+                        self.sloganLabel.alpha = isEditing ? 0 : 1
+                        self.inputStackView.transform = isEditing ? moveY : .identity
+                        self.signInButton.transform = isEditing ? moveY : .identity
+                       })
+        
+    }
+}
+
+extension SignInViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            passwordTextField.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
+        return false
     }
 }

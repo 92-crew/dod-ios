@@ -10,7 +10,7 @@ class TotalToDoViewModel {
     private var toDoService: ToDoServiceProtocol
     var toDo: Todo
     private var dataService = DataService.shared
-    private var toDo: Todo
+//    private var toDo: Todo
     private var toDoList: [Todo]
     init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService

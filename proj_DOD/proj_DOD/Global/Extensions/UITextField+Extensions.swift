@@ -21,4 +21,22 @@ extension UITextField{
             textContentType = .init(rawValue: "")
         }
     }
+    
+    func setUnderLined() {
+        let underLine: UIView = {
+            let view = UIView()
+            view.backgroundColor = .dodNavy1
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        
+        addSubview(underLine)
+        
+        NSLayoutConstraint.activate([
+            underLine.heightAnchor.constraint(equalToConstant: 2),
+            underLine.leadingAnchor.constraint(equalTo: leadingAnchor),
+            underLine.trailingAnchor.constraint(equalTo: trailingAnchor),
+            underLine.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
 }

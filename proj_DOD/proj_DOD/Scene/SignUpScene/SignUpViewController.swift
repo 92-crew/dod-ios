@@ -81,7 +81,6 @@ class SignUpViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Input E-mail"
         textField.keyboardType = .emailAddress
-//        textField.
         textField.textContentType = .username
         textField.font = .systemFont(ofSize: 15)
         return textField

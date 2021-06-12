@@ -44,13 +44,11 @@ struct Todo: Codable {
     let id: Int
     let memberID: Int
     let title, status, dueDate: String
-    let createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
         case memberID = "memberId"
         case title, status, dueDate
-        case createdAt
     }
 }
 
