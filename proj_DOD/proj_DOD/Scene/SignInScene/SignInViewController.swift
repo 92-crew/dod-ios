@@ -23,6 +23,7 @@ class SignInViewController: UIViewController {
     private var sloganLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0
         label.text = "오늘의 할일"
         label.font = .systemFont(ofSize: 20, weight: .heavy)
         label.textColor = .dodNavy1
@@ -102,7 +103,7 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        congigureAnimation()
+        configureAnimation()
         distanceWithBottomSafeArea = 82
         emailTextField.delegate = self
         // Do any additional setup after loading the view.
@@ -147,8 +148,8 @@ class SignInViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3),
-            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor)
+            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/2),
+            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 509/600)
         ])
         
         // sloganLabel
@@ -191,6 +192,10 @@ class SignInViewController: UIViewController {
             signUpButton.widthAnchor.constraint(equalTo: signInButton.widthAnchor, multiplier: 1/3),
             signUpButton.heightAnchor.constraint(equalToConstant: 28)
         ])
+        
+        view.rx.tapGesture().asDriver()
+            .drive(onNext: { [weak self] _ in self?.view.endEditing(true) })
+            .disposed(by: disposeBag)
     }
     
     private func configureViewModel() {
@@ -209,19 +214,18 @@ class SignInViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func congigureAnimation() {
+    private func configureAnimation() {
         let transform = CGAffineTransform(translationX: 0, y: 100)
         logoImageView.transform = transform
-        sloganLabel.transform = transform
         UIView.animate(withDuration: 0.5,
                        delay: TimeInterval(1),
                        options: .curveEaseIn,
                        animations: {
                         self.logoImageView.transform = .identity
-                        self.sloganLabel.transform = .identity
         }, completion: { _ in
             UIView.animate(withDuration: TimeInterval(0.5), delay: .zero, options: .curveEaseIn, animations: {
                 self.inputStackView.alpha = 1
+                self.sloganLabel.alpha = 1
                 self.signInButton.alpha = 1
                 self.signUpButton.alpha = 1
             })
