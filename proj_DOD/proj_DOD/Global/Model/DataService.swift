@@ -16,73 +16,129 @@ internal class DataService {
     private let coreDataManager: CoreDataManager = CoreDataManager.shared
     private let apiManager: APIManager = APIManager.shared
 
-    private var isUserSignedIn: Bool {
-        let value: Bool = UserDefaults.standard.bool(forKey: "isUserSignedIn")
-
-        return value
-    }
-
     private init() { }
 
     public func createTodo(toDo: Todo) -> Bool {
-//        let isSuccess = coreDataManager.createNewTodo(toDo: toDo)
-//
-//        if isUserSignedIn && isSuccess {
-//            apiManager.postTodo(title: toDo.title,
-//                                status: toDo.status,
-//                                dueDate: toDo.dueDate) { result in
-//                print(result)
-//            }
-//        }
-
-        return true
+        return coreDataManager.createNewTodo(toDo: toDo)
     }
 
     public func updateTodoInfo(at oldTodo: Todo, to newTodo: Todo) -> Bool {
-//        let isSuccess = coreDataManager.updateTodoInfo(at: oldTodo, to: newTodo)
-//
-//        if isUserSignedIn && isSuccess {
-//            apiManager.putTodoState(toDo: newTodo) { result in
-//                print(result)
-//            }
-//        }
-
-        return true
+        return coreDataManager.updateTodoInfo(at: oldTodo, to: newTodo)
     }
 
     public func updateTodoStatus(at toDo: Todo, to status: Status) -> Bool {
-//        let isSuccess = coreDataManager.updateTodoStatus(at: toDo, to: status)
-//
-//        if isUserSignedIn && isSuccess {
-//            let newStatusTodo = Todo(id: toDo.id,
-//                                     memberID: toDo.memberID,
-//                                     title: toDo.title,
-//                                     status: status.statusMessage,
-//                                     dueDate: toDo.dueDate)
-//            apiManager.putTodoState(toDo: newStatusTodo) { result in
-//                print(result)
-//            }
-//        }
-
-        return true
+        return coreDataManager.updateTodoStatus(at: toDo, to: status)
     }
 
     public func deleteTodo(toDo: Todo) -> Bool {
-        if isUserSignedIn {
-
-        }
-        else {
-
-        }
-        
-        return true
+        return coreDataManager.setDeleteState(toDo: toDo)
     }
     
     public func getTotalTodoList() -> [Content] {
-        return []
+        
+        let toDoList = coreDataManager.fetchAllTodo()
+        var dic: [String: [Todo]] = [:]
+        
+        toDoList.forEach {
+            let key = $0.dueDate ?? ""
+            let toDo = Todo(id: Int($0.id),
+                            memberID: Int($0.memberID),
+                            title: $0.title ?? "",
+                            status: $0.status ?? "",
+                            dueDate: $0.dueDate ?? "")
+            
+            guard var value = dic[key] else {
+                dic.updateValue([toDo], forKey: key)
+                return
+            }
+            value.append(toDo)
+            dic.updateValue(value, forKey: key)
+        }
+        
+        return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
     }
     
     public func getTodoList(at date: Date) -> [Content] {
-        return []
+        let toDoList = coreDataManager.fetchTodosOfDueDate(by: date.toString())
+        var dic: [String: [Todo]] = [:]
+        
+        toDoList.forEach {
+            let key = $0.dueDate ?? ""
+            let toDo = Todo(id: Int($0.id),
+                            memberID: Int($0.memberID),
+                            title: $0.title ?? "",
+                            status: $0.status ?? "",
+                            dueDate: $0.dueDate ?? "")
+            guard var value = dic[key] else {
+                dic.updateValue([toDo], forKey: key)
+                return
+            }
+            value.append(toDo)
+            dic.updateValue(value, forKey: key)
+        }
+        
+        return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+    }
+    
+    internal func updateRemoteDB() {
+        let toDoLocal = coreDataManager.fetchNonSyncRemoteDB(hasDeleted: false)
+        
+        toDoLocal.forEach {
+            if $0.id == -1 {
+                updateRemoteNewTodo(toDoLocal: $0)
+            }
+            else {
+                updateRemoteTodoInfo(toDoLocal: $0)
+            }
+        }
+        
+        updateDeletedTodo()
+    }
+    
+    private func updateRemoteNewTodo(toDoLocal: ToDoLocal){
+        apiManager.postTodo(title: toDoLocal.title ?? "",
+                            status: toDoLocal.status ?? "",
+                            dueDate: toDoLocal.dueDate ?? "") { [weak self] result in
+            guard let strongSelf = self else { return }
+            switch result {
+            case .success(let toDo):
+                strongSelf.coreDataManager.setNewTodoRemoteUpdate(toDo: toDoLocal.toTodo(),
+                                                                  id: toDo.id,
+                                                                  memberId: toDo.memberID)
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    private func updateRemoteTodoInfo(toDoLocal: ToDoLocal){
+        apiManager.putTodoState(toDo: toDoLocal.toTodo()) { [weak self] result in
+            guard let strongSelf = self else { return }
+            switch result {
+            case .success(let toDo):
+                strongSelf.coreDataManager.setTodoRemoteUpdate(toDo: toDo)
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    private func updateDeletedTodo() {
+        let deletedTodoLocal = coreDataManager.fetchNonSyncRemoteDB(hasDeleted: true)
+        
+        deletedTodoLocal
+            .filter { $0.id != -1 }
+            .forEach { toDoLocal in
+                apiManager.deleteTodo(todo: toDoLocal.toTodo()) { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        self?.coreDataManager.setTodoRemoteUpdate(toDo: toDoLocal.toTodo())
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+        }
     }
 }

@@ -73,6 +73,7 @@ internal class CoreDataManager {
     
     internal func fetchTodo(by toDo: Todo) -> ToDoLocal? {
         let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: "")
+//        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: toDo.createdAt)
         return result
     }
     
@@ -89,11 +90,13 @@ internal class CoreDataManager {
         }
     }
     
-    internal func fetchNonSyncRemoteDB() -> [ToDoLocal] {
+    internal func fetchNonSyncRemoteDB(hasDeleted: Bool) -> [ToDoLocal] {
         var result: [ToDoLocal] = []
         do {
             let request: NSFetchRequest = ToDoLocal.fetchRequest()
-            request.predicate = NSPredicate(format: "hasRemoteUpdated == %@ AND hasDeleted == %@", false.toNSNumber, false.toNSNumber)
+            request.predicate = NSPredicate(format: "hasRemoteUpdated == %@ AND hasDeleted == %@",
+                                            false.toNSNumber,
+                                            hasDeleted.toNSNumber)
             result = try context.fetch(request)
             return result
         }
@@ -102,13 +105,13 @@ internal class CoreDataManager {
         }
     }
     
-    internal func updateTodoStatus(at toDo: Todo, to state: Status, isRemoteUpdate: Bool) -> Bool {
+    internal func updateTodoStatus(at toDo: Todo, to state: Status) -> Bool {
         do {
             guard let updatingObject = fetchTodo(by: toDo) else {
                 return false
             }
-            updatingObject.setValue(state.rawValue, forKey: "status")
-            updatingObject.setValue(isRemoteUpdate, forKey: "hasRemoteUpdated")
+            updatingObject.setValue(state.statusMessage, forKey: "status")
+            updatingObject.setValue(false.toNSNumber, forKey: "hasRemoteUpdated")
             try context.save()
 
             return true
@@ -119,7 +122,7 @@ internal class CoreDataManager {
         }
     }
     
-    internal func updateTodoInfo(at oldTodo: Todo, to newTodo: Todo, isRemoteUpdate: Bool) -> Bool {
+    internal func updateTodoInfo(at oldTodo: Todo, to newTodo: Todo) -> Bool {
         do {
             guard let updatingObject = fetchTodo(by: oldTodo) else {
                 return false
@@ -127,7 +130,7 @@ internal class CoreDataManager {
             updatingObject.setValue(newTodo.title, forKey: "title")
             updatingObject.setValue(newTodo.dueDate, forKey: "dueDate")
             updatingObject.setValue(newTodo.status, forKey: "status")
-            updatingObject.setValue(isRemoteUpdate, forKey: "hasRemoteUpdated")
+            updatingObject.setValue(false.toNSNumber, forKey: "hasRemoteUpdated")
             try context.save()
 
             return true
@@ -138,7 +141,7 @@ internal class CoreDataManager {
         }
     }
     
-    internal func createNewTodo(toDo: Todo, isRemoteUpdate: Bool) -> Bool {
+    internal func createNewTodo(toDo: Todo) -> Bool {
         let entity = NSEntityDescription.entity(forEntityName: "ToDoLocal", in: context)
         
         if let entity = entity {
@@ -146,7 +149,7 @@ internal class CoreDataManager {
             managedObject.setValue(toDo.title, forKey: "title")
             managedObject.setValue(toDo.status, forKey: "status")
             managedObject.setValue(toDo.dueDate, forKey: "dueDate")
-            managedObject.setValue(isRemoteUpdate, forKey: "hasRemoteUpdated")
+            managedObject.setValue(false.toNSNumber, forKey: "hasRemoteUpdated")
             do {
                 try context.save()
                 return true
@@ -160,17 +163,51 @@ internal class CoreDataManager {
         return false
     }
     
-    internal func setDeleteState(toDo: Todo, isRemoteUpdate: Bool) -> Bool {
+    internal func setDeleteState(toDo: Todo) -> Bool {
         do {
             guard let deletingObject = fetchTodo(by: toDo) else {
                 return false
             }
             deletingObject.setValue(true, forKey: "hadDeleted")
-            deletingObject.setValue(isRemoteUpdate, forKey: "hasRemoteUpdated")
+            deletingObject.setValue(false, forKey: "hasRemoteUpdated")
             
             try context.save()
             return true
             
+        }
+        catch {
+            context.rollback()
+            return false
+        }
+    }
+    
+    @discardableResult
+    internal func setNewTodoRemoteUpdate(toDo: Todo, id: Int, memberId: Int) -> Bool {
+        do {
+            guard let remoteUpdatedObject = fetchTodo(by: toDo) else {
+                return false
+            }
+            remoteUpdatedObject.setValue(id, forKey: "id")
+            remoteUpdatedObject.setValue(memberId, forKey: "memberId")
+            remoteUpdatedObject.setValue(true, forKey: "hasRemoteUpdated")
+            try context.save()
+            return true
+        }
+        catch {
+            context.rollback()
+            return false
+        }
+    }
+    
+    @discardableResult
+    internal func setTodoRemoteUpdate(toDo: Todo) -> Bool {
+        do {
+            guard let remoteUpdatedObject = fetchTodo(by: toDo) else {
+                return false
+            }
+            remoteUpdatedObject.setValue(true, forKey: "hasRemoteUpdated")
+            try context.save()
+            return true
         }
         catch {
             context.rollback()
