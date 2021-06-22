@@ -7,6 +7,8 @@
 
 import Foundation
 
+import RxSwift
+
 class APIManager {
     enum APIError: LocalizedError {
         case urlNotSupport
@@ -28,226 +30,178 @@ class APIManager {
     
     private init() { }
     
-    internal func signIn(email: String,
-                         password: String,
-                         completionHandler: @escaping (Result<Bool, APIError>) -> Void) {
+    internal func signIn(
+        email: String,
+        password: String,
+        completionHandler: @escaping (NetworkResult<Any>) -> Void
+    ) {
         guard let url = URL(string: Config.memberLogin) else {
-            completionHandler(.failure(.urlNotSupport))
+            completionHandler(.pathErr)
             return
         }
         
-        struct SignInBody: Codable {
-            let email, password: String
-        }
-        
-        let param: [String: String] = [
+        let body: [String: Any] = [
             "email" : email,
             "password" : password
         ]
-        let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
         
-        let body = SignInBody(email: email, password: password)
-       
-        var resource = Resource<SignInBody>(url: url, method: .post(body))
-        resource.urlRequest.httpBody = sendData
-        resource.urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        resource.urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        dump(resource)
-        defaultSession.load(resource) { _, isSuccess in
-            print(isSuccess)
-            isSuccess ? completionHandler(.success(true)) : completionHandler(.failure(.noData))
+        let resource = Resource(url: url, parameter: body, method: .post)
+        
+        defaultSession.load(resource) { [weak self] networkResult in
+            guard let strongSelf = self else {
+                completionHandler(.pathErr)
+                return
+            }
+            completionHandler(strongSelf.translateData(networkResult: networkResult, type: SignInResult.self))
         }
     }
     
-    internal func getTodos(completionHandler: @escaping (Result<[Content], APIError>) -> Void) {
+    internal func getTodos(completionHandler: @escaping (NetworkResult<Any>) -> Void) {
         guard let url = URL(string: Config.contentTodos) else {
-            completionHandler(.failure(.urlNotSupport))
+            completionHandler(.pathErr)
             return
         }
         
-        let resource = Resource<[Content]>(url: url)
-        defaultSession.load(resource) { contents, _ in
-            guard let data = contents, !data.isEmpty else {
-                completionHandler(.failure(.noData))
+        let resource = Resource(url: url, memberId: AuthService.shared.memberId, method: .get)
+        defaultSession.load(resource) { [weak self] networkResult in
+            guard let strongSelf = self else {
+                completionHandler(.pathErr)
                 return
             }
-            completionHandler(.success(data))
+            completionHandler(strongSelf.translateData(networkResult: networkResult, type: ToDoResult.self))
         }
     }
 
     internal func postTodo(
         title: String,
-//        status: Status,
         status: String,
         dueDate: String,
-        completionHandler: @escaping (Result<Todo, APIError>) -> Void
+        completionHandler: @escaping (NetworkResult<Any>) -> Void
     ) {
         
-        struct PostBody: Codable {
-            var title: String
-            var status: String
-            var dueDate: String
-        }
-        
-        let body = PostBody(title: title, status: status, dueDate: dueDate)
-        
         guard let url = URL(string: Config.contentTodo) else {
-            completionHandler(.failure(.urlNotSupport))
+            completionHandler(.pathErr)
             return
         }
-        let resource = Resource<Todo>(url: url,
-                                      method: .post(body))
-        defaultSession.load(resource) { todo, _ in
-            guard let data = todo else {
-                completionHandler(.failure(.noData))
+        let parameter: [String: Any] = [
+            "dueDate": dueDate,
+            "status": status,
+            "title": title
+        ]
+        let resource = Resource(url: url,
+                                memberId: AuthService.shared.memberId,
+                                parameter: parameter,
+                                method: .post)
+        
+        defaultSession.load(resource) { [weak self] networkResult in
+            guard let strongSelf = self else {
+                completionHandler(.pathErr)
                 return
             }
-            completionHandler(.success(data))
+            completionHandler(strongSelf.translateData(networkResult: networkResult, type: Todo.self))
         }
     }
     
     internal func putTodoState(
         toDo: Todo,
-        completionHandler: @escaping (Result<Todo, APIError>) -> Void
+        completionHandler: @escaping (NetworkResult<Any>) -> Void
     ) {
-        struct PutBody: Codable {
-            var title: String
-            var status: String
-            var dueDate: String
-        }
-        let body = PutBody(title: toDo.title, status: toDo.status, dueDate: toDo.dueDate)
-        
-        guard let url = URL(string: Config.contentTodo + "/\(toDo.id)") else {
-            completionHandler(.failure(.urlNotSupport))
+        guard let url = URL(string: Config.contentTodo) else {
+            completionHandler(.pathErr)
             return
         }
+        let parameter: [String: Any] = [
+            "dueDate": toDo.dueDate,
+            "id": toDo.id,
+            "status": toDo.status,
+            "title": toDo.title
+        ]
         
-        let resource = Resource<Todo>(url: url,
-                                      method: .put(body))
+        let resource = Resource(url: url,
+                                memberId: AuthService.shared.memberId,
+                                parameter: parameter,
+                                method: .put)
         
-        defaultSession.load(resource) { toDo, _ in
-            guard let data = toDo else {
-                completionHandler(.failure(.noData))
+        defaultSession.load(resource) { [weak self] networkResult in
+            guard let strongSelf = self else {
+                completionHandler(.pathErr)
                 return
             }
-            completionHandler(.success(data))
+            completionHandler(strongSelf.translateData(networkResult: networkResult, type: Todo.self))
         }
     }
     
     internal func deleteTodo(
         todo: Todo,
-        completionHandler: @escaping (Result<Bool, APIError>) -> Void
+        completionHandler: @escaping (NetworkResult<Any>) -> Void
     ) {
-        guard let url = URL(string: Config.contentTodo + "/\(todo.id)") else {
-            completionHandler(.failure(.urlNotSupport))
+        let requestURL = Config.contentTodo + "/\(todo.id)"
+        guard let url = URL(string: requestURL) else {
+            completionHandler(.pathErr)
             return
         }
         
-        struct EmptyStruct { }
-        
-        let resource = Resource<EmptyStruct>(url: url, method: .delete)
-        defaultSession.load(resource) { _, isSuccess in
-            isSuccess ? completionHandler(.success(true)) : completionHandler(.failure(.noData))
+        let resource = Resource(url: url,
+                                memberId: AuthService.shared.memberId,
+                                method: .delete)
+        defaultSession.load(resource) { [weak self] networkResult in
+            guard let strongSelf = self else {
+                completionHandler(.pathErr)
+                return
+            }
+            completionHandler(strongSelf.getResult(networkResult: networkResult))
         }
     }
     
-    // Example
-//    func get1(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        guard let url = URL(string: "\(Config.baseURL)/posts") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//
-//        let resource = Resource<[UserData]>(url: url)
-//        defaultSession.load(resource) { userDatas, _ in
-//            guard let data = userDatas, !data.isEmpty else {
-//                completionHandler(.failure(.noData))
-//                return
-//            }
-//            completionHandler(.success(data))
-//        }
-//    }
+    func translateData<T: Decodable>(networkResult: NetworkResult<Data?>, type: T.Type) -> NetworkResult<Any> {
+        let decoder = JSONDecoder()
+        switch networkResult {
+        case .success(let data):
+            guard
+                let unwrappingData = data,
+                let result = try? decoder.decode(T.self, from: unwrappingData)
+            else {
+                return .pathErr
+            }
+            return .success(result)
+        case .requestErr(let data):
+            guard
+                let unwrappingData = data,
+                let errorResult = try? decoder.decode(ErrorResult.self, from: unwrappingData)
+            else {
+                return .pathErr
+                
+            }
+            return .requestErr(errorResult)
+        case .pathErr:
+            return .pathErr
+        case .serverErr:
+            return .serverErr
+        case .networkFail:
+            return .networkFail
+        }
+    }
     
-//    func get2(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        let resource = Resource<[UserData]>(url: "\(Config.baseURL)/posts",
-//                                            parameters: ["userId": "1"])
-//        defaultSession.load(resource) { userDatas, _ in
-//            guard let data = userDatas, !data.isEmpty else {
-//                completionHandler(.failure(.noData))
-//                return
-//            }
-//            completionHandler(.success(data))
-//        }
-//    }
-    
-//    func post(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        guard let url = URL(string: "\(Config.baseURL)/posts") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//
-//        let userData = PostUserData()
-//        let resource = Resource<PostUserData>(url: url,
-//                                              method: .post(userData))
-//        defaultSession.load(resource) { userData, _ in
-//            guard let data = userData else {
-//                completionHandler(.failure(.noData))
-//                return
-//            }
-//            completionHandler(.success([data.toUserData()]))
-//        }
-//    }
-//    func put(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        guard let url = URL(string: "\(Config.baseURL)/posts/1") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//        let userData = PostUserData(id: 1)
-//        let resource = Resource<PostUserData>(url: url,
-//                                              method: .put(userData))
-//        defaultSession.load(resource) { userData, _ in
-//            guard let data = userData else {
-//                completionHandler(.failure(.noData))
-//                return
-//            }
-//            completionHandler(.success([data.toUserData()]))
-//        }
-//    }
-//    func patch(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        guard let url = URL(string: "\(Config.baseURL)/posts/1") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//        let userData = PostUserData(id: 1)
-//        let resource = Resource<PostUserData>(url: url,
-//                                              method: .patch(userData))
-//        defaultSession.load(resource) { userData, _ in
-//            guard let data = userData else {
-//                completionHandler(.failure(.noData))
-//                return
-//            }
-//            completionHandler(.success([data.toUserData()]))
-//        }
-//    }
-    
-//    func delete(completionHandler: @escaping (Result<[UserData], APIError>) -> Void) {
-//        guard let url = URL(string: "\(Config.baseURL)/posts/1") else {
-//            completionHandler(.failure(.urlNotSupport))
-//            return
-//        }
-//        let userData = PostUserData()
-//        let resource = Resource<UserData>(url: url,
-//                                          method: .delete(userData))
-//        defaultSession.load(resource) { userData, response in
-//            if response {
-//                completionHandler(.success([UserData(userId: -1,
-//                                                     id: -1,
-//                                                     title: "DELETE",
-//                                                     body: "SUCCESS")]))
-//            } else {
-//                completionHandler(.failure(.noData))
-//
-//            }
-//        }
-//    }
+    func getResult(networkResult: NetworkResult<Data?>) -> NetworkResult<Any> {
+        let decoder = JSONDecoder()
+        switch networkResult {
+        case .success(_):
+            return .success(true)
+        case .requestErr(let data):
+            guard
+                let unwrappingData = data,
+                let errorResult = try? decoder.decode(ErrorResult.self, from: unwrappingData)
+            else {
+                return .pathErr
+                
+            }
+            return .requestErr(errorResult)
+        case .pathErr:
+            return .pathErr
+        case .serverErr:
+            return .serverErr
+        case .networkFail:
+            return .networkFail
+        }
+    }
 }

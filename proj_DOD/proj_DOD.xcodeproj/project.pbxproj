@@ -50,6 +50,7 @@
 		A279F930267F372A00BDB809 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A279F92F267F372A00BDB809 /* AuthService.swift */; };
 		A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9532636F87E002F7DC9 /* SignUpViewController.swift */; };
 		A280E9592636F88E002F7DC9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */; };
+		A28F8855268225DC00FBC84D /* NetworkResultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28F8854268225DC00FBC84D /* NetworkResultModels.swift */; };
 		A29611662622CA7F003D9622 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29611652622CA7F003D9622 /* UIView+Extensions.swift */; };
 		A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */; };
 		A29611702622CB02003D9622 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A296116F2622CB02003D9622 /* UITextField+Extensions.swift */; };
@@ -133,6 +134,7 @@
 		A279F92F267F372A00BDB809 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A280E9532636F87E002F7DC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		A28F8854268225DC00FBC84D /* NetworkResultModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResultModels.swift; sourceTree = "<group>"; };
 		A29611652622CA7F003D9622 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A296116A2622CAA8003D9622 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		A296116F2622CB02003D9622 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				A2B47BF62625EBB3002CFE4D /* Resource.swift */,
 				A2B47BFB2625EEC5002CFE4D /* URLSession+Extension.swift */,
 				A2B47C002625EFCE002CFE4D /* NetworkResult.swift */,
+				A28F8854268225DC00FBC84D /* NetworkResultModels.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				939702C52663794F003FB2EA /* UIImage+Extensions.swift in Sources */,
+				A28F8855268225DC00FBC84D /* NetworkResultModels.swift in Sources */,
 				A263E1F7263B100600EF5582 /* APIManager.swift in Sources */,
 				9379963B263EB89300FE697C /* AddViewModel.swift in Sources */,
 				A263E1F0263B0FDF00EF5582 /* SceneDelegate.swift in Sources */,

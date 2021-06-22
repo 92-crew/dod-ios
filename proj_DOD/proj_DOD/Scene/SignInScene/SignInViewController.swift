@@ -205,7 +205,14 @@ class SignInViewController: UIViewController {
                                          signUpButtonEvent: signUpButton.rx.tap)
         
         let output = signInViewModel.transform(input: input)
-        
+        signInButton.rx.tap
+            .asDriver()
+            .drive(onNext: { [self] in
+                APIManager.shared.signIn(email: self.emailTextField.text ?? "",
+                                         password: self.passwordTextField.text ?? "") { result in
+                    dump(result)
+                }
+            })
         bindSignInState(output.signInEnable)
         bindSignInResult(output.signInResult)
         output.moveToSignUp.drive(onNext: {

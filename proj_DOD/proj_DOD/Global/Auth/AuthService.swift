@@ -12,8 +12,12 @@ internal class AuthService {
     static let shared = AuthService()
     
     private let apiManager: APIManager = APIManager.shared
-    private var isUserSignedIn: Bool {
+    public var isUserSignedIn: Bool {
         let value: Bool = UserDefaults.standard.bool(forKey: "isUserSignedIn")
+        return value
+    }
+    public var memberId: Int {
+        let value:Int = UserDefaults.standard.integer(forKey: "mid")
         return value
     }
     
@@ -22,4 +26,6 @@ internal class AuthService {
     internal func requestSignIn() { }
     
     internal func requestSignUp() { }
+    
+    
 }
