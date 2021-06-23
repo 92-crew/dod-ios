@@ -79,10 +79,19 @@ internal class DataService {
     }
     
     public func getTotalTodoList() -> [Content] {
+        
+    }
+    
+    public func getTodoList(at date: Date) -> [Todo] {
+        
         return []
     }
     
-    public func getTodoList(at date: Date) -> [Content] {
-        return []
+    public func getDate(contentList: [Content]) -> [Date] {
+        return contentList.map{$0.dueDateString.toDate()}
+    }
+    
+    public func getTodo(toDoList: [Todo], rowAt: Int = 0) -> Todo {
+        return toDoList[rowAt]
     }
 }

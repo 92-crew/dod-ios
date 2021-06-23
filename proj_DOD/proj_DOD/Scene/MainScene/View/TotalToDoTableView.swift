@@ -9,9 +9,8 @@ import Foundation
 import UIKit
 
 class TotalToDoTableView: UIViewController {
-    var totalToDoViewModel: TotalToDoViewModel = TotalToDoViewModel.init(toDoService: ToDoService.factory())
+    var totalToDoViewModel: TotalToDoViewModel = TotalToDoViewModel(dataService: DataService.shared)
     var totalToDoTableView: UITableView = UITableView()
-    var data: Todo = Todo(id: 0, memberID: 0, title: "", status: "", dueDate: "")
 //    var sectionDate: String = ""
 //    var toDoTitle: String = ""
 //    var currentStatus: String = ""
@@ -58,17 +57,16 @@ class TotalToDoTableView: UIViewController {
 
 extension TotalToDoTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return totalToDoViewModel.toDoCount
+        return totalToDoViewModel.contentCount
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableViewCell = tableView.dequeueCell(indexPath: indexPath)
-        
-        cell.setUp(cellViewModel: totalToDoViewModel.cellViewModels(row: indexPath.row))
+        cell.totalSetUp(totalToDoViewModel: totalToDoViewModel, indexPath: indexPath)
         cell.backgroundColor = .dodWhite1
         return cell
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return totalToDoViewModel.toDoCount
+        return totalToDoViewModel.contentCount
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return totalToDoViewModel.toDoDateInSection[section]

@@ -110,7 +110,7 @@ internal class CoreDataManager {
             updatingObject.setValue(state.rawValue, forKey: "status")
             updatingObject.setValue(isRemoteUpdate, forKey: "hasRemoteUpdated")
             try context.save()
-
+            
             return true
         }
         catch {

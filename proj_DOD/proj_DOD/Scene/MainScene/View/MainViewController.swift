@@ -66,7 +66,6 @@ class MainViewController: UIPageViewController {
         let leftItem = UIBarButtonItem(customView: titleView())
         self.navigationItem.leftBarButtonItem = leftItem
         navItem.setRightBarButton(navAddItem, animated: true)
-        
     }
     
     @objc func addButtonTapped(_ sender: UIBarButtonItem!){
