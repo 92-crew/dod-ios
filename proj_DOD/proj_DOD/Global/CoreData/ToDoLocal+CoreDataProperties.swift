@@ -25,7 +25,7 @@ extension ToDoLocal {
     @NSManaged public var status: String?
     @NSManaged public var title: String?
 
-    public func toTodo() -> Todo {
+    internal func toTodo() -> Todo {
         return Todo(id: Int(self.id),
                     memberID: Int(self.memberID),
                     title: self.title ?? "",
