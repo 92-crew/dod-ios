@@ -7,30 +7,33 @@
 
 import Foundation
 class TotalToDoViewModel {
-    private var toDoService: ToDoServiceProtocol
     var toDo: Todo
     private var dataService = DataService.shared
-//    private var toDo: Todo
+    private var contentList: [Content]
     private var toDoList: [Todo]
-    init(toDoService: ToDoServiceProtocol) {
-        self.toDoService = toDoService
-        self.toDoList = self.toDoService.loadToDoList()
-        self.toDo = self.toDoService.loadToDo(identifier: 0)
-    
+    var date: Date
+    init(dataService: DataService) {
+//        for i in 0..<contentList.count{
+//            date = contentList[i].dueDateString.toDate()
+//        }
+        self.dataService = dataService
+        self.contentList = self.dataService.getTotalTodoList()
+        self.toDoList = self.dataService.getTodoList(at: self.date)
+        
     }
     
     
 }
 
 extension TotalToDoViewModel {
-    var toDoCount: Int {
-        return self.toDoList.count
+    var contentCount: Int {
+        return self.contentList.count
     }
     var toDoDateInSection: [String] {
-        return self.toDoList.map{$0.dueDate}
+        return self.contentList.map{$0.dueDateString}
     }
-    func cellViewModels(row: Int) -> TotalToDoCellViewModel {
-        return TotalToDoCellViewModel(toDoService: self.toDoService as! ToDoService, toDoIdentifier: toDoList[row].id)
+    var toDoTitle: [String] {
+        return self.toDoList.map{$0.title}
     }
     var toDoArr: [Todo] {
         return self.toDoList

@@ -10,7 +10,8 @@ import UIKit
 class TodayToDoTableView: UIViewController {
     private let editViewController: UIViewController = EditViewController()
     private let evc: EditViewController = EditViewController()
-    var todayToDoViewModel: TodayToDoViewModel = TodayToDoViewModel.init(toDoService: ToDoService.factory())
+    var dataService: DataService = DataService.shared
+    var todayToDoViewModel: TodayToDoViewModel = TodayToDoViewModel.init(dataService: DataService.shared)
     var todayToDoTableView: UITableView = UITableView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +29,12 @@ class TodayToDoTableView: UIViewController {
         
     }
     @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
+        let p = longPressGesture.location(in: self.todayToDoTableView)
+        let indexPath = self.todayToDoTableView.indexPathForRow(at: p)
         let popUp = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
         let editAction = UIAlertAction(title: "Edit", style: .default, handler: {(action: UIAlertAction!) in
                                         let editVC = EditViewController()
-                                        editVC.willEditedTodo = self.todayToDoViewModel.toDo
+                                        editVC.willEditedTodo = self.todayToDoViewModel.toDoList[indexPath!.row]
                                         print(editVC.willEditedTodo as Any)
                                         self.show(editVC, sender: nil)})
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
@@ -41,8 +44,7 @@ class TodayToDoTableView: UIViewController {
         popUp.addAction(deleteAction)
         popUp.addAction(cancelAction)
         
-        let p = longPressGesture.location(in: self.todayToDoTableView)
-        let indexPath = self.todayToDoTableView.indexPathForRow(at: p)
+        
         if indexPath == nil {
             print("Long press on tbv, not row")
         } else if longPressGesture.state == UIGestureRecognizer.State.began {
@@ -58,7 +60,7 @@ extension TodayToDoTableView: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableViewCell = tableView.dequeueCell(indexPath: indexPath)
-        cell.setUp(cellViewModel: todayToDoViewModel.cellViewModels(row: 0))
+        cell.todaySetUp(todayToDoViewModel: todayToDoViewModel, indexPath: indexPath)
         cell.backgroundColor = .dodWhite1
         return cell
     }
