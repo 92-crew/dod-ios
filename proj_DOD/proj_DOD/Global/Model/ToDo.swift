@@ -21,14 +21,7 @@ enum Status: Int {
 }
 
 
-// MARK: - ResponseTodo
-struct ResponseTodo: Codable {
-    let contents: [Content]
-}
 
-extension ResponseTodo {
-
-}
 
 // MARK: - Content
 struct Content: Codable {
