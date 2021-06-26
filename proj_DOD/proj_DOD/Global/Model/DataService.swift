@@ -58,7 +58,7 @@ internal class DataService {
         return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
     }
     
-    public func getTodoList(at date: Date) -> [Content] {
+    public func getTodoList(at date: Date) -> [Todo] {
         let toDoList = coreDataManager.fetchTodosOfDueDate(by: date.toString())
         var dic: [String: [Todo]] = [:]
         
@@ -77,7 +77,7 @@ internal class DataService {
             dic.updateValue(value, forKey: key)
         }
         
-        return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+        return toDoList.map { $0.toTodo() }
     }
     
     internal func fetchRemoteDB() {
@@ -189,6 +189,11 @@ internal class DataService {
                 }
         }
     }
+    public func getDate(contentList: [Content]) -> [Date] {
+        return contentList.map{$0.dueDateString.toDate()}
+    }
     
-    
+    public func getTodo(toDoList: [Todo], rowAt: Int = 0) -> Todo {
+        return toDoList[rowAt]
+    }
 }

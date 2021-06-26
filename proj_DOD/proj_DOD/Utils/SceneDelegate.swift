@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DataService.shared.updateRemoteDB()
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = SignInViewController()
+        let vc = MainViewController()
 //        let vc = MainViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         let nav = UINavigationController(rootViewController: vc)
         baseNavigationController = nav

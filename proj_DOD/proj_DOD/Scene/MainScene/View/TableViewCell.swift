@@ -33,8 +33,11 @@ class TableViewCell: UITableViewCell {
          nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)].forEach{$0.isActive = true}
     }
     
-    func setUp(cellViewModel: ToDoCellViewModel) {
-        nameLabel.text = cellViewModel.toDoTitle
+    func todaySetUp(todayToDoViewModel: TodayToDoViewModel, indexPath: IndexPath) {
+        nameLabel.text = todayToDoViewModel.toDoTitle[indexPath.row]
+    }
+    func totalSetUp(totalToDoViewModel: TotalToDoViewModel, indexPath: IndexPath) {
+        nameLabel.text = totalToDoViewModel.toDoTitle[indexPath.row]
     }
     func setStatusUnresolved() {
         select = false
