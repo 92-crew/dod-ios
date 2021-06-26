@@ -130,8 +130,8 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
-        label.text = "Password Check Success"
-        label.textColor = .green
+        label.text = "비밀번호는 대문자/소문자/특수문자 포함, 8자 이상입니다."
+        label.textColor = .black
         label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
     }()
@@ -240,6 +240,7 @@ class SignUpViewController: UIViewController {
         let output = signUpViewModel.transform(input: input)
         
         bindEmailCheckEvent(output.emailValidationCheck)
+        bindValidPasswordFormat(output.passwordValidationCheck)
         bindPasswordCheckEvent(output.newPasswordDoubleCheck)
         bindSignUpButtonEnabled(output.isAllValidInput)
         bindResultSignUpEvent(output.resultSignUpEvent)
@@ -255,6 +256,21 @@ class SignUpViewController: UIViewController {
                 break
             }
         }).disposed(by: disposeBag)
+    }
+    
+    private func bindValidPasswordFormat(_ passwordValidationCheck: Driver<Bool>) {
+        passwordValidationCheck
+            .drive(onNext: { [weak self] isValidFormat in
+                guard let strongSelf =  self else { return }
+                if !isValidFormat {
+                    strongSelf.newPasswordCheckLabel.textColor = .dodRed1
+                    strongSelf.newPasswordCheckLabel.isHidden = false
+                    strongSelf.newPasswordCheckLabel.text = "비밀번호는 대문자/소문자/특수문자 포함, 8자 이상입니다."
+                }
+                else {
+                    strongSelf.newPasswordCheckLabel.isHidden = true
+                }
+            }).disposed(by: self.disposeBag)
     }
 
     private func bindPasswordCheckEvent(_ newPasswordDoubleCheck: Driver<Bool>) {
@@ -280,16 +296,25 @@ class SignUpViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func bindResultSignUpEvent(_ resultSignUpEvent: Observable<Bool>) {
-        resultSignUpEvent.subscribe(onNext: { [weak self] result in
-            guard let strongSelf = self else { return }
-            if result {
-                strongSelf.navigationController?.popViewController(animated: true)
-            }
-            else {
-                strongSelf.simpleAlert(title: "로그인 실패", message: "아이디 또는 비밀번호를 확인해 주세요")
-            }
-        }).disposed(by: disposeBag)
+    private func bindResultSignUpEvent(_ resultSignUpEvent: Observable<(Bool, String?)>) {
+        resultSignUpEvent.observe(on: MainScheduler.instance)
+            .subscribe { [weak self] (isSuccess, message) in
+                if isSuccess {
+                    if let mid = Int(message ?? "") {
+                        AuthService.shared.loginSuccessHandler(memberId: mid)
+                    }
+                    self?.dismiss(animated: true, completion: nil)
+                    return
+                }
+                
+                if let errorMessage = message {
+                    self?.simpleAlert(title: "에러", message: errorMessage)
+                    return
+                }
+                
+        } onError: { [weak self] error in
+            self?.simpleAlert(title: "에러", message: error.localizedDescription)
+        }.disposed(by: self.disposeBag)
     }
     
     private func setSignUpButton(_ isAllValid: Bool) {

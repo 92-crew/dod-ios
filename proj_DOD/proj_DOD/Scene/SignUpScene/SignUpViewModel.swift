@@ -23,6 +23,12 @@ enum EmailValidationCheck {
     }
 }
 
+enum PasswordValidationCheck {
+    case nonPasswordFormat
+    case nonMatchedCheckField
+    case success
+}
+
 class SignUpViewModel: ViewModelType {
     
     struct Input {
@@ -38,29 +44,30 @@ class SignUpViewModel: ViewModelType {
     
     struct Output {
         var emailValidationCheck: Driver<EmailValidationCheck>
+        var passwordValidationCheck: Driver<Bool>
         var newPasswordDoubleCheck: Driver<Bool>
-
         var isAllValidInput: Driver<Bool>
-        var resultSignUpEvent: Observable<Bool>
+        var resultSignUpEvent: Observable<(Bool, String?)>
     }
     
 
     
     internal func transform(input: Input) -> Output {
         let emailValidationCheck = emitEventOfValidationEmail(input.emailTextEvent)
-        
+        let passwordValidationCheck = emitEventOfValidationPassword(input.newPasswordTextEvent)
         let newPasswordDoubleCheck = emitEventOfPasswordDoubleCheck(input.newPasswordTextEvent,
                                                                     input.newPasswordCheckTextEvent)
         
         let isAllValidIntput = emitIsAllValidInputEvent(emailValidationCheck,
-                                                        newPasswordDoubleCheck,
-                                                        input.nicknameTextEvent)
+                                                        passwordValidationCheck,
+                                                        newPasswordDoubleCheck)
         let resultSignUpEvent = emitSignUpResult(input.signUpButtonEvent,
                                                  input.emailTextEvent,
                                                  input.newPasswordTextEvent,
                                                  input.nicknameTextEvent)
         
         return Output(emailValidationCheck: emailValidationCheck,
+                      passwordValidationCheck: passwordValidationCheck,
                       newPasswordDoubleCheck: newPasswordDoubleCheck,
                       isAllValidInput: isAllValidIntput,
                       resultSignUpEvent: resultSignUpEvent)
@@ -80,11 +87,25 @@ class SignUpViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: .nonEmailFormatError)
     }
     
+    private func emitEventOfValidationPassword(
+        _ newPasswordTextEvent: ControlProperty<String>
+    ) -> Driver<Bool> {
+        return newPasswordTextEvent
+            .asDriver()
+            .filter { !$0.isEmpty }
+
+            .map { $0.isValidPasword }
+    }
+    
     private func emitEventOfPasswordDoubleCheck(
         _ newPasswordTextEvent: ControlProperty<String>,
         _ newPasswordCheckTextEvent: ControlProperty<String>
     ) -> Driver<Bool> {
-        let checkPassword = Observable.combineLatest(newPasswordTextEvent, newPasswordCheckTextEvent) {
+        
+        let checkPassword = Observable.combineLatest(
+            newPasswordTextEvent.filter { !$0.isEmpty },
+            newPasswordCheckTextEvent.filter { !$0.isEmpty }
+        ) {
             return $0 == $1
         }
         
@@ -93,36 +114,60 @@ class SignUpViewModel: ViewModelType {
     
     private func emitIsAllValidInputEvent(
         _ emailValidationCheck: Driver<EmailValidationCheck>,
-        _ newPasswordDoubleCheck: Driver<Bool>,
-        _ nicknameTextEvent: ControlProperty<String>
+        _ passwordValidationCheck: Driver<Bool>,
+        _ newPasswordDoubleCheck: Driver<Bool>
     ) -> Driver<Bool> {
         
         return Driver.combineLatest(
-            nicknameTextEvent.asDriver(),
             emailValidationCheck,
+            passwordValidationCheck,
             newPasswordDoubleCheck
-        ) { return !$0.isEmpty && $1 == .success && $2 }
+        ) { $0 == .success && $1 && $2 }
         .asDriver(onErrorJustReturn: false)
     }
     
     private func emitSignUpResult(_ signUpButtonEvent: ControlEvent<Void>,
                                   _ emailTextEvent: ControlProperty<String>,
                                   _ newPasswordTextEvent: ControlProperty<String>,
-                                  _ nicknameTextEvent: ControlProperty<String>) -> Observable<Bool> {
+                                  _ nicknameTextEvent: ControlProperty<String>) -> Observable<(Bool, String?)> {
         
-        let zip = Observable.zip(emailTextEvent, newPasswordTextEvent, nicknameTextEvent)
+        let combine = Observable.combineLatest(
+            emailTextEvent,
+            newPasswordTextEvent,
+            nicknameTextEvent.map { $0.isEmpty ? "example" : $0 }
+        )
         
         
-        return signUpButtonEvent.withLatestFrom(zip){ return $1 }
-            .flatMap{ [weak self] signUpTexts -> Observable<Bool> in
-                guard let strongSelf = self else { return Observable.just(false) }
+        return signUpButtonEvent.withLatestFrom(combine)
+            .flatMap{ [weak self] signUpTexts -> Observable<(Bool, String?)> in
+                guard let strongSelf = self else { return Observable.just((false, nil)) }
                 return strongSelf.requestSignUp(email: signUpTexts.0,
                                                 password: signUpTexts.1,
                                                 nickname: signUpTexts.2)
             }
     }
     
-    private func requestSignUp(email: String, password: String, nickname: String) -> Observable<Bool> {
-        return Observable.just(true).take(1)
+    private func requestSignUp(email: String, password: String, nickname: String) -> Observable<(Bool, String?)> {
+        return AuthService.shared.requestSignUp(email: email, name: nickname, password: password)
+            .map { networkResult in
+                switch networkResult {
+                case .success(let data):
+                    guard let signInResult = data as? SignInResult else {
+                        return (false, nil)
+                    }
+                    return (true, "\(signInResult.id)")
+                case .requestErr(let data):
+                    guard let error = data as? ErrorResult else {
+                        return (false, nil)
+                    }
+                    return (false, error.message)
+                case .pathErr:
+                    return (false, nil)
+                case .serverErr:
+                    return (false, "네트워크 연결이 불안정합니다.")
+                case .networkFail:
+                    return (false, "네트워크 연결이 불안정합니다.")
+                }
+            }
     }
 }

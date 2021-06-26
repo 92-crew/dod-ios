@@ -9,7 +9,7 @@ import Foundation
 
 struct SignInResult: Codable {
     let id: Int
-    let email, password: String
+    let email, name: String
 }
 // MARK: - ResponseTodo
 struct ToDoResult: Codable {

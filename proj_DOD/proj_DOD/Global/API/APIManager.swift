@@ -170,7 +170,6 @@ class APIManager {
                 let errorResult = try? decoder.decode(ErrorResult.self, from: unwrappingData)
             else {
                 return .pathErr
-                
             }
             return .requestErr(errorResult)
         case .pathErr:
