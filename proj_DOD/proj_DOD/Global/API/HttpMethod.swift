@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum HttpMethod<Body> {
+enum HttpMethod {
     case get
-    case post(Body)
-    case put(Body)
-    case patch(Body)
+    case post
+    case put
+    case patch
     case delete
     
 }

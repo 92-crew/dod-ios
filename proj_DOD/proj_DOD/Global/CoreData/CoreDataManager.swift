@@ -165,6 +165,33 @@ internal class CoreDataManager {
         return false
     }
     
+    @discardableResult
+    internal func updateLocalData(by toDos: [Todo]) -> Bool {
+        let entity = NSEntityDescription.entity(forEntityName: "ToDoLocal", in: context)
+        if let entity = entity {
+            let managedObject = NSManagedObject(entity: entity, insertInto: context)
+            toDos.forEach{ toDo in
+                managedObject.setValue(toDo.id, forKey: "id")
+                managedObject.setValue(toDo.memberID, forKey: "memberID")
+                managedObject.setValue(toDo.title, forKey: "title")
+                managedObject.setValue(toDo.status, forKey: "status")
+                managedObject.setValue(toDo.dueDate, forKey: "dueDate")
+                managedObject.setValue(true.toNSNumber, forKey: "hasRemoteUpdated")
+            }
+            
+            do {
+                try context.save()
+                return true
+            }
+            catch {
+                context.rollback()
+                return false
+            }
+        }
+        
+        return false
+    }
+    
     internal func setDeleteState(toDo: Todo) -> Bool {
         do {
             guard let deletingObject = fetchTodo(by: toDo) else {
@@ -235,11 +262,29 @@ internal class CoreDataManager {
             return false
         }
     }
-    
-    internal func deleteAll() -> Bool {
+  internal func deleteAll() -> Bool {
         var result: [ToDoLocal] = []
         do {
             let request: NSFetchRequest = ToDoLocal.fetchRequest()
+            result = try context.fetch(request)
+            
+            result.forEach{
+                context.delete($0)
+            }
+            try context.save()
+            
+            return true
+        }
+        catch {
+            return false
+        }
+    }
+  
+    internal func deleteAlreadyUpdatedData() -> Bool {
+        var result: [ToDoLocal] = []
+        do {
+            let request: NSFetchRequest = ToDoLocal.fetchRequest()
+            request.predicate = NSPredicate(format: "hasRemoteUpdated == %@", true.toNSNumber)
             result = try context.fetch(request)
             
             result.forEach{

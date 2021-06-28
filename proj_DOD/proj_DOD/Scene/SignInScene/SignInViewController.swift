@@ -13,6 +13,14 @@ import RxGesture
 
 class SignInViewController: UIViewController {
     // MARK:- UI Compoents
+    private var cancelBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                        target: self,
+                                        action: nil)
+        barButton.tintColor = .dodNavy1
+        return barButton
+    }()
+    
     private var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,6 +112,11 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAnimation()
+        initGestureRecognizer()
+        cancelBarButton.rx.tap.asDriver()
+            .drive(onNext: {
+                self.dismiss(animated: true, completion: nil)
+            }).disposed(by: self.disposeBag)
         distanceWithBottomSafeArea = 82
         emailTextField.delegate = self
         // Do any additional setup after loading the view.
@@ -137,9 +150,12 @@ class SignInViewController: UIViewController {
     
     // MARK:- Configure
     private func configureUI() {
+        
         view.backgroundColor = .dodWhite1
+        
         // navigation
         navigationController?.navigationBar.tintColor = .dodNavy1
+        navigationItem.leftBarButtonItem = cancelBarButton
         setNavigationBarClear()
         
         // logoImageView
@@ -193,9 +209,9 @@ class SignInViewController: UIViewController {
             signUpButton.heightAnchor.constraint(equalToConstant: 28)
         ])
         
-        view.rx.tapGesture().asDriver()
-            .drive(onNext: { [weak self] _ in self?.view.endEditing(true) })
-            .disposed(by: disposeBag)
+//        view.rx.tapGesture().asDriver()
+//            .drive(onNext: { [weak self] _ in self?.view.endEditing(true) })
+//            .disposed(by: disposeBag)
     }
     
     private func configureViewModel() {
@@ -205,7 +221,7 @@ class SignInViewController: UIViewController {
                                          signUpButtonEvent: signUpButton.rx.tap)
         
         let output = signInViewModel.transform(input: input)
-        
+
         bindSignInState(output.signInEnable)
         bindSignInResult(output.signInResult)
         output.moveToSignUp.drive(onNext: {
@@ -240,16 +256,28 @@ class SignInViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func bindSignInResult(_ signInResult: Driver<Bool>) {
-        signInResult.drive(onNext: { [weak self] result in
-            guard let strongSelf = self else { return }
-            if result {
-                
-            }
-            else {
-                strongSelf.simpleAlert(title: "로그인 실패", message: "아이디 또는 비밀번호를 확인해 주세요")
-            }
-        }).disposed(by: disposeBag)
+    private func bindSignInResult(_ signInResult: Observable<(Bool, String?)>) {
+        
+        signInResult
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] (isSuccess, message) in
+                if isSuccess {
+                    if let mid = Int(message ?? "") {
+                        AuthService.shared.loginSuccessHandler(memberId: mid)
+                    }
+                    self?.dismiss(animated: true, completion: nil)
+                }
+                else {
+                    if let errorMessage = message {
+                        self?.simpleAlert(title: "에러", message: errorMessage)
+                        return
+                    }
+                }
+            
+        } onError: { [weak self] error in
+            self?.simpleAlert(title: "에러", message: error.localizedDescription)
+        }.disposed(by: self.disposeBag)
+
     }
     
     // MARK:- UI Logic
@@ -326,5 +354,27 @@ extension SignInViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return false
+    }
+}
+
+extension SignInViewController: UIGestureRecognizerDelegate {
+    
+    func initGestureRecognizer() {
+        let textFieldTap = UITapGestureRecognizer(target: self, action: #selector(handleTapTextField(_:)))
+        textFieldTap.delegate = self
+        view.addGestureRecognizer(textFieldTap)
+    }
+    
+    // 다른 위치 탭했을 때 키보드 없어지는 코드
+    @objc func handleTapTextField(_ sender: UITapGestureRecognizer) {
+        self.emailTextField.resignFirstResponder()
+        self.passwordTextField.resignFirstResponder()
+    }
+    
+    func gestureRecognizer(_ gestrueRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view?.isDescendant(of: emailTextField))! || (touch.view?.isDescendant(of: passwordTextField))! {
+            return false
+        }
+        return true
     }
 }

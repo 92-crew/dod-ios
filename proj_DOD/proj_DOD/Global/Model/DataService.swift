@@ -83,7 +83,34 @@ internal class DataService {
         return toDoList.map { $0.toTodo() }
     }
     
+    internal func fetchRemoteDB() {
+        if !AuthService.shared.isUserSignedIn { return }
+        
+        apiManager.getTodos { result in
+            switch result {
+            case .success(let data):
+                guard let toDoResult = data as? ToDoResult else { return }
+                var toDos: [Todo] = []
+                toDoResult.contents.forEach { toDos.append(contentsOf: $0.todos) }
+                if self.coreDataManager.deleteAlreadyUpdatedData() {
+                    self.coreDataManager.updateLocalData(by: toDos)
+                }
+            case .requestErr(let data):
+                guard let error = data as? ErrorResult else { return }
+                print(error.message)
+            case .pathErr:
+                print("\(#function) pathErr")
+            case .serverErr:
+                print("\(#function) serverErr")
+            case .networkFail:
+                print("\(#function) networkFail")
+            }
+        }
+    }
+    
     internal func updateRemoteDB() {
+        if !AuthService.shared.isUserSignedIn { return }
+        
         let toDoLocal = coreDataManager.fetchNonSyncRemoteDB(hasDeleted: false)
         
         toDoLocal.forEach {
@@ -104,13 +131,20 @@ internal class DataService {
                             dueDate: toDoLocal.dueDate ?? "") { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
-            case .success(let toDo):
+            case .success(let data):
+                guard let toDo = data as? Todo else { return }
                 strongSelf.coreDataManager.setNewTodoRemoteUpdate(toDo: toDoLocal.toTodo(),
                                                                   id: toDo.id,
                                                                   memberId: toDo.memberID)
-            case .failure(let error):
-                print(error)
-                break
+            case .requestErr(let data):
+                guard let error = data as? ErrorResult else { return }
+                print(error.message)
+            case .pathErr:
+                print("\(#function) pathErr")
+            case .serverErr:
+                print("\(#function) serverErr")
+            case .networkFail:
+                print("\(#function) networkFail")
             }
         }
     }
@@ -119,11 +153,18 @@ internal class DataService {
         apiManager.putTodoState(toDo: toDoLocal.toTodo()) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
-            case .success(let toDo):
+            case .success(let data):
+                guard let toDo = data as? Todo else { return }
                 strongSelf.coreDataManager.setTodoRemoteUpdate(toDo: toDo)
-            case .failure(let error):
-                print(error)
-                break
+            case .requestErr(let data):
+                guard let error = data as? ErrorResult else { return }
+                print(error.message)
+            case .pathErr:
+                print("\(#function) pathErr")
+            case .serverErr:
+                print("\(#function) serverErr")
+            case .networkFail:
+                print("\(#function) networkFail")
             }
         }
     }
@@ -138,13 +179,19 @@ internal class DataService {
                     switch result {
                     case .success(_):
                         self?.coreDataManager.setTodoRemoteUpdate(toDo: toDoLocal.toTodo())
-                    case .failure(let error):
-                        print(error)
+                    case .requestErr(let data):
+                        guard let error = data as? ErrorResult else { return }
+                        print(error.message)
+                    case .pathErr:
+                        print("\(#function) pathErr")
+                    case .serverErr:
+                        print("\(#function) serverErr")
+                    case .networkFail:
+                        print("\(#function) networkFail")
                     }
                 }
         }
     }
-    
     public func getDate(contentList: [Content]) -> [Date] {
         return contentList.map{$0.dueDateString.toDate()}
     }

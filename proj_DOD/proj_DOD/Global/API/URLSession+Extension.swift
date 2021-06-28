@@ -8,32 +8,22 @@
 import Foundation
 
 extension URLSession {
-    func load<T>(
-        _ resource: Resource<T>,
-        completion: @escaping (T?, Bool) -> Void
+    func load(
+        _ resource: Resource,
+        completion: @escaping (NetworkResult<Data?>) -> Void
     ) {
         dataTask(with: resource.urlRequest) { data, response, _ in
-            dump(response)
-            if let response = response as? HTTPURLResponse,
-               (200..<300).contains(response.statusCode) {
-                completion(data.flatMap(resource.parse), true)
+            if let response = response as? HTTPURLResponse{
+                switch response.statusCode {
+                case 200:
+                    completion(.success(data))
+                default:
+                    completion(.requestErr(data))
+                }
             }
             else {
-                completion(nil, false)
+                completion(.networkFail)
             }
-//            if let response = response as? HTTPURLResponse{
-//                switch response.statusCode {
-//                case 200..<300:
-//                    if let parseData = data.flatMap(resource.parse) {
-//                        completion(.success(parseData))
-//                    }
-//                default:
-//                    completion(.pathErr)
-//                }
-//            }
-//            else {
-//                completion(.networkFail)
-//            }
         }.resume()
     }
 }
