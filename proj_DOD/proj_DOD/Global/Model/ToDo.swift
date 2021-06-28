@@ -44,6 +44,7 @@ struct Todo: Codable {
     let id: Int
     let memberID: Int
     let title, status, dueDate: String
+    var createdAt: String? = "\(Date().toCreatedAtString)"
 
     enum CodingKeys: String, CodingKey {
         case id

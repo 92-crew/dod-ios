@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class AddViewController: UIViewController {
+    var dataService: DataService = DataService.shared
     var scrollView: UIScrollView = UIScrollView()
     var contentView: UIView = UIView()
     var titleTextField: DODTextfieldView = DODTextfieldView()
@@ -124,7 +125,7 @@ class AddViewController: UIViewController {
         let navCancelItem = UIBarButtonItem(image: newImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelButtonTapped(_:)))
         navItem.setLeftBarButton(navCancelItem, animated: true)
         navItem.setRightBarButton(navDoneItem, animated: true)
-        navItem.rightBarButtonItem?.isEnabled = false
+        navItem.rightBarButtonItem?.isEnabled = true
         navItem.titleView = addToDo
     }
     
@@ -133,7 +134,10 @@ class AddViewController: UIViewController {
         let title: String = titleTextField.text!
         let date: String = selectedDate
         let status: String = "UNRESOLVED"
+        dataService.createTodo(toDo: .init(id: -1, memberID: -1, title: title, status: status, dueDate: date))
         print(title, date, status)
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     @objc func cancelButtonTapped(_ sender: UIBarButtonItem!){

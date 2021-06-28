@@ -7,21 +7,27 @@
 
 import Foundation
 class TotalToDoViewModel {
-    var toDo: Todo
     private var dataService = DataService.shared
-    private var contentList: [Content]
-    private var toDoList: [Todo]
+    var contentList: [Content]
     var date: Date
+    var dateList: [Date]
+    var index: Int = 0
     init(dataService: DataService) {
-//        for i in 0..<contentList.count{
-//            date = contentList[i].dueDateString.toDate()
-//        }
+        
         self.dataService = dataService
         self.contentList = self.dataService.getTotalTodoList()
-        self.toDoList = self.dataService.getTodoList(at: self.date)
-        
+        self.dateList = contentList.map{$0.dueDateString}.map{$0.toDate()}
+        if dateList.isEmpty {
+            let tmp = "2021-01-01"
+            self.dateList.append(tmp.toDate())
+        } else {
+            self.dateList = contentList.map{$0.dueDateString}.map{$0.toDate()}
+        }
+        self.date = dateList[index]
     }
-    
+    func refresh() {
+        self.contentList = self.dataService.getTotalTodoList()
+    }
     
 }
 
@@ -31,12 +37,6 @@ extension TotalToDoViewModel {
     }
     var toDoDateInSection: [String] {
         return self.contentList.map{$0.dueDateString}
-    }
-    var toDoTitle: [String] {
-        return self.toDoList.map{$0.title}
-    }
-    var toDoArr: [Todo] {
-        return self.toDoList
     }
     
 }

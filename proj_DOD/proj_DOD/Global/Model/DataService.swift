@@ -45,7 +45,8 @@ internal class DataService {
                             memberID: Int($0.memberID),
                             title: $0.title ?? "",
                             status: $0.status ?? "",
-                            dueDate: $0.dueDate ?? "")
+                            dueDate: $0.dueDate ?? "",
+                            createdAt: $0.createdAt)
             
             guard var value = dic[key] else {
                 dic.updateValue([toDo], forKey: key)
@@ -68,7 +69,9 @@ internal class DataService {
                             memberID: Int($0.memberID),
                             title: $0.title ?? "",
                             status: $0.status ?? "",
-                            dueDate: $0.dueDate ?? "")
+                            dueDate: $0.dueDate ?? "",
+                            createdAt: $0.createdAt)
+            
             guard var value = dic[key] else {
                 dic.updateValue([toDo], forKey: key)
                 return
@@ -147,6 +150,10 @@ internal class DataService {
     }
     
     public func getTodo(toDoList: [Todo], rowAt: Int = 0) -> Todo {
-        return toDoList[rowAt]
+        if toDoList.isEmpty {
+            return .init(id: -1, memberID: -1, title: "Error", status: "UNRESOLVED", dueDate: "2021-01-01")
+        } else {
+            return toDoList[rowAt]
+        }
     }
 }
