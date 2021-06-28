@@ -123,7 +123,6 @@
 		A2790BF92663774F0046F9C3 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A2790BFF2663BA4A0046F9C3 /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
 		A279B37F2663522B0065433E /* TodoLocal+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoLocal+Extensions.swift"; sourceTree = "<group>"; };
-		A279F92A267F23B800BDB809 /* ToDoLocal+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoLocal+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A279F92F267F372A00BDB809 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A280E9532636F87E002F7DC9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A280E9582636F88E002F7DC9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -692,7 +691,6 @@
 				A2B47BEA2625E2FD002CFE4D /* Config.swift in Sources */,
 				A2D640B02634665D00AF02DA /* UIColor+Extensions.swift in Sources */,
 				A296116B2622CAA8003D9622 /* UIViewController+Extensions.swift in Sources */,
-				A279F92D267F23B800BDB809 /* ToDoLocal+CoreDataProperties.swift in Sources */,
 				A244E8AC262DC80800E76562 /* ViewModelType.swift in Sources */,
 				A280E9542636F87E002F7DC9 /* SignUpViewController.swift in Sources */,
 				9395AEC1265D9B790022F0CD /* BaseUIView.swift in Sources */,
@@ -879,7 +877,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = proj_DOD/proj_DOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8B8R52P58X;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -900,7 +898,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = proj_DOD/proj_DOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8B8R52P58X;
+				DEVELOPMENT_TEAM = HAWSBW2KW5;
 				INFOPLIST_FILE = proj_DOD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
