@@ -72,8 +72,8 @@ internal class CoreDataManager {
     }
     
     internal func fetchTodo(by toDo: Todo) -> ToDoLocal? {
-        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: "")
-//        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: toDo.createdAt)
+//        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: "")
+        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: toDo.createdAt ?? "")
         return result
     }
     
@@ -83,6 +83,7 @@ internal class CoreDataManager {
             let request: NSFetchRequest = ToDoLocal.fetchRequest()
             request.predicate = NSPredicate(format: "hasDeleted == %@", false.toNSNumber)
             result = try context.fetch(request)
+            
             return result
         }
         catch {
@@ -149,6 +150,7 @@ internal class CoreDataManager {
             managedObject.setValue(toDo.title, forKey: "title")
             managedObject.setValue(toDo.status, forKey: "status")
             managedObject.setValue(toDo.dueDate, forKey: "dueDate")
+            managedObject.setValue(toDo.createdAt ?? "", forKey: "createdAt")
             managedObject.setValue(false.toNSNumber, forKey: "hasRemoteUpdated")
             do {
                 try context.save()
@@ -195,7 +197,7 @@ internal class CoreDataManager {
             guard let deletingObject = fetchTodo(by: toDo) else {
                 return false
             }
-            deletingObject.setValue(true, forKey: "hadDeleted")
+            deletingObject.setValue(true, forKey: "hasDeleted")
             deletingObject.setValue(false, forKey: "hasRemoteUpdated")
             
             try context.save()
@@ -260,7 +262,24 @@ internal class CoreDataManager {
             return false
         }
     }
-    
+  internal func deleteAll() -> Bool {
+        var result: [ToDoLocal] = []
+        do {
+            let request: NSFetchRequest = ToDoLocal.fetchRequest()
+            result = try context.fetch(request)
+            
+            result.forEach{
+                context.delete($0)
+            }
+            try context.save()
+            
+            return true
+        }
+        catch {
+            return false
+        }
+    }
+  
     internal func deleteAlreadyUpdatedData() -> Bool {
         var result: [ToDoLocal] = []
         do {

@@ -8,8 +8,8 @@
 import UIKit
 
 class MainViewController: UIPageViewController {
-    private let todayToDoView: UIViewController = TodayToDoTableView()
-    private let totalToDoView: UIViewController = TotalToDoTableView()
+    private let todayToDoView: TodayToDoTableView = TodayToDoTableView()
+    private let totalToDoView: TotalToDoTableView = TotalToDoTableView()
     private let addViewController: UIViewController = AddViewController()
     private var vcArr: [UIViewController] = []
     var pages = [UIViewController]()
@@ -43,6 +43,11 @@ class MainViewController: UIPageViewController {
         statusBar.frame = UIApplication.shared.statusBarFrame
         statusBar.backgroundColor = .dodWhite1
         UIApplication.shared.keyWindow?.addSubview(statusBar)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        print(#function)
+        todayToDoView.refreshTableView()
+        totalToDoView.refreshTableView()
     }
     
     private func setPageViewController(){

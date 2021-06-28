@@ -11,6 +11,7 @@ class TableViewCell: UITableViewCell {
     var nameLabel: UILabel = UILabel()
     var select: Bool = false
     var checkbox: DODCheckBoxView = DODCheckBoxView()
+    var dataService = DataService.shared
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initView()
@@ -34,12 +35,33 @@ class TableViewCell: UITableViewCell {
     }
     
     func todaySetUp(todayToDoViewModel: TodayToDoViewModel, indexPath: IndexPath) {
-        nameLabel.text = todayToDoViewModel.toDoTitle[indexPath.row]
+        if todayToDoViewModel.toDoTitle.isEmpty {
+            nameLabel.text = "Error"
+        } else {
+            nameLabel.text = todayToDoViewModel.toDoTitle[indexPath.row]
+            let status = todayToDoViewModel.toDoList[indexPath.row].status
+            if status == "RESOLVED" {
+                setStatusResolved()
+            } else {
+                setStatusUnresolved()
+            }
+        }
     }
     func totalSetUp(totalToDoViewModel: TotalToDoViewModel, indexPath: IndexPath) {
-        nameLabel.text = totalToDoViewModel.toDoTitle[indexPath.row]
+        let todo = totalToDoViewModel.contentList[indexPath.section].todos[indexPath.row]
+        if todo.title.isEmpty {
+            nameLabel.text = "Empty"
+        } else {
+            let status = todo.status
+            if status == "RESOLVED" {
+                setStatusResolved()
+            } else {
+                setStatusUnresolved()
+            }
+        }
     }
     func setStatusUnresolved() {
+        print(#function)
         select = false
         checkbox.isSelected = select
         checkbox.check()
@@ -50,6 +72,7 @@ class TableViewCell: UITableViewCell {
         nameLabel.attributedText = attributeStr
     }
     func setStatusResolved() {
+        print(#function)
         select = true
         checkbox.isSelected = select
         checkbox.check()

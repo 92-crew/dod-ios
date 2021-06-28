@@ -30,6 +30,18 @@ extension ToDoLocal {
                     memberID: Int(self.memberID),
                     title: self.title ?? "",
                     status: self.status ?? "",
-                    dueDate: self.dueDate ?? "")
+                    dueDate: self.dueDate ?? "",
+                    createdAt: self.createdAt)
+    }
+    
+    internal func printTodo() {
+        print(id)
+        print(memberID)
+        print(status)
+        print(title)
+        print(dueDate)
+        print(createdAt)
+        print(hasDeleted)
+        print(hasRemoteUpdated)
     }
 }

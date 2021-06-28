@@ -17,7 +17,7 @@ class EditViewController: UIViewController {
     var selectedDate: String = Date().toString()
     var addViewModel: AddViewModel = AddViewModel()
     var arrow: UIImage = UIImage(named: "backarrow")!
-    
+    var dataService = DataService.shared
     var willEditedTodo: Todo?
     
     var editToDo: UILabel = {
@@ -143,9 +143,10 @@ class EditViewController: UIViewController {
         let title: String = titleTextField.text!
         let date: String = selectedDate
         let status: String = "UNRESOLVED"
+        let newToDo: Todo = .init(id: willEditedTodo!.id, memberID: willEditedTodo!.memberID, title: title, status: status, dueDate: date, createdAt: willEditedTodo!.createdAt)
+        dataService.updateTodoInfo(at: willEditedTodo!, to: newToDo)
         print(title, date, status)
-        
-        
+        self.navigationController?.popViewController(animated: true)
     }
     @objc func cancelButtonTapped(_ sender: UIBarButtonItem!){
         self.navigationController?.popViewController(animated: true)
