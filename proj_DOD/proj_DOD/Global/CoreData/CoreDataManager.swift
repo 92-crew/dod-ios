@@ -72,7 +72,6 @@ internal class CoreDataManager {
     }
     
     internal func fetchTodo(by toDo: Todo) -> ToDoLocal? {
-//        let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: "")
         let result = toDo.id != -1 ? fetchTodo(by: toDo.id) : fetchTodo(by: toDo.createdAt ?? "")
         return result
     }

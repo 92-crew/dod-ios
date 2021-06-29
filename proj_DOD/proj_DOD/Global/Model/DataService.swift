@@ -57,6 +57,7 @@ internal class DataService {
         }
         
         return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+            .sorted { return $0.dueDateString.toDate() < $1.dueDateString.toDate() }
     }
     
     public func getTodoList(at date: Date) -> [Todo] {
