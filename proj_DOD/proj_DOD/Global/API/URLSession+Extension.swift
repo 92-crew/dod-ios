@@ -13,6 +13,7 @@ extension URLSession {
         completion: @escaping (NetworkResult<Data?>) -> Void
     ) {
         dataTask(with: resource.urlRequest) { data, response, _ in
+            dump(response)
             if let response = response as? HTTPURLResponse{
                 switch response.statusCode {
                 case 200:

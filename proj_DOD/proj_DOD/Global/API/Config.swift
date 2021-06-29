@@ -12,8 +12,8 @@ struct Config {
     static let memberURL = baseURL + ":8080"
     static let contentURL = baseURL + ":8081"
     
-    static let contentTodos = contentURL + "/api/content/v1/todos"
-    static let contentTodo = contentURL + "/api/content/v1/todo"
+    static let contentTodos = contentURL + "/api/v1/content/todos"
+    static let contentTodo = contentURL + "/api/v1/content/todo"
     
     static let memberLogin = memberURL + "/api/v1/member/login"
     static let memberJoin = memberURL + "/api/v1/member/join"

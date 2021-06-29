@@ -20,12 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = MainViewController()
-//        let vc = MainViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        let nav = UINavigationController(rootViewController: vc)
+        let rootVC = MainViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let nav = UINavigationController(rootViewController: rootVC)
         baseNavigationController = nav
         window?.rootViewController = baseNavigationController
-        window?.makeKeyAndVisible()
+        
+        DataService.shared.fetchRemoteDB { 
+            self.window?.makeKeyAndVisible()
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -56,7 +59,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         DataService.shared.updateRemoteDB()
     }
-
-
 }
 

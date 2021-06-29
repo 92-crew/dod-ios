@@ -247,14 +247,8 @@ class SignUpViewController: UIViewController {
     }
     
     private func bindEmailCheckEvent(_ emailValidationCheck: Driver<EmailValidationCheck>) {
-        emailValidationCheck.drive(onNext: { [weak self] check in
-            guard let strongSelf = self else { return }
-            switch check {
-            case .success:
-                break
-            case .nonEmailFormatError:
-                break
-            }
+        emailValidationCheck.drive(onNext: { _ in
+//            guard let strongSelf = self else { return }
         }).disposed(by: disposeBag)
     }
     

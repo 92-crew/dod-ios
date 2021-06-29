@@ -44,7 +44,7 @@ internal class CoreDataManager {
         do {
             let request: NSFetchRequest = ToDoLocal.fetchRequest()
             let bigID = Int64(id)
-            request.predicate = NSPredicate(format: "id == %@ AND hasDeleted == %@",
+            request.predicate = NSPredicate(format: "id == %qi AND hasDeleted == %@",
                                             bigID, false.toNSNumber)
             result = try context.fetch(request)
             
@@ -88,6 +88,11 @@ internal class CoreDataManager {
         catch {
             return result
         }
+    }
+    
+    internal func printAllTodo() {
+        print(#function)
+        dump(fetchAllTodo())
     }
     
     internal func fetchNonSyncRemoteDB(hasDeleted: Bool) -> [ToDoLocal] {
@@ -168,14 +173,15 @@ internal class CoreDataManager {
     internal func updateLocalData(by toDos: [Todo]) -> Bool {
         let entity = NSEntityDescription.entity(forEntityName: "ToDoLocal", in: context)
         if let entity = entity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: context)
             toDos.forEach{ toDo in
-                managedObject.setValue(toDo.id, forKey: "id")
-                managedObject.setValue(toDo.memberID, forKey: "memberID")
+                let managedObject = NSManagedObject(entity: entity, insertInto: context)
+                managedObject.setValue(Int64(toDo.id), forKey: "id")
+                managedObject.setValue(Int64(toDo.memberID), forKey: "memberID")
                 managedObject.setValue(toDo.title, forKey: "title")
                 managedObject.setValue(toDo.status, forKey: "status")
                 managedObject.setValue(toDo.dueDate, forKey: "dueDate")
                 managedObject.setValue(true.toNSNumber, forKey: "hasRemoteUpdated")
+                managedObject.setValue(false.toNSNumber, forKey: "hasDeleted")
             }
             
             do {
@@ -216,7 +222,7 @@ internal class CoreDataManager {
                 return false
             }
             remoteUpdatedObject.setValue(id, forKey: "id")
-            remoteUpdatedObject.setValue(memberId, forKey: "memberId")
+            remoteUpdatedObject.setValue(memberId, forKey: "memberID")
             remoteUpdatedObject.setValue(true, forKey: "hasRemoteUpdated")
             try context.save()
             return true
@@ -261,7 +267,9 @@ internal class CoreDataManager {
             return false
         }
     }
-  internal func deleteAll() -> Bool {
+    
+    @discardableResult
+    internal func deleteAll() -> Bool {
         var result: [ToDoLocal] = []
         do {
             let request: NSFetchRequest = ToDoLocal.fetchRequest()
@@ -278,7 +286,7 @@ internal class CoreDataManager {
             return false
         }
     }
-  
+    
     internal func deleteAlreadyUpdatedData() -> Bool {
         var result: [ToDoLocal] = []
         do {
