@@ -37,12 +37,20 @@ class MainViewController: UIPageViewController {
     }
     override func loadView() {
         super.loadView()
+        
         setPageViewController()
         setNavigationBar()
         let statusBar = UIView()
         statusBar.frame = UIApplication.shared.statusBarFrame
         statusBar.backgroundColor = .dodWhite1
         UIApplication.shared.keyWindow?.addSubview(statusBar)
+        
+        if !AuthService.shared.isUserSignedIn {
+            let signInVC = SignInViewController()
+            let navigationController = UINavigationController(rootViewController: signInVC)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: false, completion: nil)
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         print(#function)

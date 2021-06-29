@@ -18,18 +18,22 @@ internal class DataService {
 
     private init() { }
 
+    @discardableResult
     public func createTodo(toDo: Todo) -> Bool {
         return coreDataManager.createNewTodo(toDo: toDo)
     }
 
+    @discardableResult
     public func updateTodoInfo(at oldTodo: Todo, to newTodo: Todo) -> Bool {
         return coreDataManager.updateTodoInfo(at: oldTodo, to: newTodo)
     }
 
+    @discardableResult
     public func updateTodoStatus(at toDo: Todo, to status: Status) -> Bool {
         return coreDataManager.updateTodoStatus(at: toDo, to: status)
     }
 
+    @discardableResult
     public func deleteTodo(toDo: Todo) -> Bool {
         return coreDataManager.setDeleteState(toDo: toDo)
     }
@@ -57,6 +61,7 @@ internal class DataService {
         }
         
         return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+            .sorted { return $0.dueDateString.toDate() < $1.dueDateString.toDate() }
     }
     
     public func getTodoList(at date: Date) -> [Todo] {
@@ -83,7 +88,7 @@ internal class DataService {
         return toDoList.map { $0.toTodo() }
     }
     
-    internal func fetchRemoteDB() {
+    internal func fetchRemoteDB(completion: @escaping () -> Void) {
         if !AuthService.shared.isUserSignedIn { return }
         
         apiManager.getTodos { result in
@@ -92,9 +97,13 @@ internal class DataService {
                 guard let toDoResult = data as? ToDoResult else { return }
                 var toDos: [Todo] = []
                 toDoResult.contents.forEach { toDos.append(contentsOf: $0.todos) }
-                if self.coreDataManager.deleteAlreadyUpdatedData() {
-                    self.coreDataManager.updateLocalData(by: toDos)
+                DispatchQueue.main.async {
+                    if self.coreDataManager.deleteAlreadyUpdatedData() {
+                        self.coreDataManager.updateLocalData(by: toDos)
+                    }
+                    completion()
                 }
+                return
             case .requestErr(let data):
                 guard let error = data as? ErrorResult else { return }
                 print(error.message)
@@ -105,6 +114,7 @@ internal class DataService {
             case .networkFail:
                 print("\(#function) networkFail")
             }
+            completion()
         }
     }
     

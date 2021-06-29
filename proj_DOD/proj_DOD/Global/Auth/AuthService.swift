@@ -93,6 +93,9 @@ internal class AuthService {
     }
     
     internal func loginSuccessHandler(memberId: Int) {
+        if self.memberId != memberId {
+            CoreDataManager.shared.deleteAll()
+        }
         UserDefaults.standard.setValue(memberId, forKey: midKey)
         UserDefaults.standard.setValue(true, forKey: isUserSignedInKey)
     }
