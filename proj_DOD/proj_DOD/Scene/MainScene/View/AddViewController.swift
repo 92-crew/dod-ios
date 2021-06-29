@@ -104,8 +104,11 @@ class AddViewController: UIViewController {
             datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             datePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+        
         datePicker.preferredDatePickerStyle = .inline
         datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setValue(UIColor.dodRed1, forKey: "textColor")
+        datePicker.setValue(1, forKey: "alpha")
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         
         

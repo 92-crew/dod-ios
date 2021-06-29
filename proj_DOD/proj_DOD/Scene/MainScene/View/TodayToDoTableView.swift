@@ -75,6 +75,8 @@ extension TodayToDoTableView: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableViewCell = tableView.dequeueCell(indexPath: indexPath)
+        cell.nameLabel.attributedText = nil
+        cell.nameLabel.text = ""
         cell.todaySetUp(todayToDoViewModel: todayToDoViewModel, indexPath: indexPath)
         cell.backgroundColor = .dodWhite1
         return cell
