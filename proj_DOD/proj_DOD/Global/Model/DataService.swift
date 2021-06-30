@@ -89,7 +89,7 @@ internal class DataService {
     }
     
     internal func fetchRemoteDB(completion: @escaping () -> Void) {
-        if !AuthService.shared.isUserSignedIn { return }
+        if !AuthService.shared.isUserSignedIn { completion(); return }
         
         apiManager.getTodos { result in
             switch result {
