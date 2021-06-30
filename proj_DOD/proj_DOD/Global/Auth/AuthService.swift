@@ -92,12 +92,17 @@ internal class AuthService {
             }
     }
     
-    internal func loginSuccessHandler(memberId: Int) {
-        if self.memberId != memberId {
+    internal func loginSuccessHandler(memberId: Int, completionBlock: @escaping ()->()) {
+        if self.memberId != 0 && self.memberId != memberId {
             CoreDataManager.shared.deleteAll()
         }
         UserDefaults.standard.setValue(memberId, forKey: midKey)
         UserDefaults.standard.setValue(true, forKey: isUserSignedInKey)
+        
+        DataService.shared.fetchRemoteDB {
+            DataService.shared.updateRemoteDB()
+            completionBlock()
+        }
     }
     
     internal func logoutHandler() {

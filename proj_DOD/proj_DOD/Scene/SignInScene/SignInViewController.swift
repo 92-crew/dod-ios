@@ -263,9 +263,10 @@ class SignInViewController: UIViewController {
             .subscribe { [weak self] (isSuccess, message) in
                 if isSuccess {
                     if let mid = Int(message ?? "") {
-                        AuthService.shared.loginSuccessHandler(memberId: mid)
+                        AuthService.shared.loginSuccessHandler(memberId: mid) {
+                            self?.dismiss(animated: true, completion: nil)
+                        }
                     }
-                    self?.dismiss(animated: true, completion: nil)
                 }
                 else {
                     if let errorMessage = message {
