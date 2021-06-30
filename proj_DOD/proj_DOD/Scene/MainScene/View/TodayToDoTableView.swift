@@ -23,11 +23,29 @@ class TodayToDoTableView: UIViewController {
         todayToDoTableView.delegate = self
         todayToDoTableView.dataSource = self
         todayToDoTableView.separatorStyle = TableViewCell.SeparatorStyle.none
-        
+        initRefreshControl()
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(longPressGesture:)))
         longPressGesture.minimumPressDuration = 1.0
         self.todayToDoTableView.addGestureRecognizer(longPressGesture)
         
+    }
+    
+    func initRefreshControl() {
+        let refresh = UIRefreshControl()
+        refresh.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        refresh.addTarget(self, action: #selector(updateUI(refresh: )), for: .valueChanged)
+        refresh.attributedTitle = NSAttributedString(string: "불러오는 중")
+        if #available(iOS 10.0, *) {
+            todayToDoTableView.refreshControl = refresh
+        } else {
+            todayToDoTableView.addSubview(refresh)
+        }
+    }
+    
+    @objc func updateUI(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        dataService.updateRemoteDB()
+        todayToDoTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {

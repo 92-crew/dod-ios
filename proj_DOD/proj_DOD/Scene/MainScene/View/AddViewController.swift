@@ -138,6 +138,7 @@ class AddViewController: UIViewController {
         let date: String = selectedDate
         let status: String = "UNRESOLVED"
         dataService.createTodo(toDo: .init(id: -1, memberID: -1, title: title, status: status, dueDate: date))
+        titleTextField.text = ""
         print(title, date, status)
         self.navigationController?.popViewController(animated: true)
         

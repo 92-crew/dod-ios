@@ -21,9 +21,6 @@ class TodayToDoViewModel {
     func refreshToDoList() {
         self.toDoList = self.dataService.getTodoList(at: date)
     }
-    func updateStatus() {
-        
-    }
 }
 
 extension TodayToDoViewModel {
