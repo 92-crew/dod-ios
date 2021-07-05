@@ -25,7 +25,7 @@ class TotalToDoViewModel {
         }
         self.date = dateList[index]
     }
-    func refresh() {
+    func refreshContentList() {
         self.contentList = self.dataService.getTotalTodoList()
     }
     

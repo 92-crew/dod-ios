@@ -23,6 +23,7 @@ class TotalToDoTableView: UIViewController {
         totalToDoTableView.delegate = self
         totalToDoTableView.dataSource = self
         totalToDoTableView.separatorStyle = TableViewCell.SeparatorStyle.none
+        initRefreshControl()
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(longPressGesture:)))
         longPressGesture.minimumPressDuration = 1.0
         self.totalToDoTableView.addGestureRecognizer(longPressGesture)
@@ -33,8 +34,30 @@ class TotalToDoTableView: UIViewController {
         refreshTableView()
     }
     
+    func initRefreshControl() {
+        let refresh = UIRefreshControl()
+        refresh.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        refresh.addTarget(self, action: #selector(updateUI(refresh: )), for: .valueChanged)
+        refresh.attributedTitle = NSAttributedString(string: "불러오는 중")
+        if #available(iOS 10.0, *) {
+            totalToDoTableView.refreshControl = refresh
+        } else {
+            totalToDoTableView.addSubview(refresh)
+        }
+    }
+    
+    @objc func updateUI(refresh: UIRefreshControl) {
+        dataService.fetchRemoteDB {
+            DispatchQueue.main.async {
+                self.totalToDoViewModel.refreshContentList()
+                refresh.endRefreshing()
+                self.totalToDoTableView.reloadData()
+            }
+        }
+    }
+    
     func refreshTableView() {
-        totalToDoViewModel.refresh()
+        totalToDoViewModel.refreshContentList()
         dump(totalToDoViewModel.contentList)
         totalToDoTableView.reloadData()
     }

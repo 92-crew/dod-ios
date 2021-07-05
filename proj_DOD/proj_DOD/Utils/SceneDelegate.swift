@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         baseNavigationController = nav
         window?.rootViewController = baseNavigationController
         
-        DataService.shared.fetchRemoteDB { 
+        DataService.shared.fetchRemoteDB {
             self.window?.makeKeyAndVisible()
         }
         
