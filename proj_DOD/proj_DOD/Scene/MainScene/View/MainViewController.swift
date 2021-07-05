@@ -19,7 +19,7 @@ class MainViewController: UIPageViewController {
         btn.setTitle("오늘", for: UIControl.State.normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         btn.setTitleColor(.black, for: UIControl.State.normal)
-        btn.isEnabled = false
+        btn.addTarget(self, action: #selector(todaySelected(_:)), for: .touchUpInside)
         return btn
     }()
     var totalToDoBtn: UIButton = {
@@ -27,9 +27,17 @@ class MainViewController: UIPageViewController {
         btn.setTitle("전체", for: UIControl.State.normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         btn.setTitleColor(.dodWhite2, for: UIControl.State.normal)
-        btn.isEnabled = false
+        btn.addTarget(self, action: #selector(totalSelected(_:)), for: .touchUpInside)
         return btn
     }()
+    
+    @objc func totalSelected(_ sender: UIButton) {
+        print(#function)
+    }
+    @objc func todaySelected(_ sender: UIButton) {
+        print(#function)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
