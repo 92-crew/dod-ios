@@ -17,6 +17,7 @@ class AddViewController: UIViewController {
     var selectedDate: String = Date().toString()
     var addViewModel: AddViewModel = AddViewModel()
     var arrow: UIImage = UIImage(named: "backarrow")!
+    let navDoneItem: UIBarButtonItem = UIBarButtonItem()
     var addToDo: UILabel = {
         let lbl = UILabel()
         lbl.text = "할 일 추가"
@@ -87,7 +88,7 @@ class AddViewController: UIViewController {
             titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
-        
+        titleTextField.addTarget(self, action: #selector(textChanged(_:)), for: .editingChanged)
         titleTextField.backgroundColor = .dodWhite1
         
         datePickerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +105,9 @@ class AddViewController: UIViewController {
             datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             datePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
+        let loc = Locale(identifier: "ko_KR")
+        datePicker.locale = loc
+        datePicker.tintColor = .dodRed1
         datePicker.preferredDatePickerStyle = .inline
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.setValue(UIColor.dodRed1, forKey: "textColor")
@@ -123,16 +126,23 @@ class AddViewController: UIViewController {
         navBar.tintColor = .black
         navBar.backgroundColor = .dodWhite1
         let navItem = self.navigationItem
-        let newImage = arrow.resizedImage(to: CGSize(width: 25, height: 20))
-        let navDoneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(_:)))
+        let newImage = arrow.resizedImage(to: CGSize(width: 20, height: 16))
+        let navDoneItem = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
         let navCancelItem = UIBarButtonItem(image: newImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelButtonTapped(_:)))
         navItem.setLeftBarButton(navCancelItem, animated: true)
         navItem.setRightBarButton(navDoneItem, animated: true)
-        navItem.rightBarButtonItem?.isEnabled = true
+        navItem.rightBarButtonItem?.isEnabled = false
         navItem.titleView = addToDo
+        
     }
-    
-    
+    @objc func textChanged(_ sender: UITextField) {
+         if titleTextField.text?.count == 0 {
+             print(#function)
+             self.navigationItem.rightBarButtonItem?.isEnabled = false
+         } else {
+             self.navigationItem.rightBarButtonItem?.isEnabled = true
+         }
+    }
     @objc func doneButtonTapped(_ sender: UIBarButtonItem!){
         let title: String = titleTextField.text!
         let date: String = selectedDate
@@ -148,3 +158,4 @@ class AddViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 }
+

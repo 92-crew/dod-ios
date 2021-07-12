@@ -48,10 +48,6 @@ class MainViewController: UIPageViewController {
         
         setPageViewController()
         setNavigationBar()
-        let statusBar = UIView()
-        statusBar.frame = UIApplication.shared.statusBarFrame
-        statusBar.backgroundColor = .dodWhite1
-        UIApplication.shared.keyWindow?.addSubview(statusBar)
         
         if !AuthService.shared.isUserSignedIn {
             let signInVC = SignInViewController()
@@ -74,8 +70,8 @@ class MainViewController: UIPageViewController {
         if let firstVC = vcArr.first as? TodayToDoTableView {
             self.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
         }
-        self.todayToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-        self.totalToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        self.todayToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.totalToDoView.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func setNavigationBar() {
@@ -83,7 +79,7 @@ class MainViewController: UIPageViewController {
         navBar.tintColor = .black
         navBar.backgroundColor = .dodWhite1
         let navItem = self.navigationItem
-        let navAddItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
+        let navAddItem = UIBarButtonItem(barButtonSystemItem: .add , target: self, action: #selector(addButtonTapped(_:)))
         let leftItem = UIBarButtonItem(customView: titleView())
         self.navigationItem.leftBarButtonItem = leftItem
         navItem.setRightBarButton(navAddItem, animated: true)
