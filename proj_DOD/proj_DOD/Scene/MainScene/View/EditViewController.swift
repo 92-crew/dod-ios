@@ -95,6 +95,7 @@ class EditViewController: UIViewController {
             titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
+        titleTextField.addTarget(self, action: #selector(textChanged(_:)), for: .editingChanged)
         titleTextField.backgroundColor = .dodWhite1
         
         
@@ -112,6 +113,9 @@ class EditViewController: UIViewController {
             datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             datePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+        let loc = Locale(identifier: "ko_KR")
+        datePicker.locale = loc
+        datePicker.tintColor = .dodRed1
         let date = String.toDate(willEditedTodo!.dueDate)
         datePicker.preferredDatePickerStyle = .inline
         datePicker.setDate(date(), animated: true)
@@ -125,19 +129,34 @@ class EditViewController: UIViewController {
         selectedDate = datePicker.date.toString()
         print(selectedDate)
     }
-    
+    let navDoneItem: UIBarButtonItem = UIBarButtonItem()
     private func setNavigationBar() {
         let navBar = self.navigationController!.navigationBar
         navBar.tintColor = .black
         let navItem = self.navigationItem
         let newImage = arrow.resizedImage(to: CGSize(width: 25, height: 20))
-        let navDoneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(_:)))
+        let navDoneItem = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
         let navCancelItem = UIBarButtonItem(image: newImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelButtonTapped(_:)))
         navItem.setLeftBarButton(navCancelItem, animated: true)
         navItem.setRightBarButton(navDoneItem, animated: true)
+        navItem.rightBarButtonItem?.isEnabled = true
         navItem.titleView = editToDo
     }
-    
+    @objc func textChanged(_ sender: UITextField) {
+         if titleTextField.text?.count == 0 {
+             print(#function)
+             self.navigationItem.rightBarButtonItem?.isEnabled = false
+         } else {
+             self.navigationItem.rightBarButtonItem?.isEnabled = true
+         }
+    }
+    @objc func textfieldDidChange(_ sender: UITextField) {
+        navDoneItem.isEnabled = false
+        guard let text = titleTextField.text, text != "" else {
+            return
+        }
+        navDoneItem.isEnabled = true
+    }
     
     @objc func doneButtonTapped(_ sender: UIBarButtonItem!){
         let title: String = titleTextField.text!

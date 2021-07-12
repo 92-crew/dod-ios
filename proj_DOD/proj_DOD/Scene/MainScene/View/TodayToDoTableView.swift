@@ -65,18 +65,18 @@ class TodayToDoTableView: UIViewController {
         let p = longPressGesture.location(in: self.todayToDoTableView)
         let indexPath = self.todayToDoTableView.indexPathForRow(at: p)
         let popUp = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
-        let editAction = UIAlertAction(title: "Edit", style: .default, handler: {(action: UIAlertAction!) in
+        let editAction = UIAlertAction(title: "할 일 수정", style: .default, handler: {(action: UIAlertAction!) in
                                         let editVC = EditViewController()
                                         editVC.willEditedTodo = self.todayToDoViewModel.toDoList[indexPath!.row]
                                         print(editVC.willEditedTodo as Any)
                                         self.show(editVC, sender: nil)})
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {(action: UIAlertAction!) in
+        let deleteAction = UIAlertAction(title: "할 일 삭제", style: .destructive, handler: {(action: UIAlertAction!) in
             let toDelete: Todo = self.todayToDoViewModel.toDoList[indexPath!.row]
             dump(toDelete)
             self.dataService.deleteTodo(toDo: toDelete)
             self.refreshTableView()
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         popUp.addAction(editAction)
         popUp.addAction(deleteAction)
