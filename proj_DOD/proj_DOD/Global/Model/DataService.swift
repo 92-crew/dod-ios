@@ -60,7 +60,11 @@ internal class DataService {
             dic.updateValue(value, forKey: key)
         }
         
-        return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+        return dic.map {
+            let values = $0.value.sorted { (todo1, todo2) in
+                return todo1.id < todo2.id
+            }
+            return Content(dueDateString: $0.key, todos: values) }
             .sorted { return $0.dueDateString.toDate() > $1.dueDateString.toDate() }
     }
     
@@ -87,6 +91,7 @@ internal class DataService {
         
         return toDoList
             .map { $0.toTodo() }
+            .sorted { $0.id > $1.id }
     }
     
     internal func fetchRemoteDB(completion: @escaping () -> Void) {
@@ -119,24 +124,44 @@ internal class DataService {
         }
     }
     
-    internal func updateRemoteDB() {
-        if !AuthService.shared.isUserSignedIn { return }
-        
-        let toDoLocal = coreDataManager.fetchNonSyncRemoteDB(hasDeleted: false)
-        
-        toDoLocal.forEach {
-            if $0.id == -1 {
-                updateRemoteNewTodo(toDoLocal: $0)
+    internal func synchronizeDB(completion: @escaping (Bool) -> Void) {
+        updateRemoteDB { [unowned self] in
+            if $0.filter({ !$0 }).count == 0 {
+                self.fetchRemoteDB {
+                    completion(true)
+                }
             }
             else {
-                updateRemoteTodoInfo(toDoLocal: $0)
+                completion(false)
+            }
+        }
+    }
+    
+    internal func updateRemoteDB(completion: @escaping ([Bool]) -> Void) {
+        if !AuthService.shared.isUserSignedIn { completion([true]); return }
+        
+        let toDoLocal = coreDataManager.fetchNonSyncRemoteDB(hasDeleted: false)
+        var result = [Bool](repeating: false, count: toDoLocal.count)
+        toDoLocal.enumerated().forEach { (i, todoLocal) in
+            if todoLocal.id == -1 {
+                updateRemoteNewTodo(toDoLocal: todoLocal) {
+                    result[i] = $0
+                    completion(result)
+                }
+            }
+            else {
+                updateRemoteTodoInfo(toDoLocal: todoLocal) {
+                    result[i] = $0
+                    completion(result)
+                }
             }
         }
         
         updateDeletedTodo()
+        completion(result)
     }
     
-    private func updateRemoteNewTodo(toDoLocal: ToDoLocal){
+    private func updateRemoteNewTodo(toDoLocal: ToDoLocal, completion: @escaping (Bool) -> Void){
         apiManager.postTodo(title: toDoLocal.title ?? "",
                             status: toDoLocal.status ?? "",
                             dueDate: toDoLocal.dueDate ?? "") { [weak self] result in
@@ -144,38 +169,48 @@ internal class DataService {
             switch result {
             case .success(let data):
                 guard let toDo = data as? Todo else { return }
-                strongSelf.coreDataManager.setNewTodoRemoteUpdate(toDo: toDoLocal.toTodo(),
-                                                                  id: toDo.id,
-                                                                  memberId: toDo.memberID)
+                let result = strongSelf.coreDataManager.setNewTodoRemoteUpdate(toDo: toDoLocal.toTodo(),
+                                                                               id: toDo.id,
+                                                                               memberId: toDo.memberID)
+                completion(result)
             case .requestErr(let data):
                 guard let error = data as? ErrorResult else { return }
                 print(error.message)
+                completion(false)
             case .pathErr:
                 print("\(#function) pathErr")
+                completion(false)
             case .serverErr:
                 print("\(#function) serverErr")
+                completion(false)
             case .networkFail:
                 print("\(#function) networkFail")
+                completion(false)
             }
         }
     }
     
-    private func updateRemoteTodoInfo(toDoLocal: ToDoLocal){
+    private func updateRemoteTodoInfo(toDoLocal: ToDoLocal, completion: @escaping (Bool) -> Void){
         apiManager.putTodoState(toDo: toDoLocal.toTodo()) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success(let data):
                 guard let toDo = data as? Todo else { return }
-                strongSelf.coreDataManager.setTodoRemoteUpdate(toDo: toDo)
+                let result = strongSelf.coreDataManager.setTodoRemoteUpdate(toDo: toDo)
+                completion(result)
             case .requestErr(let data):
                 guard let error = data as? ErrorResult else { return }
                 print(error.message)
+                completion(false)
             case .pathErr:
                 print("\(#function) pathErr")
+                completion(false)
             case .serverErr:
                 print("\(#function) serverErr")
+                completion(false)
             case .networkFail:
                 print("\(#function) networkFail")
+                completion(false)
             }
         }
     }

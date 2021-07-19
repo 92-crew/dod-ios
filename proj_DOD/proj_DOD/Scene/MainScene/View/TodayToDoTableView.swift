@@ -43,14 +43,15 @@ class TodayToDoTableView: UIViewController {
     }
     
     @objc func updateUI(refresh: UIRefreshControl) {
-        dataService.fetchRemoteDB {
-            DispatchQueue.main.async {
-                self.todayToDoViewModel.refreshToDoList()
-                refresh.endRefreshing()
-                self.todayToDoTableView.reloadData()
+        dataService.synchronizeDB { isSuccess in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.todayToDoViewModel.refreshToDoList()
+                    self.todayToDoTableView.reloadData()
+                }
             }
+            refresh.endRefreshing()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
