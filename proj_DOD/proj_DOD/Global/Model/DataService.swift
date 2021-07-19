@@ -125,6 +125,7 @@ internal class DataService {
     }
     
     internal func synchronizeDB(completion: @escaping (Bool) -> Void) {
+        if !AuthService.shared.isUserSignedIn { completion(true); return }
         updateRemoteDB { [unowned self] in
             if $0.filter({ !$0 }).count == 0 {
                 self.fetchRemoteDB {
