@@ -20,7 +20,7 @@ class DODTextfieldView: UITextField  {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        self.drawLine(startX: 0, toEndingX: Int(frame.maxX), startingY: Int(frame.minY), toEndingY: Int(frame.minY), ofColor: UIColor.dodNavy1, widthOfLine: 1, inView: self)
+        self.drawLine(startX: 0, toEndingX: Int(frame.maxX), startingY: Int(frame.minY), toEndingY: Int(frame.minY), ofColor: UIColor.dodWhite2, widthOfLine: 1, inView: self)
     }
     @objc func textChanged(_ sender: UITextField) {
         if self.text?.count == 0 {
