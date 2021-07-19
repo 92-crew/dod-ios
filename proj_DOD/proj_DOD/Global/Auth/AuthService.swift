@@ -100,8 +100,11 @@ internal class AuthService {
         UserDefaults.standard.setValue(true, forKey: isUserSignedInKey)
         
         DataService.shared.fetchRemoteDB {
-            DataService.shared.updateRemoteDB()
-            completionBlock()
+            DataService.shared.updateRemoteDB {
+                if $0.filter({ !$0 }).count == 0 {
+                    completionBlock()
+                }
+            }
         }
     }
     

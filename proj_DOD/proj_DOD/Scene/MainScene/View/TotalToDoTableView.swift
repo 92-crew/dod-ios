@@ -47,12 +47,14 @@ class TotalToDoTableView: UIViewController {
     }
     
     @objc func updateUI(refresh: UIRefreshControl) {
-        dataService.fetchRemoteDB {
-            DispatchQueue.main.async {
-                self.totalToDoViewModel.refreshContentList()
-                refresh.endRefreshing()
-                self.totalToDoTableView.reloadData()
+        dataService.synchronizeDB { isSuccess in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.totalToDoViewModel.refreshContentList()
+                    self.totalToDoTableView.reloadData()
+                }
             }
+            refresh.endRefreshing()
         }
     }
     
