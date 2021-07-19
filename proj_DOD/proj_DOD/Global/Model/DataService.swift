@@ -60,7 +60,11 @@ internal class DataService {
             dic.updateValue(value, forKey: key)
         }
         
-        return dic.map { return Content(dueDateString: $0.key, todos: $0.value) }
+        return dic.map {
+            let values = $0.value.sorted { (todo1, todo2) in
+                return todo1.id < todo2.id
+            }
+            return Content(dueDateString: $0.key, todos: values) }
             .sorted { return $0.dueDateString.toDate() > $1.dueDateString.toDate() }
     }
     
