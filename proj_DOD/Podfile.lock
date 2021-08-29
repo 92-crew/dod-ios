@@ -1,5 +1,17 @@
 PODS:
+  - Alamofire (5.4.2)
   - DLRadioButton (1.4.12)
+  - KakaoSDKAuth (2.6.0):
+    - KakaoSDKCommon (= 2.6.0)
+  - KakaoSDKCommon (2.6.0):
+    - KakaoSDKCommon/Common (= 2.6.0)
+    - KakaoSDKCommon/Network (= 2.6.0)
+  - KakaoSDKCommon/Common (2.6.0)
+  - KakaoSDKCommon/Network (2.6.0):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.6.0)
+  - KakaoSDKUser (2.6.0):
+    - KakaoSDKAuth (= 2.6.0)
   - RxCocoa (6.1.0):
     - RxRelay (= 6.1.0)
     - RxSwift (= 6.1.0)
@@ -12,25 +24,36 @@ PODS:
 
 DEPENDENCIES:
   - DLRadioButton (~> 1.4)
+  - KakaoSDKAuth
+  - KakaoSDKCommon
+  - KakaoSDKUser
   - RxCocoa (= 6.1.0)
   - RxGesture
   - RxSwift (= 6.1.0)
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - DLRadioButton
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKUser
     - RxCocoa
     - RxGesture
     - RxRelay
     - RxSwift
 
 SPEC CHECKSUMS:
+  Alamofire: bfbc4c2fe5909b1d94fb4ef2277c6b3727ef5dae
   DLRadioButton: d7c4e225ed0e8013cef7be61455230c7557ad7c1
+  KakaoSDKAuth: 037e6260f4468cbc3bde89a802864d6b58c5271c
+  KakaoSDKCommon: 38154188336a1118f1b757f0fec54ff989365ddc
+  KakaoSDKUser: ff9d7436ccbf0d65615bc56f3f4e31fb06830db2
   RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
   RxGesture: f059f2aeef966fb17dad56ee440e76410f10e55f
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
 
-PODFILE CHECKSUM: 26fddd33646e443c7d183fd0e477ac3e6581c83d
+PODFILE CHECKSUM: 0c8a14f95fa13a78790c45df54101c279e839f57
 
 COCOAPODS: 1.10.1

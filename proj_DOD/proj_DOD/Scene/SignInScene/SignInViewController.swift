@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
+import KakaoSDKUser
+
 class SignInViewController: UIViewController {
     // MARK:- UI Compoents
     private var cancelBarButton: UIBarButtonItem = {

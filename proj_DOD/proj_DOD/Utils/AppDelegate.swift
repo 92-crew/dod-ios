@@ -7,6 +7,9 @@
 
 import UIKit
 
+import KakaoSDKCommon
+import KakaoSDKAuth
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -19,7 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, error in
                 print("Permission granted: \(granted)")
             }
+        
         application.registerForRemoteNotifications()
+        KakaoSDKCommon.initSDK(appKey: "6092bb93d0c355d768e50c37e64e00d1")
+        
         return true
     }
 
