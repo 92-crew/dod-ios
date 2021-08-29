@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxGesture
+import AuthenticationServices
 
 class SignInViewController: UIViewController {
     // MARK:- UI Compoents
@@ -80,7 +81,7 @@ class SignInViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.makeRounded(cornerRadius: 15)
+        button.makeRounded(cornerRadius: 5)
         button.alpha = 0
         return button
     }()
@@ -95,6 +96,13 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    private let appleLoginButton: ASAuthorizationAppleIDButton = {
+        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(loginHandler), for: .touchDown)
+        button.alpha = 0
+        return button
+    }()
     private var logoImageViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var distanceWithBottomSafeArea: CGFloat = 0
     
@@ -181,7 +189,7 @@ class SignInViewController: UIViewController {
         view.addSubview(inputStackView)
         
         NSLayoutConstraint.activate([
-            inputStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            inputStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -300),
             inputStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             inputStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28),
             inputStackView.heightAnchor.constraint(equalToConstant: 98)
@@ -199,11 +207,22 @@ class SignInViewController: UIViewController {
         
         setSignInButtonState(isEnabled: false)
         
+        // Apple Login Button
+        view.addSubview(appleLoginButton)
+        
+        NSLayoutConstraint.activate([
+            appleLoginButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 26),
+            appleLoginButton.leadingAnchor.constraint(equalTo: inputStackView.leadingAnchor),
+            appleLoginButton.trailingAnchor.constraint(equalTo: inputStackView.trailingAnchor),
+            appleLoginButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+        
+        
         // SignUpButton
         view.addSubview(signUpButton)
         
         NSLayoutConstraint.activate([
-            signUpButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 19),
+            signUpButton.topAnchor.constraint(equalTo: appleLoginButton.bottomAnchor, constant: 19),
             signUpButton.trailingAnchor.constraint(equalTo: signInButton.trailingAnchor),
             signUpButton.widthAnchor.constraint(equalTo: signInButton.widthAnchor, multiplier: 1/3),
             signUpButton.heightAnchor.constraint(equalToConstant: 28)
@@ -244,6 +263,7 @@ class SignInViewController: UIViewController {
                 self.sloganLabel.alpha = 1
                 self.signInButton.alpha = 1
                 self.signUpButton.alpha = 1
+                self.appleLoginButton.alpha = 1
             })
         })
     }
@@ -280,6 +300,17 @@ class SignInViewController: UIViewController {
         }.disposed(by: self.disposeBag)
 
     }
+    // apple login
+    
+    @objc func loginHandler() {
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+        controller.performRequests()
+    }
+    
     
     // MARK:- UI Logic
     private func setSignInButtonState(isEnabled: Bool) {
@@ -377,5 +408,40 @@ extension SignInViewController: UIGestureRecognizerDelegate {
             return false
         }
         return true
+    }
+}
+
+extension SignInViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            
+            if let authorizationCode = appleIDCredential.authorizationCode,
+               let identityToken = appleIDCredential.identityToken,
+               let authString = String(data: authorizationCode, encoding: .utf8),
+               let tokenString = String(data: identityToken, encoding: .utf8) {
+                print("authorizationCode : \(authorizationCode)")
+                print("identityToken : \(identityToken)")
+                print("authString : \(authString)")
+                print("tokenString: \(tokenString)")
+            }
+            print("useridentifier : \(userIdentifier)")
+            print("fullName : \(String(describing: fullName))")
+            print("email : \(String(describing: email))")
+        case let passwordCredential as ASPasswordCredential:
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+            print("username : \(username)")
+            print("password : \(password)")
+        default:
+            break
+        }
+        
+    }
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("--login error")
     }
 }
