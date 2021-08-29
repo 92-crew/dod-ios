@@ -142,7 +142,7 @@ class SignUpViewController: UIViewController {
         button.isEnabled = false
         button.setTitle("회원가입 후 로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20)
-        button.makeRounded(cornerRadius: 23)
+        button.makeRounded(cornerRadius: 5)
         button.backgroundColor = .lightGray
         return button
     }()
