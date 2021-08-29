@@ -300,6 +300,7 @@ class SignUpViewController: UIViewController {
                             return
                         }
                     }
+                    return
                 }
                 
                 if let errorMessage = message {
