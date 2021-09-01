@@ -12,6 +12,8 @@ import RxCocoa
 import RxGesture
 import AuthenticationServices
 
+import KakaoSDKUser
+
 class SignInViewController: UIViewController {
     // MARK:- UI Compoents
     private var cancelBarButton: UIBarButtonItem = {
@@ -99,10 +101,20 @@ class SignInViewController: UIViewController {
     private let appleLoginButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(loginHandler), for: .touchDown)
+        button.addTarget(self, action: #selector(appleLoginHandler), for: .touchUpInside)
         button.alpha = 0
         return button
     }()
+    
+    private let kakaoLoginButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "kakao_login_large_wide"), for: .normal)
+        button.addTarget(self, action: #selector(kakaoLoginHandler), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
+    
     private var logoImageViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var distanceWithBottomSafeArea: CGFloat = 0
     
@@ -171,7 +183,7 @@ class SignInViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
             logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/2),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 509/600)
         ])
@@ -211,18 +223,26 @@ class SignInViewController: UIViewController {
         view.addSubview(appleLoginButton)
         
         NSLayoutConstraint.activate([
-            appleLoginButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 26),
+            appleLoginButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 10),
             appleLoginButton.leadingAnchor.constraint(equalTo: inputStackView.leadingAnchor),
             appleLoginButton.trailingAnchor.constraint(equalTo: inputStackView.trailingAnchor),
             appleLoginButton.heightAnchor.constraint(equalToConstant: 45)
         ])
         
+        view.addSubview(kakaoLoginButton)
+        
+        NSLayoutConstraint.activate([
+            kakaoLoginButton.topAnchor.constraint(equalTo: appleLoginButton.bottomAnchor, constant: 10),
+            kakaoLoginButton.leadingAnchor.constraint(equalTo: inputStackView.leadingAnchor),
+            kakaoLoginButton.trailingAnchor.constraint(equalTo: inputStackView.trailingAnchor),
+            kakaoLoginButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
         
         // SignUpButton
         view.addSubview(signUpButton)
         
         NSLayoutConstraint.activate([
-            signUpButton.topAnchor.constraint(equalTo: appleLoginButton.bottomAnchor, constant: 19),
+            signUpButton.topAnchor.constraint(equalTo: kakaoLoginButton.bottomAnchor, constant: 19),
             signUpButton.trailingAnchor.constraint(equalTo: signInButton.trailingAnchor),
             signUpButton.widthAnchor.constraint(equalTo: signInButton.widthAnchor, multiplier: 1/3),
             signUpButton.heightAnchor.constraint(equalToConstant: 28)
@@ -264,6 +284,7 @@ class SignInViewController: UIViewController {
                 self.signInButton.alpha = 1
                 self.signUpButton.alpha = 1
                 self.appleLoginButton.alpha = 1
+                self.kakaoLoginButton.alpha = 1
             })
         })
     }
@@ -302,13 +323,43 @@ class SignInViewController: UIViewController {
     }
     // apple login
     
-    @objc func loginHandler() {
+    @objc func appleLoginHandler() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
         controller.performRequests()
+    }
+    
+    @objc func kakaoLoginHandler() {
+        
+        // 카카오톡 설치 여부 확인
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+
+                    //do something
+                    _ = oauthToken
+                }
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("loginWithKakaoAccount() success.")
+
+                        //do something
+                        _ = oauthToken
+                    }
+                }
+        }
     }
     
     
@@ -363,15 +414,19 @@ class SignInViewController: UIViewController {
     ) {
         let distanceWithDirection = isEditing ? -distance : distance
         let moveY = CGAffineTransform(translationX: 0, y: distanceWithDirection)
-        let moveYOfLogoImage = CGAffineTransform(translationX: 0, y: distanceWithDirection / 2)
+        let moveYOfLogo = CGAffineTransform(translationX: 0, y: distanceWithDirection / 2)
         UIView.animate(withDuration: duration,
                        delay: .zero,
                        options: curve,
                        animations: {
-                        self.logoImageView.transform = isEditing ? moveYOfLogoImage : .identity
+                        self.logoImageView.transform = isEditing ? moveYOfLogo : .identity
+                        self.logoImageView.alpha = isEditing ? 0 : 1
+                        self.sloganLabel.transform = isEditing ? moveYOfLogo : .identity
                         self.sloganLabel.alpha = isEditing ? 0 : 1
                         self.inputStackView.transform = isEditing ? moveY : .identity
                         self.signInButton.transform = isEditing ? moveY : .identity
+                        self.appleLoginButton.transform = isEditing ? moveY : .identity
+                        self.kakaoLoginButton.transform = isEditing ? moveY : .identity
                        })
         
     }
